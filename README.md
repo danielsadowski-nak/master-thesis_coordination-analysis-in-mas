@@ -101,6 +101,22 @@ docker compose -f docker-compose.metagpt.yml run --rm metagpt-runtime python scr
 3. **Baseline**: `experiments/run_full_baseline_comparison.py` (N=30..50)
 4. **Mitigation**: `experiments/run_mitigation_comparison.py`
 
+## Automatische Auswertung vorhandener Ergebnisse
+
+Wenn bereits Experimentartefakte unter `results/` liegen, kannst du direkt Reports erzeugen:
+
+```bash
+uv run python experiments/generate_statistical_report.py \
+	results/coordination_baseline_2026-08-01/experiments \
+	--output-dir results/coordination_baseline_2026-08-01/reports/thesis_stat_report_v1
+
+uv run python experiments/generate_statistical_report.py \
+	results/coordination_mitigations_2026-08-01/experiments \
+	--output-dir results/coordination_mitigations_2026-08-01/reports/thesis_stat_report_v1
+
+uv run python experiments/phase_c_readiness_status.py
+```
+
 ## Zentrale Dokumentation
 
 - Installation: [docs/install_guide.md](docs/install_guide.md)

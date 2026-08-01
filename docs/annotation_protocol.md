@@ -79,6 +79,29 @@ QC outputs:
 - `annotation_worklist.csv`: deterministic, block-balanced annotation order per reviewer.
 - `adjudication_backlog_manifest.csv`: rows that require adjudication due to disagreement.
 
+Independent-reviewer HTML forms can be generated from the blinded reviewer sheets:
+
+```bash
+uv run python experiments/generate_phase_c_review_form.py \
+  --reviewer-csv results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded.csv \
+  --worklist-csv results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_worklist.csv \
+  --reviewer-tag reviewer1 \
+  --output-html results/judge_validation_phase_c_cli_v3/review_forms/reviewer1_form.html
+
+uv run python experiments/generate_phase_c_review_form.py \
+  --reviewer-csv results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv \
+  --worklist-csv results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_worklist.csv \
+  --reviewer-tag reviewer2 \
+  --output-html results/judge_validation_phase_c_cli_v3/review_forms/reviewer2_form.html
+```
+
+Reviewer workflow for the HTML form:
+
+- open the HTML file in a browser,
+- annotate each item with radio buttons / checkboxes,
+- download the completed CSV from the form,
+- return that CSV as the completed reviewer sheet.
+
 QC also enforces cross-file integrity checks across reviewer and adjudication tables:
 
 - unique `annotation_item_id` per file,

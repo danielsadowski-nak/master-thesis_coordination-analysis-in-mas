@@ -142,7 +142,8 @@ def posthoc_power_cohens_d(d: float, *, alpha: float, n_per_group: int) -> float
     """Compute post-hoc power for a two-sample t-test with fixed per-group N."""
 
     analysis = TTestIndPower()
-    return float(analysis.power(effect_size=d, nobs1=n_per_group, alpha=alpha, ratio=1.0, alternative="two-sided"))
+    value = analysis.power(effect_size=d, nobs1=n_per_group, alpha=alpha, ratio=1.0, alternative="two-sided")
+    return float(value)
 
 
 def main() -> None:
@@ -165,6 +166,7 @@ def main() -> None:
 
     print("1) Success rate differences (two-sided test for proportions)")
     success_rows = []
+    posthoc_col = f"posthoc_power_n{args.posthoc_n}"
     for p1, p2 in default_success_pairs:
         n_req = required_n_for_success_difference(p1, p2, alpha=args.alpha, power=args.power)
         p_post = posthoc_power_success(p1, p2, alpha=args.alpha, n_per_group=args.posthoc_n)
@@ -174,11 +176,22 @@ def main() -> None:
                 "p2": p2,
                 "delta_pp": (p2 - p1) * 100.0,
                 "required_n_per_group": float(np.ceil(n_req)),
-                "posthoc_power_n40": p_post,
+                posthoc_col: p_post,
             }
         )
     success_df = pd.DataFrame(success_rows)
-    print(success_df.to_string(index=False, formatters={"p1": "{:.3f}".format, "p2": "{:.3f}".format, "delta_pp": "{:.1f}".format, "required_n_per_group": "{:.0f}".format, "posthoc_power_n40": "{:.3f}".format}))
+    print(
+        success_df.to_string(
+            index=False,
+            formatters={
+                "p1": "{:.3f}".format,
+                "p2": "{:.3f}".format,
+                "delta_pp": "{:.1f}".format,
+                "required_n_per_group": "{:.0f}".format,
+                posthoc_col: "{:.3f}".format,
+            },
+        )
+    )
     print("")
 
     print("2) Continuous outcomes (latency/token cost) with medium effect d=0.5")
@@ -200,11 +213,25 @@ def main() -> None:
         if d_latency_pilot is not None:
             n_req = required_n_for_cohens_d(d_latency_pilot, alpha=args.alpha, power=args.power)
             p_post = posthoc_power_cohens_d(d_latency_pilot, alpha=args.alpha, n_per_group=args.posthoc_n)
-            print(f"- latency_seconds: d~{d_latency_pilot:.3f}, required N~{np.ceil(n_req):.0f}, post-hoc power(N={args.posthoc_n})={p_post:.3f}")
+            if np.isfinite(p_post):
+                posthoc_text = f"{p_post:.3f}"
+            else:
+                posthoc_text = "not-finite"
+            print(
+                f"- latency_seconds: d~{d_latency_pilot:.3f}, "
+                f"required N~{np.ceil(n_req):.0f}, post-hoc power(N={args.posthoc_n})={posthoc_text}"
+            )
         if d_cost_pilot is not None:
             n_req = required_n_for_cohens_d(d_cost_pilot, alpha=args.alpha, power=args.power)
             p_post = posthoc_power_cohens_d(d_cost_pilot, alpha=args.alpha, n_per_group=args.posthoc_n)
-            print(f"- cost metric: d~{d_cost_pilot:.3f}, required N~{np.ceil(n_req):.0f}, post-hoc power(N={args.posthoc_n})={p_post:.3f}")
+            if np.isfinite(p_post):
+                posthoc_text = f"{p_post:.3f}"
+            else:
+                posthoc_text = "not-finite"
+            print(
+                f"- cost metric: d~{d_cost_pilot:.3f}, "
+                f"required N~{np.ceil(n_req):.0f}, post-hoc power(N={args.posthoc_n})={posthoc_text}"
+            )
         print("")
 
     min_req_success = int(np.ceil(success_df["required_n_per_group"].max()))
