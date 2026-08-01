@@ -1,0 +1,20 @@
+{
+  "name": "mas-coordination-analysis",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "postCreateCommand": "python -m pip install -e '.[dev,frameworks]' && if [ ! -f .env ]; then cp .env.example .env; fi",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  }
+}

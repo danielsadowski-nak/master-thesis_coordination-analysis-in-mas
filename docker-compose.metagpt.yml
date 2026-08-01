@@ -1,0 +1,12 @@
+services:
+  metagpt-runtime:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.metagpt
+    env_file:
+      - .env
+    working_dir: /workspace
+    volumes:
+      - ./results:/workspace/results
+      - ./data:/workspace/data

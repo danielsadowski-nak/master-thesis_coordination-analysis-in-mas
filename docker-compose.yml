@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mas-coordination-analysis:latest
+    env_file:
+      - .env
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - ./results:/workspace/results
+      - ./data:/workspace/data
+    command: ["python", "scripts/smoke_run.py"]
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mas-coordination-analysis:latest
+    env_file:
+      - .env
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - ./results:/workspace/results
+      - ./data:/workspace/data
+    command: ["python", "-m", "pytest", "-q"]
+
+  validation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mas-coordination-analysis:latest
+    env_file:
+      - .env
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - ./results:/workspace/results
+      - ./data:/workspace/data
+    command: ["python", "experiments/run_validation.py", "--tasks", "3", "--runs", "3", "--model-name", "gpt-4o-mini", "--temperature", "0.0"]

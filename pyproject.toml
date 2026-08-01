@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mas-coordination-analysis"
+version = "0.1.0"
+description = "Thesis-grade experimental framework for analyzing coordination failures in LLM-based multi-agent systems."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "pydantic>=2.7,<3",
+  "pydantic-settings>=2.4,<3",
+  "pyyaml>=6.0,<7",
+  "pandas>=2.2,<3",
+  "numpy>=2.0,<3",
+  "scipy>=1.13,<2",
+  "statsmodels>=0.14,<1",
+  "matplotlib>=3.9,<4",
+  "seaborn>=0.13,<1",
+  "langgraph>=0.2,<1",
+  "langchain-core>=0.3,<1",
+  "langchain-openai>=0.2,<1",
+  "langsmith>=0.1,<1",
+  "tqdm>=4.66,<5",
+  "orjson>=3.10,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.24,<1",
+  "ruff>=0.6,<1",
+  "mypy>=1.11,<2",
+]
+frameworks = [
+  "autogen-agentchat",
+  "autogen-ext[openai]",
+  "crewai",
+]
+metagpt = [
+  "metagpt",
+]
+
+[tool.hatch.build.targets.wheel]
+requires = []
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
