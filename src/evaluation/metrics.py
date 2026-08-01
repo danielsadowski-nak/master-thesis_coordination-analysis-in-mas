@@ -242,7 +242,7 @@ def one_way_anova(
         for _, group in results_df.groupby(condition_column, dropna=False)
     ]
     groups = [group for group in groups if len(group) > 0]
-    if len(groups) < 2:
+    if len(groups) < 2 or any(len(group) < 2 for group in groups):
         return {
             "metric": metric_column,
             "condition_column": condition_column,

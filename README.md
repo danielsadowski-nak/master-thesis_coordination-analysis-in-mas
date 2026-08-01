@@ -107,6 +107,9 @@ docker compose -f docker-compose.metagpt.yml run --rm metagpt-runtime python scr
 - Reproduzierbarkeit: [docs/reproducibility.md](docs/reproducibility.md)
 - Nutzung: [docs/user_guide.md](docs/user_guide.md)
 - Coordination-Suite Design: [docs/task_design.md](docs/task_design.md)
+- Studienprotokoll: [docs/study_protocol.md](docs/study_protocol.md)
+- Coordination-Suite Codebook: [docs/coordination_suite_codebook.md](docs/coordination_suite_codebook.md)
+- Annotation und Judge-Validierung: [docs/annotation_protocol.md](docs/annotation_protocol.md)
 
 ## Referenzen
 

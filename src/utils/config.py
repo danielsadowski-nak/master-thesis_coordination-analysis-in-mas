@@ -83,6 +83,8 @@ def apply_llm_runtime_environment(*, api_key: str | None = None, base_url: str |
     falls back to scaffold/fallback behavior rather than failing silently.
     """
 
+    _load_environment_file(REPO_ROOT)
+
     resolved_api_key = api_key or os.getenv("MAS_LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
     resolved_base_url = base_url or os.getenv("MAS_LLM_BASE_URL") or os.getenv("OPENAI_BASE_URL")
     if resolved_api_key:

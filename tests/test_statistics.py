@@ -103,3 +103,17 @@ def test_render_thesis_report_creates_pdf_and_png(tmp_path: Path) -> None:
     assert all(path.exists() for paths in generated.values() for path in paths)
     assert (output_dir / "success_rate_grouped.png").exists()
     assert (output_dir / "success_rate_grouped.pdf").exists()
+
+
+def test_one_way_anova_skips_underpowered_groups() -> None:
+    results_df = pd.DataFrame(
+        [
+            {"framework": "langgraph", "latency_seconds": 1.0},
+            {"framework": "autogen", "latency_seconds": 2.0},
+        ]
+    )
+
+    result = one_way_anova(results_df, metric_column="latency_seconds")
+
+    assert result["n_groups"] == 2
+    assert result["f_statistic"] != result["f_statistic"]

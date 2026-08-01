@@ -66,6 +66,26 @@ uv run python experiments/run_validation.py --tasks 3 --runs 3 --model-name gpt-
 
 ## 4) Full baseline and mitigation
 
+Primary internal-validity baseline on the Coordination Suite:
+
+```bash
+uv run python experiments/run_coordination_baseline.py \
+  --num-runs 30 \
+  --model-name gpt-4o-mini \
+  --mast-judge-enabled
+```
+
+Primary internal-validity mitigation study on the Coordination Suite:
+
+```bash
+uv run python experiments/run_coordination_mitigation.py \
+  --num-runs 30 \
+  --model-name gpt-4o-mini \
+  --mast-judge-enabled
+```
+
+Secondary external-validity baseline:
+
 Baseline:
 
 ```bash
@@ -80,6 +100,29 @@ Mitigation:
 uv run python experiments/run_mitigation_comparison.py \
   --swe-source /path/to/swe_bench_verified.jsonl \
   --gaia-source /path/to/gaia.jsonl
+```
+
+## 4.1) Judge validation workflow
+
+Generate an annotation template from completed results:
+
+```bash
+uv run python experiments/run_judge_validation.py \
+  results/validation_YYYYMMDD_HHMMSS/experiments \
+  --output-dir results/judge_validation \
+  --sample-size 40 \
+  --real-model-only \
+  --template-only
+```
+
+After manual annotation, compute agreement:
+
+```bash
+uv run python experiments/run_judge_validation.py \
+  results/validation_YYYYMMDD_HHMMSS/experiments \
+  --output-dir results/judge_validation \
+  --real-model-only \
+  --annotations-csv results/judge_validation/annotation_template.csv
 ```
 
 ## 5) MetaGPT on constrained platforms
@@ -113,3 +156,11 @@ Validation writes to `results/validation_*`:
 - `reports/validation_summary.json`
 - `reports/all_runs.csv` (if records exist)
 - run payloads and traces under `experiments/` and `traces/`
+
+Judge-validation writes to `results/judge_validation/`:
+
+- `annotation_template.csv`
+- `judge_validation_summary.json`
+- `judge_validation_per_mode.csv`
+- `judge_validation_disagreements.csv`
+- `judge_validation_report.md`

@@ -9,6 +9,7 @@ Optional dependency installation:
 from __future__ import annotations
 
 import asyncio
+import inspect
 import random
 import time
 import uuid
@@ -44,6 +45,7 @@ class AutoGenRunner(FrameworkAdapterRunner):
         langsmith_tags: tuple[str, ...] = (),
         llm_api_key: str | None = None,
         llm_base_url: str | None = None,
+        native_run_timeout_seconds: float = 180.0,
     ) -> None:
         super().__init__(
             name="autogen",
@@ -57,6 +59,7 @@ class AutoGenRunner(FrameworkAdapterRunner):
         self.model_client = model_client
         self.llm_api_key = llm_api_key
         self.llm_base_url = llm_base_url
+        self.native_run_timeout_seconds = native_run_timeout_seconds
         self.langsmith_runtime = LangSmithRuntime(
             enabled=langsmith_enabled,
             project=langsmith_project,
@@ -74,25 +77,30 @@ class AutoGenRunner(FrameworkAdapterRunner):
         if autogen_components is None:
             return super().run_task(task_description, max_steps=max_steps)
 
-        if self.model_client is None:
-            self.model_client = self._build_model_client()
-        if self.model_client is None:
+        model_client = self.model_client or self._build_model_client()
+        if model_client is None:
             return super().run_task(task_description, max_steps=max_steps)
+        owns_model_client = self.model_client is None
 
-        AssistantAgent, UserProxyAgent, RoundRobinGroupChat, MaxMessageTermination, TextMentionTermination = autogen_components
+        AssistantAgent, RoundRobinGroupChat, MaxMessageTermination, TextMentionTermination = autogen_components
 
-        try:
-            native_result = asyncio.run(
-                self._run_native_autogen(
+        async def _execute_native() -> TraceResult:
+            try:
+                return await self._run_native_autogen(
                     task_description=task_description,
                     max_steps=max_steps,
+                    model_client=model_client,
                     AssistantAgent=AssistantAgent,
-                    UserProxyAgent=UserProxyAgent,
                     RoundRobinGroupChat=RoundRobinGroupChat,
                     MaxMessageTermination=MaxMessageTermination,
                     TextMentionTermination=TextMentionTermination,
                 )
-            )
+            finally:
+                if owns_model_client:
+                    await self._close_model_client(model_client)
+
+        try:
+            native_result = asyncio.run(_execute_native())
             return native_result
         except Exception:
             return super().run_task(task_description, max_steps=max_steps)
@@ -102,8 +110,8 @@ class AutoGenRunner(FrameworkAdapterRunner):
         *,
         task_description: str,
         max_steps: int,
+        model_client: Any,
         AssistantAgent: Any,
-        UserProxyAgent: Any,
         RoundRobinGroupChat: Any,
         MaxMessageTermination: Any,
         TextMentionTermination: Any,
@@ -130,15 +138,55 @@ class AutoGenRunner(FrameworkAdapterRunner):
             state_snapshot={"task_description": task_description, "max_steps": max_steps, "mode": "native"},
         )
 
-        assistant = AssistantAgent(name="assistant", model_client=self.model_client, system_message=system_prompt)
-        user_proxy = UserProxyAgent(name="user_proxy")
+        assistant = AssistantAgent(name="assistant", model_client=model_client, system_message=system_prompt)
         termination_condition = TextMentionTermination("TERMINATE") | MaxMessageTermination(max_messages=max_steps)
         team = RoundRobinGroupChat(
-            [user_proxy, assistant],
+            [assistant],
             termination_condition=termination_condition,
         )
 
-        chat_result = await team.run(task=task_description)
+        try:
+            chat_result = await asyncio.wait_for(team.run(task=task_description), timeout=self.native_run_timeout_seconds)
+        except TimeoutError:
+            latency_seconds = time.perf_counter() - start_time
+            timeout_message = (
+                "AutoGen native run timed out before completion. "
+                f"timeout_seconds={self.native_run_timeout_seconds}"
+            )
+            metrics = RunMetrics(
+                latency_seconds=latency_seconds,
+                prompt_tokens=max(1, len(system_prompt.split()) // 2),
+                completion_tokens=0,
+                total_tokens=max(1, len(system_prompt.split()) // 2),
+                tool_calls=0,
+                steps_executed=1,
+                cost_usd=0.0,
+            )
+            self.trace_logger.log_event(
+                run_id=run_id,
+                step_index=1,
+                kind=StepKind.ERROR,
+                role="system",
+                content=timeout_message,
+                latency_ms=latency_seconds * 1000.0,
+                state_snapshot={"mode": "native", "timeout_seconds": self.native_run_timeout_seconds},
+            )
+            full_trace = self.trace_logger.read_trace(run_id)
+            self.trace_logger.finish_run(
+                run_id=run_id,
+                success=False,
+                final_output=timeout_message,
+                metrics=metrics.model_dump(),
+            )
+            return TraceResult(
+                success=False,
+                final_output=timeout_message,
+                full_trace=full_trace,
+                metrics=metrics,
+                raw_log_path=str(context.log_path),
+                run_id=run_id,
+            )
+
         final_output, message_lines = self._extract_output_text(chat_result)
         latency_seconds = time.perf_counter() - start_time
         prompt_tokens = max(1, len(system_prompt.split()) // 2)
@@ -190,7 +238,7 @@ class AutoGenRunner(FrameworkAdapterRunner):
             run_id=run_id,
         )
 
-    def _load_autogen_components(self) -> tuple[Any, Any, Any, Any, Any] | None:
+    def _load_autogen_components(self) -> tuple[Any, Any, Any, Any] | None:
         """Load AG2/AutoGen components dynamically without hard dependencies."""
 
         try:
@@ -201,15 +249,29 @@ class AutoGenRunner(FrameworkAdapterRunner):
             return None
 
         AssistantAgent = getattr(autogen_agents, "AssistantAgent", None)
-        UserProxyAgent = getattr(autogen_agents, "UserProxyAgent", None)
         RoundRobinGroupChat = getattr(autogen_teams, "RoundRobinGroupChat", None)
         MaxMessageTermination = getattr(autogen_conditions, "MaxMessageTermination", None)
         TextMentionTermination = getattr(autogen_conditions, "TextMentionTermination", None)
         if any(
-            component is None for component in (AssistantAgent, UserProxyAgent, RoundRobinGroupChat, MaxMessageTermination, TextMentionTermination)
+            component is None for component in (AssistantAgent, RoundRobinGroupChat, MaxMessageTermination, TextMentionTermination)
         ):
             return None
-        return AssistantAgent, UserProxyAgent, RoundRobinGroupChat, MaxMessageTermination, TextMentionTermination
+        return AssistantAgent, RoundRobinGroupChat, MaxMessageTermination, TextMentionTermination
+
+    async def _close_model_client(self, model_client: Any) -> None:
+        """Close model clients inside the active loop to avoid late async cleanup warnings."""
+
+        close_method = getattr(model_client, "close", None)
+        if not callable(close_method):
+            return
+
+        try:
+            close_result = close_method()
+            if inspect.isawaitable(close_result):
+                await close_result
+        except Exception:
+            # Cleanup failures should not abort benchmark execution.
+            return
 
     def _build_model_client(self) -> Any | None:
         """Build the current AG2 OpenAI model client when the optional dependency is installed."""

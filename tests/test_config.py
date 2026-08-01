@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from utils.config import load_experiment_config
+from utils.config import apply_llm_runtime_environment, load_experiment_config
 
 
 def test_load_experiment_config_reads_environment_overrides(tmp_path, monkeypatch) -> None:
@@ -36,3 +36,23 @@ def test_load_experiment_config_resolves_repo_paths_from_foreign_cwd(tmp_path, m
     assert config.output_dir == repo_root / "results/experiments"
     assert config.trace_dir == repo_root / "results/traces"
     assert config.checkpoint_dir == repo_root / "results/checkpoints"
+
+
+def test_apply_llm_runtime_environment_loads_repo_env(monkeypatch, tmp_path) -> None:
+    repo_root = Path(__file__).resolve().parents[1]
+    env_path = repo_root / ".env"
+    original = env_path.read_text(encoding="utf-8") if env_path.exists() else None
+    monkeypatch.delenv("MAS_LLM_API_KEY", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    try:
+        env_path.write_text("MAS_LLM_API_KEY=test-key-from-env\n", encoding="utf-8")
+        result = apply_llm_runtime_environment()
+    finally:
+        if original is None:
+            env_path.unlink(missing_ok=True)
+        else:
+            env_path.write_text(original, encoding="utf-8")
+
+    assert result["api_key_set"] is True
+    assert Path(env_path).exists() or original is None
