@@ -20,7 +20,7 @@ from evaluation.experiment_harness import ExperimentHarness
 from evaluation.plots import load_batch_artifacts
 from frameworks.langgraph_runner import LangGraphRunner
 from utils.benchmark_loader import load_benchmark_tasks
-from utils.config import apply_llm_runtime_environment, load_experiment_config
+from utils.config import apply_llm_runtime_environment, load_experiment_config, resolve_repo_path
 
 
 def parse_args() -> argparse.Namespace:
@@ -119,19 +119,20 @@ def main() -> None:
     config = load_experiment_config(args.config)
     apply_llm_runtime_environment(api_key=config.llm_api_key, base_url=config.llm_base_url)
 
-    selected_tasks = load_benchmark_tasks("coordination_suite", args.coordination_source)[: max(args.tasks, 1)]
+    coordination_source = resolve_repo_path(args.coordination_source) if args.coordination_source is not None else None
+    selected_tasks = load_benchmark_tasks("coordination_suite", coordination_source)[: max(args.tasks, 1)]
     if not selected_tasks:
         raise RuntimeError("No coordination-suite tasks found. Check data/coordination_tasks or --coordination-source.")
 
     if args.include_external_benchmark:
         if args.external_source is None:
             raise RuntimeError("--external-source is required when --include-external-benchmark is set.")
-        external_tasks = load_benchmark_tasks(args.include_external_benchmark, args.external_source)
+        external_tasks = load_benchmark_tasks(args.include_external_benchmark, resolve_repo_path(args.external_source))
         if external_tasks:
             selected_tasks.append(external_tasks[0])
 
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-    run_root = args.output_root / f"validation_{timestamp}"
+    run_root = resolve_repo_path(args.output_root) / f"validation_{timestamp}"
     experiments_dir = run_root / "experiments"
     traces_dir = run_root / "traces"
     checkpoints_dir = run_root / "checkpoints"

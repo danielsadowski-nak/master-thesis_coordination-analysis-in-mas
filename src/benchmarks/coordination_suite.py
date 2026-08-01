@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 from benchmarks.base import BenchmarkTask, ensure_path, load_records
 
 
-DEFAULT_COORDINATION_TASKS_PATH = Path("data/coordination_tasks/coordination_suite_v1.jsonl")
+DEFAULT_COORDINATION_TASKS_PATH = Path(__file__).resolve().parents[2] / "data/coordination_tasks/coordination_suite_v1.jsonl"
 
 
 class CoordinationTask(BaseModel):

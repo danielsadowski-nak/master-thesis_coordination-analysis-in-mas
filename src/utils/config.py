@@ -13,6 +13,9 @@ import yaml
 from pydantic import BaseModel, Field
 
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
 class ExperimentConfig(BaseModel):
     """Typed configuration for experiment runs."""
 
@@ -45,7 +48,7 @@ class ExperimentConfig(BaseModel):
 def load_experiment_config(config_path: Path) -> ExperimentConfig:
     """Load a YAML configuration file into a typed model."""
 
-    config_path = Path(config_path)
+    config_path = resolve_repo_path(config_path)
     _load_environment_file(config_path.parent)
 
     data = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
@@ -64,6 +67,11 @@ def load_experiment_config(config_path: Path) -> ExperimentConfig:
         fallback_api_key = os.getenv("OPENAI_API_KEY")
         if fallback_api_key:
             standard_data["llm_api_key"] = fallback_api_key
+
+    for field_name in ("output_dir", "trace_dir", "checkpoint_dir", "benchmark_source"):
+        field_value = standard_data.get(field_name)
+        if field_value is not None:
+            standard_data[field_name] = resolve_repo_path(field_value)
 
     return ExperimentConfig.model_validate(standard_data)
 
@@ -84,13 +92,21 @@ def apply_llm_runtime_environment(*, api_key: str | None = None, base_url: str |
     return {"api_key_set": bool(resolved_api_key), "base_url": resolved_base_url}
 
 
+def resolve_repo_path(path: Path | str) -> Path:
+    """Resolve project paths relative to the repository root when needed."""
+
+    candidate = path if isinstance(path, Path) else Path(path)
+    if candidate.is_absolute():
+        return candidate
+    return REPO_ROOT / candidate
+
+
 def _load_environment_file(base_dir: Path) -> None:
     env_files = [base_dir / ".env"]
     env_file_override = os.getenv("MAS_ENV_FILE")
     if env_file_override:
         env_files.append(Path(env_file_override))
-    repo_root = Path(__file__).resolve().parents[2]
-    env_files.append(repo_root / ".env")
+    env_files.append(REPO_ROOT / ".env")
 
     for env_file in env_files:
         if env_file.exists():

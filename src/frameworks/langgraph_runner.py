@@ -453,19 +453,42 @@ class LangGraphRunner(BaseMASRunner):
         return json.dumps(response, default=str)
 
     def _extract_token_usage(self, response: Any) -> dict[str, int | float]:
-        usage = getattr(response, "usage", None) or getattr(response, "response_metadata", None)
-        if isinstance(usage, dict):
-            prompt_tokens = int(usage.get("prompt_tokens", usage.get("input_tokens", 0)) or 0)
-            completion_tokens = int(usage.get("completion_tokens", usage.get("output_tokens", 0)) or 0)
-            total_tokens = int(usage.get("total_tokens", prompt_tokens + completion_tokens) or 0)
-            return {
-                "prompt_tokens": prompt_tokens,
-                "completion_tokens": completion_tokens,
-                "total_tokens": total_tokens,
-                "tool_calls": int(usage.get("tool_calls", 0) or 0),
-                "cost_usd": float(usage.get("cost_usd", 0.0) or 0.0),
-            }
+        usage_candidates = (
+            getattr(response, "usage_metadata", None),
+            getattr(response, "usage", None),
+            getattr(response, "response_metadata", None),
+        )
+        for usage in usage_candidates:
+            normalized = self._normalize_token_usage(usage)
+            if normalized:
+                return normalized
         return {}
+
+    def _normalize_token_usage(self, usage: Any) -> dict[str, int | float]:
+        if not isinstance(usage, dict):
+            return {}
+
+        nested_usage = usage.get("token_usage")
+        if isinstance(nested_usage, dict):
+            usage = nested_usage
+
+        prompt_tokens = int(
+            usage.get("prompt_tokens", usage.get("input_tokens", usage.get("input_token_count", 0))) or 0
+        )
+        completion_tokens = int(
+            usage.get("completion_tokens", usage.get("output_tokens", usage.get("output_token_count", 0))) or 0
+        )
+        total_tokens = int(usage.get("total_tokens", prompt_tokens + completion_tokens) or 0)
+        if prompt_tokens == 0 and completion_tokens == 0 and total_tokens == 0 and not usage.get("tool_calls"):
+            return {}
+
+        return {
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": completion_tokens,
+            "total_tokens": total_tokens,
+            "tool_calls": int(usage.get("tool_calls", 0) or 0),
+            "cost_usd": float(usage.get("cost_usd", 0.0) or 0.0),
+        }
 
     def _merge_token_usage(self, left: dict[str, Any], right: dict[str, Any]) -> dict[str, int | float]:
         merged = {

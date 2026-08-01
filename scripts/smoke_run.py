@@ -13,11 +13,12 @@ from pathlib import Path
 from evaluation.experiment_harness import ExperimentHarness
 from frameworks.langgraph_runner import LangGraphRunner
 from utils.benchmark_loader import load_benchmark_tasks
+from utils.config import resolve_repo_path
 
 
 def main() -> None:
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-    run_root = Path("results") / f"smoke_{timestamp}"
+    run_root = resolve_repo_path(Path("results")) / f"smoke_{timestamp}"
     experiments_dir = run_root / "experiments"
     traces_dir = run_root / "traces"
     checkpoints_dir = run_root / "checkpoints"

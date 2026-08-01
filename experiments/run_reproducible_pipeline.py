@@ -22,7 +22,7 @@ from evaluation.plots import load_batch_artifacts
 from frameworks.langgraph_runner import LangGraphRunner
 from langchain_openai import ChatOpenAI
 from utils.benchmark_loader import load_benchmark_tasks
-from utils.config import apply_llm_runtime_environment, load_experiment_config
+from utils.config import apply_llm_runtime_environment, load_experiment_config, resolve_repo_path
 
 
 DEFAULT_TASK_COUNT = 4
@@ -146,7 +146,7 @@ def main() -> None:
     config = load_experiment_config(args.config)
 
     benchmark_name = args.benchmark or config.benchmark
-    benchmark_source = args.benchmark_source or config.benchmark_source
+    benchmark_source = resolve_repo_path(args.benchmark_source) if args.benchmark_source is not None else config.benchmark_source
     apply_llm_runtime_environment(api_key=config.llm_api_key, base_url=config.llm_base_url)
     tasks = load_benchmark_tasks(benchmark_name, benchmark_source)
     if not tasks:
@@ -156,7 +156,7 @@ def main() -> None:
 
     sampled_tasks = sample_tasks(tasks, args.tasks, seed=args.seed or config.seed)
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-    run_root = args.output_root / f"reproducible_pipeline_{timestamp}"
+    run_root = resolve_repo_path(args.output_root) / f"reproducible_pipeline_{timestamp}"
     run_root.mkdir(parents=True, exist_ok=True)
 
     results_dir = run_root / "results"

@@ -25,3 +25,14 @@ def test_load_experiment_config_reads_environment_overrides(tmp_path, monkeypatc
     assert config.mast_judge_enabled is True
     assert config.mast_judge_temperature == 0.2
     assert config.mast_judge_max_retries == 4
+
+
+def test_load_experiment_config_resolves_repo_paths_from_foreign_cwd(tmp_path, monkeypatch) -> None:
+    repo_root = Path(__file__).resolve().parents[1]
+    monkeypatch.chdir(tmp_path)
+
+    config = load_experiment_config(Path("experiments/config.yaml"))
+
+    assert config.output_dir == repo_root / "results/experiments"
+    assert config.trace_dir == repo_root / "results/traces"
+    assert config.checkpoint_dir == repo_root / "results/checkpoints"

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 from frameworks.adapter_runner import FrameworkAdapterRunner
 from frameworks.langgraph_runner import LangGraphRunner
 from utils.mitigations import (
@@ -48,6 +50,44 @@ def test_langgraph_prompt_includes_mitigation() -> None:
     prompt = runner._build_prompt("Solve the task.", [])
 
     assert "structured output" in prompt.lower()
+
+
+def test_langgraph_extracts_usage_metadata_from_langchain_response() -> None:
+    runner = LangGraphRunner()
+
+    usage = runner._extract_token_usage(
+        SimpleNamespace(
+            usage_metadata={"input_tokens": 11, "output_tokens": 7, "total_tokens": 18},
+            response_metadata={},
+        )
+    )
+
+    assert usage == {
+        "prompt_tokens": 11,
+        "completion_tokens": 7,
+        "total_tokens": 18,
+        "tool_calls": 0,
+        "cost_usd": 0.0,
+    }
+
+
+def test_langgraph_extracts_nested_response_metadata_token_usage() -> None:
+    runner = LangGraphRunner()
+
+    usage = runner._extract_token_usage(
+        SimpleNamespace(
+            usage_metadata=None,
+            response_metadata={"token_usage": {"prompt_tokens": 5, "completion_tokens": 3, "total_tokens": 8}},
+        )
+    )
+
+    assert usage == {
+        "prompt_tokens": 5,
+        "completion_tokens": 3,
+        "total_tokens": 8,
+        "tool_calls": 0,
+        "cost_usd": 0.0,
+    }
 
 
 def test_new_mitigation_strategies_have_expected_prompt_behavior() -> None:

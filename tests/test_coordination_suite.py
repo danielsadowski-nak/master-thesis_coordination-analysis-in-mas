@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from benchmarks.coordination_suite import load_coordination_suite_records, load_coordination_suite_tasks
 
 
@@ -22,3 +24,12 @@ def test_load_coordination_suite_tasks_converts_to_benchmark_tasks() -> None:
     assert tasks[0].prompt
     assert tasks[0].metadata["benchmark"] == "coordination_suite"
     assert "coordination_pressure" in tasks[0].metadata
+
+
+def test_load_coordination_suite_records_from_foreign_cwd(tmp_path, monkeypatch) -> None:
+    monkeypatch.chdir(tmp_path)
+
+    records = load_coordination_suite_records()
+
+    assert records
+    assert Path(records[0].metadata["source"]).name == "coordination_suite_v1.jsonl"
