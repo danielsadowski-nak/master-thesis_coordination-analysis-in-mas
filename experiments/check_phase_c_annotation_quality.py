@@ -18,6 +18,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 ALLOWED_MODES = {mode.value for mode in MASTFailureMode}
+NO_FAILURE_MODE_LABEL = "NO_FAILURE_MODE"
 
 
 def _resolve_repo_path(path: Path) -> Path:
@@ -116,6 +117,21 @@ def _validate_reviewer_sheet(path: Path, issues: list[QCIssue], reviewer_suffix:
         modes = _split_modes(mode_value)
         has_summary = _is_nonempty(summary_value)
 
+        no_mode_selected = len(modes) == 1 and modes[0] == NO_FAILURE_MODE_LABEL
+        if NO_FAILURE_MODE_LABEL in modes and not no_mode_selected:
+            _add_issue(
+                issues,
+                severity="error",
+                file=path,
+                row_index=int(row_index),
+                annotation_item_id=item_id,
+                column=mode_col,
+                code="invalid_no_mode_combination",
+                message="NO_FAILURE_MODE must not be combined with other mode labels.",
+                value=mode_value,
+            )
+            no_mode_selected = False
+
         if "success" in df.columns:
             success_value = _normalize_bool(row.get("success"))
             if success_value is not True:
@@ -148,7 +164,7 @@ def _validate_reviewer_sheet(path: Path, issues: list[QCIssue], reviewer_suffix:
                 value=task_value,
             )
 
-        if not modes:
+        if not modes and not no_mode_selected:
             _add_issue(
                 issues,
                 severity="error",
@@ -161,7 +177,8 @@ def _validate_reviewer_sheet(path: Path, issues: list[QCIssue], reviewer_suffix:
                 value=mode_value,
             )
         else:
-            invalid_modes = [mode for mode in modes if mode not in ALLOWED_MODES]
+            modes_for_validation = [] if no_mode_selected else modes
+            invalid_modes = [mode for mode in modes_for_validation if mode not in ALLOWED_MODES]
             if invalid_modes:
                 _add_issue(
                     issues,
@@ -188,7 +205,7 @@ def _validate_reviewer_sheet(path: Path, issues: list[QCIssue], reviewer_suffix:
                 value=summary_value,
             )
 
-        if task_bool is not None and modes:
+        if task_bool is not None and (modes or no_mode_selected):
             complete_rows += 1
 
     return {"rows": int(len(df)), "complete_rows": int(complete_rows), "non_success_rows": int(non_success_rows)}

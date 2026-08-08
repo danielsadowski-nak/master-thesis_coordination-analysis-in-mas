@@ -1,0 +1,59 @@
+{
+  "benchmark": "coordination_suite",
+  "design": {
+    "frameworks": [
+      "langgraph",
+      "autogen",
+      "crewai"
+    ],
+    "num_runs": 2,
+    "max_steps": 25,
+    "model_name": "gpt-4o-mini",
+    "temperature": 0.0,
+    "comparison_test": "welch",
+    "mast_judge_enabled": false,
+    "study_protocol": "docs/study_protocol.md",
+    "codebook": "docs/coordination_suite_codebook.md"
+  },
+  "tasks": [
+    {
+      "task_id": "coord-info-asymmetry-constraint",
+      "title": "Hidden deployment constraint",
+      "coordination_pressure": [
+        "information_asymmetry",
+        "poor_handoff"
+      ],
+      "expected_behavior": "The team should explicitly surface the legal logging constraint and incorporate it into plan and verification.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-conflicting-done-criteria",
+      "title": "Conflicting definitions of done",
+      "coordination_pressure": [
+        "conflicting_goals",
+        "unclear_verification"
+      ],
+      "expected_behavior": "The team should reconcile the mismatch and adopt one explicit, shared done criterion before concluding.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-unclear-handoff-incomplete-artifact",
+      "title": "Incomplete handoff artifact",
+      "coordination_pressure": [
+        "poor_handoff",
+        "role_overlap"
+      ],
+      "expected_behavior": "The system should detect missing handoff details and repair the handoff before execution claims.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-weak-final-verification",
+      "title": "Superficial verification pressure",
+      "coordination_pressure": [
+        "unclear_verification"
+      ],
+      "expected_behavior": "The team should perform explicit multi-check verification before approval.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    }
+  ]
+}

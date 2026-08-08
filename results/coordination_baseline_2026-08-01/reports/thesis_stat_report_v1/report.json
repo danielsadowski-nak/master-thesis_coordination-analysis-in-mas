@@ -1,0 +1,152 @@
+{
+  "results_root": "/workspace/results/coordination_baseline_2026-08-01/experiments",
+  "num_rows": 24,
+  "conditions": [
+    "autogen",
+    "crewai",
+    "langgraph"
+  ],
+  "summary_statistics": [
+    {
+      "framework": "autogen",
+      "n": 8,
+      "success_rate_mean": 1.0,
+      "success_rate_std": 0.0,
+      "success_rate_ci_low": 1.0,
+      "success_rate_ci_high": 1.0,
+      "latency_seconds_mean": 0.0018232551249183749,
+      "latency_seconds_std": 0.004274931765112673,
+      "latency_seconds_ci_low": -0.00175067726925525,
+      "latency_seconds_ci_high": 0.005397187519092,
+      "token_cost_usd_mean": 0.0,
+      "token_cost_usd_std": 0.0,
+      "token_cost_usd_ci_low": 0.0,
+      "token_cost_usd_ci_high": 0.0
+    },
+    {
+      "framework": "crewai",
+      "n": 8,
+      "success_rate_mean": 1.0,
+      "success_rate_std": 0.0,
+      "success_rate_ci_low": 1.0,
+      "success_rate_ci_high": 1.0,
+      "latency_seconds_mean": 15.406592319500078,
+      "latency_seconds_std": 10.122753832464198,
+      "latency_seconds_ci_low": 6.943758331052667,
+      "latency_seconds_ci_high": 23.86942630794749,
+      "token_cost_usd_mean": 0.0,
+      "token_cost_usd_std": 0.0,
+      "token_cost_usd_ci_low": 0.0,
+      "token_cost_usd_ci_high": 0.0
+    },
+    {
+      "framework": "langgraph",
+      "n": 8,
+      "success_rate_mean": 0.75,
+      "success_rate_std": 0.4629100498862757,
+      "success_rate_ci_low": 0.3629975134624202,
+      "success_rate_ci_high": 1.1370024865375798,
+      "latency_seconds_mean": 1.9753706517501541,
+      "latency_seconds_std": 1.3488627034408576,
+      "latency_seconds_ci_low": 0.8476932112675848,
+      "latency_seconds_ci_high": 3.1030480922327235,
+      "token_cost_usd_mean": 0.0,
+      "token_cost_usd_std": 0.0,
+      "token_cost_usd_ci_low": 0.0,
+      "token_cost_usd_ci_high": 0.0
+    }
+  ],
+  "mast_failure_modes": [
+    {
+      "framework": "autogen",
+      "mast_label": "3.2 Weak Verification",
+      "absolute_count": 4,
+      "percentage_of_runs": 50.0,
+      "n_runs": 8,
+      "level": "mode"
+    },
+    {
+      "framework": "crewai",
+      "mast_label": "3.2 Weak Verification",
+      "absolute_count": 8,
+      "percentage_of_runs": 100.0,
+      "n_runs": 8,
+      "level": "mode"
+    },
+    {
+      "framework": "langgraph",
+      "mast_label": "3.2 Weak Verification",
+      "absolute_count": 5,
+      "percentage_of_runs": 62.5,
+      "n_runs": 8,
+      "level": "mode"
+    }
+  ],
+  "mast_categories": [
+    {
+      "framework": "autogen",
+      "mast_label": "3. Termination and Verification",
+      "absolute_count": 4,
+      "percentage_of_runs": 50.0,
+      "n_runs": 8,
+      "level": "category"
+    },
+    {
+      "framework": "crewai",
+      "mast_label": "3. Termination and Verification",
+      "absolute_count": 8,
+      "percentage_of_runs": 100.0,
+      "n_runs": 8,
+      "level": "category"
+    },
+    {
+      "framework": "langgraph",
+      "mast_label": "3. Termination and Verification",
+      "absolute_count": 5,
+      "percentage_of_runs": 62.5,
+      "n_runs": 8,
+      "level": "category"
+    }
+  ],
+  "pairwise_comparison_files": {
+    "success": "pairwise_success.csv",
+    "latency_seconds": "pairwise_latency_seconds.csv",
+    "cost_usd": "pairwise_cost_usd.csv"
+  },
+  "anova": {
+    "success": {
+      "metric": "success",
+      "condition_column": "framework",
+      "n_groups": 3,
+      "n_observations": 24,
+      "f_statistic": 2.333333333333334,
+      "p_value": 0.1215970824980537,
+      "eta_squared": 0.18181818181818182
+    },
+    "latency_seconds": {
+      "metric": "latency_seconds",
+      "condition_column": "framework",
+      "n_groups": 3,
+      "n_observations": 24,
+      "f_statistic": 16.170338707389913,
+      "p_value": 5.6129097979689036e-05,
+      "eta_squared": 0.6063042125111586
+    },
+    "cost_usd": {
+      "metric": "cost_usd",
+      "condition_column": "framework",
+      "n_groups": 3,
+      "n_observations": 24,
+      "f_statistic": NaN,
+      "p_value": NaN,
+      "eta_squared": NaN
+    }
+  },
+  "advanced_statistics_files": {
+    "descriptive_bootstrap": "descriptive_bootstrap.csv",
+    "success_rate_tests": "success_rate_tests.csv",
+    "mast_distribution_test": "mast_distribution_test.csv",
+    "continuous_latency_seconds_tests": "continuous_latency_seconds_tests.csv",
+    "continuous_cost_usd_tests": "continuous_cost_usd_tests.csv"
+  }
+}

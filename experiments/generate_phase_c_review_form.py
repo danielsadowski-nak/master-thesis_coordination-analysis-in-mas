@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import html
 import json
 import sys
@@ -18,6 +19,25 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from evaluation.mast_classifier import MASTFailureMode, MAST_FAILURE_MODE_DEFINITIONS
+from benchmarks.coordination_suite import load_coordination_suite_records
+
+
+MAST_PLAIN_DE: dict[str, str] = {
+  "1.1 Disobey Task Specification": "Aufgabenanforderungen werden ignoriert oder verletzt.",
+  "1.2 Disobey Role Specification": "Agent handelt außerhalb seiner Rolle oder Zuständigkeit.",
+  "1.3 Step Repetition": "Schritte werden unnötig wiederholt.",
+  "1.4 Loss of Conversation History": "Wichtiger vorheriger Kontext geht verloren.",
+  "1.5 Unaware of Termination Conditions": "Abbruch-/Ende-Regeln werden nicht korrekt beachtet.",
+  "2.1 Conversation Reset": "Die Zusammenarbeit wirkt wie ein Neustart ohne bisherigen Fortschritt.",
+  "2.2 Fail to Ask for Clarification": "Bei Unklarheit werden keine Rückfragen gestellt.",
+  "2.3 Task Derailment": "Die Bearbeitung driftet vom eigentlichen Ziel weg.",
+  "2.4 Information Withholding": "Wichtige Information wird nicht weitergegeben.",
+  "2.5 Ignored Other Agent's Input": "Nützlicher Input anderer Agenten wird ignoriert.",
+  "2.6 Action-Reasoning Mismatch": "Begründung und tatsächliche Aktion passen nicht zusammen.",
+  "3.1 Premature Termination": "Zu früh abgeschlossen, obwohl noch Anforderungen offen sind.",
+  "3.2 Weak Verification": "Es gibt zwar Prüfung, aber sie ist oberflächlich/unvollständig.",
+  "3.3 No or Incorrect Verification": "Prüfung fehlt oder ist klar fehlerhaft.",
+}
 
 
 def _resolve_repo_path(path: Path) -> Path:
@@ -41,6 +61,27 @@ def _read_trace_text(path: Path) -> str:
         return f"[Trace konnte nicht gelesen werden: {exc}]"
 
 
+def _build_task_context_map() -> dict[str, dict[str, Any]]:
+    context_map: dict[str, dict[str, Any]] = {}
+    for record in load_coordination_suite_records():
+        context_map[record.task_id] = {
+            "task_id": record.task_id,
+            "title": record.title,
+            "prompt": record.prompt,
+            "expected_behavior": record.expected_behavior,
+            "success_criteria": list(record.success_criteria),
+            "coordination_pressure": list(record.coordination_pressure),
+            "difficulty": record.difficulty,
+        }
+    return context_map
+
+
+def _extract_task_id(benchmark_value: str) -> str:
+    if "/" in benchmark_value:
+        return benchmark_value.split("/", 1)[1]
+    return benchmark_value
+
+
 def _load_items(reviewer_csv: Path, worklist_csv: Path, reviewer_tag: str) -> tuple[list[str], list[dict[str, Any]]]:
     reviewer_df = pd.read_csv(reviewer_csv)
     worklist_df = pd.read_csv(worklist_csv)
@@ -58,17 +99,33 @@ def _load_items(reviewer_csv: Path, worklist_csv: Path, reviewer_tag: str) -> tu
         raise ValueError(f"Worklist-Einträge nicht im Reviewer-Sheet gefunden: {missing}")
 
     columns = reviewer_df.columns.tolist()
+    task_context_map = _build_task_context_map()
     items: list[dict[str, Any]] = []
     for _, row in merged.sort_values("sequence").iterrows():
         raw_log_path = Path(_safe_text(row.get("raw_log_path_worklist") or row.get("raw_log_path")))
         resolved_log_path = _resolve_repo_path(raw_log_path)
+        benchmark_value = _safe_text(row.get("benchmark"))
+        task_id = _extract_task_id(benchmark_value)
+        task_context = task_context_map.get(
+            task_id,
+            {
+                "task_id": task_id,
+                "title": task_id,
+                "prompt": "Keine Task-Beschreibung gefunden.",
+                "expected_behavior": "",
+                "success_criteria": [],
+                "coordination_pressure": [],
+                "difficulty": "",
+            },
+        )
         items.append(
             {
                 "sequence": int(row["sequence"]),
                 "reviewer": reviewer_tag,
                 "annotation_item_id": _safe_text(row.get("annotation_item_id")),
                 "framework": _safe_text(row.get("framework")),
-                "benchmark": _safe_text(row.get("benchmark")),
+                "benchmark": benchmark_value,
+                "task_id": task_id,
                 "run_index": _safe_text(row.get("run_index")),
                 "run_id": _safe_text(row.get("run_id")),
                 "raw_log_path": str(resolved_log_path),
@@ -84,6 +141,12 @@ def _load_items(reviewer_csv: Path, worklist_csv: Path, reviewer_tag: str) -> tu
                 "notes": _safe_text(row.get("notes")),
                 "missing_fields": _safe_text(row.get("missing_fields")),
                 "trace_text": _read_trace_text(resolved_log_path),
+                "task_title": _safe_text(task_context.get("title")),
+                "task_prompt": _safe_text(task_context.get("prompt")),
+                "task_expected_behavior": _safe_text(task_context.get("expected_behavior")),
+                "task_success_criteria": list(task_context.get("success_criteria", [])),
+                "task_coordination_pressure": list(task_context.get("coordination_pressure", [])),
+                "task_difficulty": _safe_text(task_context.get("difficulty")),
             }
         )
 
@@ -97,6 +160,7 @@ def _build_modes_payload() -> list[dict[str, str]]:
             {
                 "label": mode.value,
                 "definition": MAST_FAILURE_MODE_DEFINITIONS.get(mode, ""),
+                "plain_de": MAST_PLAIN_DE.get(mode.value, ""),
             }
         )
     return payload
@@ -111,6 +175,7 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
         "modes": _build_modes_payload(),
     }
     json_payload = json.dumps(payload, ensure_ascii=False)
+    payload_b64 = base64.b64encode(json_payload.encode("utf-8")).decode("ascii")
     title = html.escape(f"Phase C Review Form - {reviewer_tag}")
     return f"""<!doctype html>
 <html lang=\"de\">
@@ -190,6 +255,15 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
           <li>Am Ende CSV herunterladen und als Reviewer-Datei zurückgeben.</li>
         </ol>
       </div>
+        <div class="panel">
+          <h3>Kurzkompass</h3>
+          <ul>
+            <li>Lesen Sie zuerst den Block <strong>Aufgabenkontext</strong> pro Item.</li>
+            <li>Bewerten Sie danach den <strong>Final Output</strong> (Trace optional zur Absicherung).</li>
+            <li>Markieren Sie nur Fehlermodi mit direkter Evidenz im Text.</li>
+            <li>Wenn unsicher: in <strong>Notizen</strong> kurz begründen.</li>
+          </ul>
+        </div>
       <div class=\"panel\">
         <div class=\"field\">
           <label class=\"title\" for=\"global-reviewer-id\">Reviewer-ID</label>
@@ -216,6 +290,18 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
           <div class=\"stat\"><strong>Trace-Pfad</strong><div id=\"trace-path\" class=\"hint\"></div></div>
         </div>
       </div>
+        <div class="panel">
+          <h3>Aufgabenkontext (vereinfacht)</h3>
+          <p><strong id="task-title"></strong></p>
+          <p class="hint">Schwierigkeit: <span id="task-difficulty"></span></p>
+          <p><strong>Ausgangssituation:</strong></p>
+          <pre id="task-prompt"></pre>
+          <p><strong>Was eine gute Lösung hier leisten soll:</strong></p>
+          <pre id="task-expected"></pre>
+          <p><strong>Konkrete Erfolgskriterien:</strong></p>
+          <ul id="task-criteria"></ul>
+          <p><strong>Koordinationsdruck in diesem Task:</strong> <span id="task-pressure"></span></p>
+        </div>
       <div class=\"panel\">
         <h3>Automatisch übernommener Output</h3>
         <pre id=\"final-output\"></pre>
@@ -252,12 +338,19 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
           <button id=\"prev-item\">Vorheriges Item</button>
           <button id=\"next-item\" class=\"primary\">Nächstes Item</button>
         </div>
-        <p class=\"hint\">Pflicht für vollständige Zeile: Erfolg gesetzt, mindestens ein MAST-Mode gewählt, Summary nicht leer.</p>
+        <p class=\"hint\">Pflicht für vollständige Zeile: Erfolg gesetzt, mindestens ein MAST-Mode <em>oder</em> \"Keiner der Fehlermodi\", Summary nicht leer.</p>
       </div>
     </main>
   </div>
   <script>
-    const payload = {json_payload};
+    function decodeBase64Utf8(value) {{
+      const binary = atob(value);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return new TextDecoder('utf-8').decode(bytes);
+    }}
+
+    const payload = JSON.parse(decodeBase64Utf8('{payload_b64}'));
     const storageKey = `phase-c-review-form::${{payload.reviewerTag}}::${{payload.sourceCsv}}`;
     let currentIndex = 0;
     let state = loadState();
@@ -265,9 +358,14 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
     function defaultState() {{
       const items = {{}};
       for (const item of payload.items) {{
+        const importedModes = item.manual_primary_failure_modes
+          ? item.manual_primary_failure_modes.split(';').map(v => v.trim()).filter(Boolean)
+          : [];
+        const hasNoMode = importedModes.length === 1 && importedModes[0] === 'NO_FAILURE_MODE';
         items[item.annotation_item_id] = {{
           manual_task_successful: item.manual_task_successful || "",
-          manual_primary_failure_modes: item.manual_primary_failure_modes ? item.manual_primary_failure_modes.split(';').map(v => v.trim()).filter(Boolean) : [],
+          manual_primary_failure_modes: hasNoMode ? [] : importedModes,
+          manual_no_failure_mode: hasNoMode,
           manual_summary: item.manual_summary || "",
           reviewer_id: item.reviewer_id || "",
           notes: item.notes || "",
@@ -298,6 +396,9 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
           if (!Array.isArray(merged.items[key].manual_primary_failure_modes)) {{
             merged.items[key].manual_primary_failure_modes = [];
           }}
+          if (typeof merged.items[key].manual_no_failure_mode !== 'boolean') {{
+            merged.items[key].manual_no_failure_mode = false;
+          }}
         }}
       }}
       return merged;
@@ -318,7 +419,8 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
     }}
 
     function isComplete(entry) {{
-      return entry.manual_task_successful && entry.manual_primary_failure_modes.length > 0 && entry.manual_summary.trim();
+      const hasModeSelection = entry.manual_no_failure_mode || entry.manual_primary_failure_modes.length > 0;
+      return entry.manual_task_successful && hasModeSelection && entry.manual_summary.trim();
     }}
 
     function updateProgress() {{
@@ -346,17 +448,37 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
       const root = document.getElementById('mode-choices');
       root.innerHTML = '';
       const entry = currentEntry();
+
+      const noneWrapper = document.createElement('label');
+      noneWrapper.className = 'choice';
+      const noneChecked = entry.manual_no_failure_mode ? 'checked' : '';
+      noneWrapper.innerHTML = `<input type=\"checkbox\" value=\"NO_FAILURE_MODE\" ${{noneChecked}}><span><strong>Keiner der Fehlermodi liegt vor</strong><div class=\"mode-def\">Nutzen Sie diese Option, wenn keine direkte Evidenz fuer einen MAST-Fehlermodus vorliegt.</div></span>`;
+      noneWrapper.querySelector('input').addEventListener('change', (event) => {{
+        const checked = !!event.target.checked;
+        currentEntry().manual_no_failure_mode = checked;
+        if (checked) currentEntry().manual_primary_failure_modes = [];
+        saveState();
+        renderModes();
+      }});
+      root.appendChild(noneWrapper);
+
       for (const mode of payload.modes) {{
         const wrapper = document.createElement('label');
         wrapper.className = 'choice';
         const checked = entry.manual_primary_failure_modes.includes(mode.label) ? 'checked' : '';
-        wrapper.innerHTML = `<input type=\"checkbox\" value=\"${{escapeHtml(mode.label)}}\" ${{checked}}><span><strong>${{escapeHtml(mode.label)}}</strong><div class=\"mode-def\">${{escapeHtml(mode.definition)}}</div></span>`;
+        const disabled = entry.manual_no_failure_mode ? 'disabled' : '';
+        wrapper.innerHTML = `<input type=\"checkbox\" value=\"${{escapeHtml(mode.label)}}\" ${{checked}}><span><strong>${{escapeHtml(mode.label)}}</strong><div class=\"mode-def\">${{escapeHtml(mode.plain_de || '')}}</div><div class=\"mode-def\">${{escapeHtml(mode.definition)}}</div></span>`;
         wrapper.querySelector('input').addEventListener('change', (event) => {{
           const set = new Set(currentEntry().manual_primary_failure_modes);
           if (event.target.checked) set.add(mode.label); else set.delete(mode.label);
           currentEntry().manual_primary_failure_modes = Array.from(set);
+          if (currentEntry().manual_primary_failure_modes.length > 0) currentEntry().manual_no_failure_mode = false;
           saveState();
+          renderModes();
         }});
+        if (disabled) {{
+          wrapper.querySelector('input').disabled = true;
+        }}
         root.appendChild(wrapper);
       }}
     }}
@@ -370,6 +492,26 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
       document.getElementById('benchmark').textContent = item.benchmark;
       document.getElementById('run-id').textContent = item.run_id;
       document.getElementById('trace-path').textContent = item.raw_log_path;
+      document.getElementById('task-title').textContent = item.task_title || item.task_id;
+      document.getElementById('task-difficulty').textContent = item.task_difficulty || '-';
+      document.getElementById('task-prompt').textContent = item.task_prompt || '[leer]';
+      document.getElementById('task-expected').textContent = item.task_expected_behavior || '[leer]';
+      const criteriaRoot = document.getElementById('task-criteria');
+      criteriaRoot.innerHTML = '';
+      const criteria = Array.isArray(item.task_success_criteria) ? item.task_success_criteria : [];
+      if (criteria.length === 0) {{
+        const li = document.createElement('li');
+        li.textContent = 'Keine Kriterien hinterlegt.';
+        criteriaRoot.appendChild(li);
+      }} else {{
+        for (const criterion of criteria) {{
+          const li = document.createElement('li');
+          li.textContent = criterion;
+          criteriaRoot.appendChild(li);
+        }}
+      }}
+      const pressure = Array.isArray(item.task_coordination_pressure) ? item.task_coordination_pressure : [];
+      document.getElementById('task-pressure').textContent = pressure.length ? pressure.join(', ') : '-';
       document.getElementById('final-output').textContent = item.final_output || '[leer]';
       document.getElementById('trace-text').textContent = item.trace_text || '[leer]';
       document.getElementById('manual-summary').value = entry.manual_summary;
@@ -405,7 +547,7 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
           success: item.success,
           final_output: item.final_output,
           manual_task_successful: entry.manual_task_successful || '',
-          manual_primary_failure_modes: entry.manual_primary_failure_modes.join('; '),
+          manual_primary_failure_modes: entry.manual_no_failure_mode ? 'NO_FAILURE_MODE' : entry.manual_primary_failure_modes.join('; '),
           manual_summary: entry.manual_summary || '',
           reviewer_id: state.reviewer_id || entry.reviewer_id || '',
           adjudicated_task_successful: item.adjudicated_task_successful || '',
@@ -461,7 +603,7 @@ def _render_html(*, reviewer_tag: str, source_csv: Path, columns: list[str], ite
       const rows = buildExportRows();
       const header = payload.columns;
       const body = rows.map((row) => header.map((column) => csvEscape(row[column] ?? '')).join(','));
-      download(`phase_c_${{payload.reviewerTag}}_annotations.csv`, [header.join(','), ...body].join('\n'), 'text/csv;charset=utf-8');
+      download(`phase_c_${{payload.reviewerTag}}_annotations.csv`, [header.join(','), ...body].join('\\n'), 'text/csv;charset=utf-8');
     }});
     document.getElementById('download-json').addEventListener('click', () => {{
       download(`phase_c_${{payload.reviewerTag}}_backup.json`, JSON.stringify(state, null, 2), 'application/json;charset=utf-8');

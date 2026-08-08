@@ -123,9 +123,12 @@ uv run python experiments/phase_c_readiness_status.py
 - Reproduzierbarkeit: [docs/reproducibility.md](docs/reproducibility.md)
 - Nutzung: [docs/user_guide.md](docs/user_guide.md)
 - Coordination-Suite Design: [docs/task_design.md](docs/task_design.md)
+- Task-Qualitätsbewertung: [docs/task_quality_assessment.md](docs/task_quality_assessment.md)
 - Studienprotokoll: [docs/study_protocol.md](docs/study_protocol.md)
 - Coordination-Suite Codebook: [docs/coordination_suite_codebook.md](docs/coordination_suite_codebook.md)
 - Annotation und Judge-Validierung: [docs/annotation_protocol.md](docs/annotation_protocol.md)
+- Phase-C Data Card: [docs/phase_c_data_card.md](docs/phase_c_data_card.md)
+- Phase-C Lineage Snapshot: [docs/phase_c_lineage_2026_08_02.md](docs/phase_c_lineage_2026_08_02.md)
 
 ## Referenzen
 

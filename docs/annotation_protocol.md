@@ -102,6 +102,11 @@ Reviewer workflow for the HTML form:
 - download the completed CSV from the form,
 - return that CSV as the completed reviewer sheet.
 
+Distribution assets for independent reviewers:
+
+- briefing: results/judge_validation_phase_c_cli_v3/review_forms/reviewer_briefing_de.md
+- email template: results/judge_validation_phase_c_cli_v3/review_forms/email_template_reviewer_de.txt
+
 QC also enforces cross-file integrity checks across reviewer and adjudication tables:
 
 - unique `annotation_item_id` per file,
