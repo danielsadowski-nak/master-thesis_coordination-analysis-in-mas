@@ -1,0 +1,2005 @@
+run_index,success,final_output,latency_seconds,prompt_tokens,completion_tokens,total_tokens,tool_calls,steps_executed,cost_usd,raw_log_path,run_id
+0,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+4. **Validation Check**:
+   - Agent Beta performs validation on the response from the first API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+5. **Second API Call**:
+   - Agent Alpha makes the second API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+6. **Validation Check**:
+   - Agent Beta performs validation on the response from the second API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+7. **Third API Call**:
+   - Agent Alpha makes the third API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+8. **Validation Check**:
+   - Agent Beta performs validation on the response from the third API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+9. **Fourth API Call**:
+   - Agent Alpha makes the fourth API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+10. **Validation Check**:
+    - Agent Beta performs validation on the response from the fourth API call.
+    - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+11. **Fifth API Call**:
+    - Agent Alpha makes the fifth API call.
+    - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+12. **Validation Check**:
+    - Agent Beta performs validation on the response from the fifth API call.
+    - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+13. **Rate Limit Wait**:
+    - Agent Alpha and Agent Beta wait for 1 minute to reset the rate limit.
+
+14. **Repeat Process**:
+    - Steps 3 to 12 are repeated for the next set of API calls, ensuring that the rate limit is adhered to.
+
+15. **Final Validation**:
+    - After all API calls are completed, Agent Beta performs a final validation check on all responses.
+    - **Verification Checkpoint**: Confirm that all validation criteria are met for all responses.
+
+16. **Logging Results**:
+    - Both agents log the results of the API calls and validations for future reference.
+
+17. **Error Handling**:
+    - If any API call fails, Agent Alpha will log the error and notify Agent Beta.
+    - Agent Beta will then decide if a retry is necessary after waiting for the rate limit to reset.
+
+18. **Completion Confirmation**:
+    - Both agents confirm that all steps have been completed and that the results are satisfactory.
+
+#### Self-Check:
+- The plan adheres to the rate limit of 5 API calls per minute.
+- Each API call is followed by a validation check to ensure correctness.
+- A final validation step ensures all responses are valid before completion.
+- Error handling is in place to manage potential failures effectively.
+
+This structured plan ensures that Agent Alpha and Agent Beta operate within the defined constraints while maintaining the integrity of the process.",16.542576006962918,31,272,303,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/b0e7c528-34c7-4606-b8db-f643ceef3f13.jsonl,b0e7c528-34c7-4606-b8db-f643ceef3f13
+1,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta validates the response of the first API call.
+
+4. **Rate Limit Monitoring**:
+   - Start a 12-second timer after the first call to ensure the rate limit is respected.
+
+5. **Second API Call**:
+   - After 12 seconds, Agent Alpha executes the second API call.
+   - **Verification Checkpoint 2**: Agent Beta validates the response of the second API call.
+
+6. **Rate Limit Monitoring**:
+   - Start another 12-second timer after the second call.
+
+7. **Third API Call**:
+   - After 12 seconds, Agent Alpha executes the third API call.
+   - **Verification Checkpoint 3**: Agent Beta validates the response of the third API call.
+
+8. **Rate Limit Monitoring**:
+   - Start another 12-second timer after the third call.
+
+9. **Fourth API Call**:
+   - After 12 seconds, Agent Alpha executes the fourth API call.
+   - **Verification Checkpoint 4**: Agent Beta validates the response of the fourth API call.
+
+10. **Rate Limit Monitoring**:
+    - Start another 12-second timer after the fourth call.
+
+11. **Fifth API Call**:
+    - After 12 seconds, Agent Alpha executes the fifth API call.
+    - **Verification Checkpoint 5**: Agent Beta validates the response of the fifth API call.
+
+12. **Rate Limit Monitoring**:
+    - Start another 12-second timer after the fifth call.
+
+13. **Additional Calls**:
+    - If more API calls are needed, repeat steps 4-11, ensuring to wait 12 seconds between each call.
+
+14. **Final Verification**:
+    - After all calls, Agent Beta performs a comprehensive validation of all responses received.
+
+15. **Completion**:
+    - Both agents confirm that all validations are complete and that the rate limit was adhered to throughout the process.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing between calls is not strictly monitored, there is a risk of exceeding the rate limit.
+- **Validation Errors**: If Agent Beta does not validate correctly, it may lead to incorrect assumptions about the API responses.
+
+#### Verification Points:
+- After each API call, Agent Beta must confirm the validity of the response.
+- A final validation check must be performed after all API calls to ensure all responses are correct and meet the expected criteria.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute by ensuring a 12-second interval between each call. Each response is validated immediately after the corresponding API call, and a final comprehensive validation is performed. The plan is structured to maintain coordination between Agent Alpha and Agent Beta, ensuring reliable outputs without violating constraints.",13.797699088987429,31,248,279,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/e44fb819-4509-43d4-bce1-800b5c55bfea.jsonl,e44fb819-4509-43d4-bce1-800b5c55bfea
+2,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta verifies the response of the first API call.
+
+4. **Rate Limit Monitoring**:
+   - Start a 12-second timer after the first call to allow for 5 calls within the minute.
+
+5. **Second API Call**:
+   - After 12 seconds, Agent Alpha executes the second API call.
+   - **Verification Checkpoint 2**: Agent Beta verifies the response of the second API call.
+
+6. **Third API Call**:
+   - After another 12 seconds, Agent Alpha executes the third API call.
+   - **Verification Checkpoint 3**: Agent Beta verifies the response of the third API call.
+
+7. **Fourth API Call**:
+   - After another 12 seconds, Agent Alpha executes the fourth API call.
+   - **Verification Checkpoint 4**: Agent Beta verifies the response of the fourth API call.
+
+8. **Fifth API Call**:
+   - After another 12 seconds, Agent Alpha executes the fifth API call.
+   - **Verification Checkpoint 5**: Agent Beta verifies the response of the fifth API call.
+
+9. **Rate Limit Reset**:
+   - Wait for the remaining time in the minute to ensure the rate limit is reset.
+
+10. **Repeat Process**:
+    - If more API calls are needed, repeat steps 4-9, ensuring to monitor the rate limit.
+
+11. **Final Verification**:
+    - After all API calls, Agent Beta performs a final validation of all responses received.
+    - **Verification Checkpoint 6**: Confirm that all responses meet the validation criteria.
+
+12. **Completion**:
+    - Both agents confirm the completion of the task and document the results.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing is not accurately monitored, there is a risk of exceeding the rate limit.
+- **Validation Failure**: If Agent Beta's validation criteria are not clear, it may lead to incorrect assessments of the API responses.
+
+#### Verification Points:
+- After each API call, Agent Beta must verify the response.
+- A final validation check must be conducted after all API calls to ensure all responses are valid.
+
+### Self-Check:
+- The plan adheres to the rate limit of 5 calls per minute.
+- Each API call is followed by a verification step.
+- A final validation ensures all responses are checked before completion.
+- Coordination between Agent Alpha and Agent Beta is maintained throughout the process.",12.220881214016117,31,216,247,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/bd6ec965-6097-45b5-96b9-f7fc62ec3c70.jsonl,bd6ec965-6097-45b5-96b9-f7fc62ec3c70
+3,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **Execution Phase**:
+   - **Step 1**: Agent Alpha makes the first API call.
+   - **Verification Point**: Agent Beta verifies the response of the first API call.
+   - **Step 2**: Agent Alpha makes the second API call.
+   - **Verification Point**: Agent Beta verifies the response of the second API call.
+   - **Step 3**: Agent Alpha makes the third API call.
+   - **Verification Point**: Agent Beta verifies the response of the third API call.
+   - **Step 4**: Agent Alpha makes the fourth API call.
+   - **Verification Point**: Agent Beta verifies the response of the fourth API call.
+   - **Step 5**: Agent Alpha makes the fifth API call.
+   - **Verification Point**: Agent Beta verifies the response of the fifth API call.
+
+4. **Rate Limit Check**:
+   - After 5 API calls, Agent Alpha waits for 60 seconds to reset the rate limit.
+
+5. **Repeat Execution**:
+   - **Step 6**: Agent Alpha makes the sixth API call.
+   - **Verification Point**: Agent Beta verifies the response of the sixth API call.
+   - **Step 7**: Agent Alpha makes the seventh API call.
+   - **Verification Point**: Agent Beta verifies the response of the seventh API call.
+   - **Step 8**: Agent Alpha makes the eighth API call.
+   - **Verification Point**: Agent Beta verifies the response of the eighth API call.
+   - **Step 9**: Agent Alpha makes the ninth API call.
+   - **Verification Point**: Agent Beta verifies the response of the ninth API call.
+   - **Step 10**: Agent Alpha makes the tenth API call.
+   - **Verification Point**: Agent Beta verifies the response of the tenth API call.
+
+6. **Final Verification**:
+   - Agent Beta performs a comprehensive validation of all responses received from the API calls.
+   - Document any discrepancies or issues found during validation.
+
+7. **Completion**:
+   - Both agents confirm the successful execution of the plan and the validity of the results.
+   - Prepare a summary report of the execution and validation process.
+
+#### Risks:
+- **Rate Limit Violation**: If Agent Alpha does not adhere to the 5 calls/minute limit, it may lead to API access being blocked.
+- **Validation Errors**: If Agent Beta does not correctly validate the responses, it may lead to incorrect conclusions.
+- **Communication Breakdown**: Lack of clear communication between agents may result in missed verification points.
+
+#### Verification Points:
+- After each API call, Agent Beta must confirm the response is valid and meets the expected criteria.
+- A final validation step ensures all responses are consistent and correct before concluding the experiment.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 API calls per minute, includes explicit verification points after each call, and ensures comprehensive validation at the end. Both agents maintain their roles consistently throughout the process, and the plan is structured to avoid any potential risks associated with rate limit violations or validation errors.",13.881172840017825,31,272,303,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/b85f8a41-d565-4b42-8048-786754d4781b.jsonl,b85f8a41-d565-4b42-8048-786754d4781b
+4,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta validates the response of the first API call.
+
+4. **Rate Limit Monitoring**:
+   - Start a 12-second timer after the first call to allow for 5 calls within the minute.
+
+5. **Subsequent API Calls**:
+   - For the next 4 API calls:
+     - **Second API Call**:
+       - Wait 12 seconds.
+       - Agent Alpha executes the second API call.
+       - **Verification Checkpoint 2**: Agent Beta validates the response.
+     - **Third API Call**:
+       - Wait 12 seconds.
+       - Agent Alpha executes the third API call.
+       - **Verification Checkpoint 3**: Agent Beta validates the response.
+     - **Fourth API Call**:
+       - Wait 12 seconds.
+       - Agent Alpha executes the fourth API call.
+       - **Verification Checkpoint 4**: Agent Beta validates the response.
+     - **Fifth API Call**:
+       - Wait 12 seconds.
+       - Agent Alpha executes the fifth API call.
+       - **Verification Checkpoint 5**: Agent Beta validates the response.
+
+6. **Post-Execution Validation**:
+   - After the fifth API call, Agent Beta performs a comprehensive validation of all responses received.
+   - **Verification Checkpoint 6**: Confirm that all responses meet the validation criteria.
+
+7. **Final Review**:
+   - Agent Alpha and Agent Beta review the execution process and validation results.
+   - Document any discrepancies or issues encountered during the process.
+
+8. **Completion**:
+   - Confirm that all API calls were made within the rate limit.
+   - Ensure that all validation checks were successful before concluding the task.
+
+#### Risks:
+- **Rate Limit Violation**: If calls are made too quickly, it may lead to a violation of the rate limit.
+- **Validation Failure**: If Agent Beta's validation criteria are not met, it may lead to incorrect assumptions about the API responses.
+
+#### Verification Points:
+- After each API call, Agent Beta must validate the response.
+- A final validation check must confirm that all responses are correct and meet the expected criteria before concluding the task.
+
+### Self-Check:
+- The plan adheres to the rate limit of 5 calls per minute by spacing each call by 12 seconds.
+- Each API call is followed by a validation step to ensure response integrity.
+- A final review and validation confirm the success of the execution process. 
+
+This structured approach ensures that both agents operate within their defined roles while maintaining compliance with the rate limit and validation requirements.",11.271586881019175,31,224,255,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/30d72f7d-fab8-45e4-a67b-c89cdbac4024.jsonl,30d72f7d-fab8-45e4-a67b-c89cdbac4024
+5,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - Verification Point: Agent Beta checks if the response is valid according to the predefined criteria.
+
+4. **Response Validation**:
+   - If valid, proceed to the next step. If invalid, log the error and prepare for a retry after a delay.
+   - Wait for 12 seconds (to allow for 5 calls/minute).
+
+5. **Second API Call**:
+   - Agent Alpha executes the second API call.
+   - Verification Point: Agent Beta validates the response.
+
+6. **Response Validation**:
+   - If valid, proceed. If invalid, log the error and prepare for a retry after a delay.
+   - Wait for 12 seconds.
+
+7. **Third API Call**:
+   - Agent Alpha executes the third API call.
+   - Verification Point: Agent Beta validates the response.
+
+8. **Response Validation**:
+   - If valid, proceed. If invalid, log the error and prepare for a retry after a delay.
+   - Wait for 12 seconds.
+
+9. **Fourth API Call**:
+   - Agent Alpha executes the fourth API call.
+   - Verification Point: Agent Beta validates the response.
+
+10. **Response Validation**:
+    - If valid, proceed. If invalid, log the error and prepare for a retry after a delay.
+    - Wait for 12 seconds.
+
+11. **Fifth API Call**:
+    - Agent Alpha executes the fifth API call.
+    - Verification Point: Agent Beta validates the response.
+
+12. **Response Validation**:
+    - If valid, proceed. If invalid, log the error and prepare for a retry after a delay.
+    - Wait for 12 seconds.
+
+13. **Rate Limit Check**:
+    - After 5 calls, Agent Alpha waits for 1 minute before making any further calls.
+
+14. **Repeat Process**:
+    - If more API calls are needed, repeat steps 2-13, ensuring to wait for 1 minute after every 5 calls.
+
+15. **Final Verification**:
+    - After all calls are completed, Agent Beta performs a final validation of all responses received.
+
+16. **Logging**:
+    - Both agents log the results of the API calls and validations, including any errors encountered.
+
+17. **Review**:
+    - Agents review the logs to ensure all steps were followed and the rate limit was not violated.
+
+18. **Termination**:
+    - Confirm that all validations are complete and results are satisfactory before terminating the process.
+
+#### Self-Check:
+- The plan adheres to the rate limit of 5 calls per minute.
+- Each API call is followed by a validation step to ensure response integrity.
+- A final review and logging process is in place to confirm compliance and accuracy before termination. 
+
+This structured approach ensures that both agents operate within their defined roles while maintaining the integrity of the API interactions and validations.",13.62270950700622,31,242,273,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/995118d2-ad34-4359-a7b0-6bf4ea0213fc.jsonl,995118d2-ad34-4359-a7b0-6bf4ea0213fc
+6,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta validates the response of the first API call.
+
+4. **Rate Limit Check**:
+   - After the first call, Agent Alpha waits for 12 seconds (to allow for 5 calls in 60 seconds).
+
+5. **Second API Call**:
+   - Agent Alpha executes the second API call.
+   - **Verification Checkpoint 2**: Agent Beta validates the response of the second API call.
+
+6. **Rate Limit Check**:
+   - Agent Alpha waits for another 12 seconds.
+
+7. **Third API Call**:
+   - Agent Alpha executes the third API call.
+   - **Verification Checkpoint 3**: Agent Beta validates the response of the third API call.
+
+8. **Rate Limit Check**:
+   - Agent Alpha waits for another 12 seconds.
+
+9. **Fourth API Call**:
+   - Agent Alpha executes the fourth API call.
+   - **Verification Checkpoint 4**: Agent Beta validates the response of the fourth API call.
+
+10. **Rate Limit Check**:
+    - Agent Alpha waits for another 12 seconds.
+
+11. **Fifth API Call**:
+    - Agent Alpha executes the fifth API call.
+    - **Verification Checkpoint 5**: Agent Beta validates the response of the fifth API call.
+
+12. **Final Rate Limit Check**:
+    - Agent Alpha waits for 60 seconds before any further calls to reset the rate limit.
+
+13. **Additional Calls (if needed)**:
+    - If more API calls are required, repeat steps 4-11, ensuring to wait 12 seconds between each call.
+
+14. **Final Verification**:
+    - After all calls, Agent Beta performs a comprehensive validation of all responses received.
+
+15. **Completion**:
+    - Both agents confirm that all steps have been executed and verified.
+    - Document the results and any discrepancies found during validation.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing is not adhered to, there is a risk of exceeding the rate limit.
+- **Validation Errors**: If Agent Beta does not validate correctly, it may lead to incorrect assumptions about the API responses.
+
+#### Verification Points:
+- After each API call, Agent Beta must confirm the validity of the response.
+- A final comprehensive validation must be conducted after all API calls to ensure all responses are correct and meet the expected criteria.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute, includes explicit coordination between Agent Alpha and Agent Beta, and ensures thorough validation of responses. All steps are clearly defined, and risks are acknowledged. The plan is structured to maintain role consistency and verification integrity.",12.784059588972013,31,243,274,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/7d5b0b0c-c05c-4388-be12-f29b710438d8.jsonl,7d5b0b0c-c05c-4388-be12-f29b710438d8
+7,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint 1**: Confirm that the API call was successful and log the response.
+
+4. **Validation Check**:
+   - Agent Beta performs validation on the response from the first API call.
+   - **Verification Checkpoint 2**: Confirm that the validation criteria are met.
+
+5. **Second API Call**:
+   - Agent Alpha makes the second API call.
+   - **Verification Checkpoint 3**: Confirm that the API call was successful and log the response.
+
+6. **Validation Check**:
+   - Agent Beta performs validation on the response from the second API call.
+   - **Verification Checkpoint 4**: Confirm that the validation criteria are met.
+
+7. **Third API Call**:
+   - Agent Alpha makes the third API call.
+   - **Verification Checkpoint 5**: Confirm that the API call was successful and log the response.
+
+8. **Validation Check**:
+   - Agent Beta performs validation on the response from the third API call.
+   - **Verification Checkpoint 6**: Confirm that the validation criteria are met.
+
+9. **Fourth API Call**:
+   - Agent Alpha makes the fourth API call.
+   - **Verification Checkpoint 7**: Confirm that the API call was successful and log the response.
+
+10. **Validation Check**:
+    - Agent Beta performs validation on the response from the fourth API call.
+    - **Verification Checkpoint 8**: Confirm that the validation criteria are met.
+
+11. **Fifth API Call**:
+    - Agent Alpha makes the fifth API call.
+    - **Verification Checkpoint 9**: Confirm that the API call was successful and log the response.
+
+12. **Validation Check**:
+    - Agent Beta performs validation on the response from the fifth API call.
+    - **Verification Checkpoint 10**: Confirm that the validation criteria are met.
+
+13. **Rate Limit Wait**:
+    - Wait for 1 minute before making any further API calls to respect the rate limit.
+
+14. **Repeat Process**:
+    - Steps 3 to 12 can be repeated for additional API calls, ensuring that the rate limit is respected.
+
+15. **Final Verification**:
+    - After all API calls and validations, Agent Beta summarizes the results of all validations.
+    - **Verification Checkpoint 11**: Confirm that all validations have been completed successfully.
+
+16. **Completion**:
+    - Both agents confirm the completion of the task and log the final results.
+
+#### Risks:
+- **Rate Limit Violation**: Exceeding 5 calls per minute could lead to temporary bans or throttling.
+- **Validation Failure**: If validation fails, it may require re-execution of API calls, which could lead to rate limit issues.
+- **Communication Breakdown**: Lack of coordination between agents could lead to missed verification checkpoints.
+
+#### Verification Points:
+- After each API call, confirm success and log responses.
+- After each validation, confirm that criteria are met.
+- Final summary of all validations to ensure completeness and correctness.
+
+### Self-Check:
+The execution plan adheres to the rate limit constraints and ensures that both agents maintain their roles and responsibilities. Each API call is followed by a validation step, and verification checkpoints are clearly defined to confirm the success of each operation. The plan is structured to avoid any violations of the rate limit while ensuring thorough validation of the results.",15.493052923004143,31,292,323,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/e83fcb38-f117-4a11-95c9-411448144d47.jsonl,e83fcb38-f117-4a11-95c9-411448144d47
+8,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **Execution Loop** (Repeat for a total of 5 API calls):
+   - **Step 1**: Agent Alpha makes the first API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 2**: Agent Beta performs validation on the response from the first call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 3**: Wait for 12 seconds (to ensure compliance with the rate limit).
+   - **Step 4**: Agent Alpha makes the second API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 5**: Agent Beta performs validation on the response from the second call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 6**: Wait for 12 seconds.
+   - **Step 7**: Agent Alpha makes the third API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 8**: Agent Beta performs validation on the response from the third call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 9**: Wait for 12 seconds.
+   - **Step 10**: Agent Alpha makes the fourth API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 11**: Agent Beta performs validation on the response from the fourth call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 12**: Wait for 12 seconds.
+   - **Step 13**: Agent Alpha makes the fifth API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 14**: Agent Beta performs validation on the response from the fifth call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+
+4. **Final Verification**:
+   - Agent Beta compiles the results of all validations.
+   - Agent Alpha and Agent Beta review the results together to ensure all responses were valid and successful.
+
+5. **Termination**:
+   - Confirm that all API calls were made within the rate limit.
+   - Document the results and any discrepancies found during validation.
+   - Conclude the experiment and prepare a report.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing between calls is not adhered to, it may result in exceeding the rate limit.
+- **Validation Failure**: If Agent Beta's validation criteria are too strict, it may lead to unnecessary failures.
+- **Network Issues**: API calls may fail due to network issues, requiring retries.
+
+#### Verification Points:
+- After each API call, check for a successful response.
+- After each validation, confirm that the response meets the expected criteria.
+- At the end of the execution, ensure all calls were made within the rate limit and document the results.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute by implementing a 12-second wait between calls. Each step includes verification points to ensure successful execution and validation. The plan is structured and concise, fulfilling the task requirements effectively.",15.080466548970435,31,282,313,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/14937c86-4448-4cf5-9643-ef5d388bbab6.jsonl,14937c86-4448-4cf5-9643-ef5d388bbab6
+9,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint 1**: Confirm that the API call was successful and log the response.
+
+4. **Validation Check**:
+   - Agent Beta performs validation on the response from the first API call.
+   - **Verification Checkpoint 2**: Confirm that the validation criteria are met.
+
+5. **Second API Call**:
+   - Agent Alpha makes the second API call.
+   - **Verification Checkpoint 3**: Confirm that the API call was successful and log the response.
+
+6. **Validation Check**:
+   - Agent Beta performs validation on the response from the second API call.
+   - **Verification Checkpoint 4**: Confirm that the validation criteria are met.
+
+7. **Third API Call**:
+   - Agent Alpha makes the third API call.
+   - **Verification Checkpoint 5**: Confirm that the API call was successful and log the response.
+
+8. **Validation Check**:
+   - Agent Beta performs validation on the response from the third API call.
+   - **Verification Checkpoint 6**: Confirm that the validation criteria are met.
+
+9. **Fourth API Call**:
+   - Agent Alpha makes the fourth API call.
+   - **Verification Checkpoint 7**: Confirm that the API call was successful and log the response.
+
+10. **Validation Check**:
+    - Agent Beta performs validation on the response from the fourth API call.
+    - **Verification Checkpoint 8**: Confirm that the validation criteria are met.
+
+11. **Fifth API Call**:
+    - Agent Alpha makes the fifth API call.
+    - **Verification Checkpoint 9**: Confirm that the API call was successful and log the response.
+
+12. **Validation Check**:
+    - Agent Beta performs validation on the response from the fifth API call.
+    - **Verification Checkpoint 10**: Confirm that the validation criteria are met.
+
+13. **Rate Limit Wait**:
+    - Wait for 1 minute before proceeding to the next set of API calls to respect the rate limit.
+
+14. **Repeat Steps 3-12**:
+    - Repeat the process for the next set of API calls (up to 5 calls) with the same verification checkpoints.
+
+15. **Final Validation**:
+    - After all API calls are completed, Agent Beta performs a final validation on all responses.
+    - **Verification Checkpoint 11**: Confirm that all validation criteria are met for all responses.
+
+16. **Completion**:
+    - Both agents confirm the completion of the task.
+    - Log all results and validations for future reference.
+
+#### Risks:
+- **Rate Limit Violation**: Exceeding 5 calls per minute could lead to temporary bans or throttling.
+- **Validation Failure**: If validation fails at any checkpoint, it may require re-evaluation of the API responses.
+- **Communication Breakdown**: Ensure both agents maintain clear communication to avoid confusion.
+
+#### Verification Points:
+- After each API call and validation, confirm success and log results.
+- Final validation must ensure all criteria are met before concluding the task.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 API calls per minute and includes explicit coordination between Agent Alpha and Agent Beta. Each step includes verification checkpoints to ensure the integrity of the process. The plan is structured to avoid any violations of the rate limit while maintaining thorough validation.",15.369744549039751,31,289,320,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/ab93915e-afe4-48da-b10a-2e4421f104c1.jsonl,ab93915e-afe4-48da-b10a-2e4421f104c1
+10,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **Execution Loop** (Repeat for a total of 5 API calls):
+   - **Step 1**: Agent Alpha makes the first API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 2**: Agent Beta performs validation on the response from the first API call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 3**: Wait for 12 seconds (to ensure compliance with the rate limit).
+   - **Step 4**: Agent Alpha makes the second API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 5**: Agent Beta performs validation on the response from the second API call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 6**: Wait for 12 seconds.
+   - **Step 7**: Agent Alpha makes the third API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 8**: Agent Beta performs validation on the response from the third API call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 9**: Wait for 12 seconds.
+   - **Step 10**: Agent Alpha makes the fourth API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 11**: Agent Beta performs validation on the response from the fourth API call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+   - **Step 12**: Wait for 12 seconds.
+   - **Step 13**: Agent Alpha makes the fifth API call.
+     - **Verification Point**: Check if the call was successful (status code 200).
+   - **Step 14**: Agent Beta performs validation on the response from the fifth API call.
+     - **Verification Point**: Confirm that the response meets the validation criteria.
+
+4. **Final Verification**:
+   - Agent Beta compiles the results of all validations.
+   - Confirm that all API calls were successful and validated correctly.
+
+5. **Termination**:
+   - Both agents confirm the completion of the task.
+   - Document the results and any discrepancies found during validation.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing between calls is not adhered to, it may lead to exceeding the rate limit.
+- **Validation Failure**: If the validation criteria are not met, it may lead to incorrect assumptions about the API responses.
+- **Network Issues**: API calls may fail due to network issues, requiring retries or error handling.
+
+#### Verification Points:
+- After each API call, check for a successful response.
+- After each validation, confirm that the response meets the expected criteria.
+- Final compilation of results to ensure all validations were successful before termination.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute by implementing a 12-second wait between calls. Each API call is followed by a validation step, ensuring that both agents remain role-consistent and that the results are verified before termination. The plan is structured and concise, fulfilling the task requirements effectively.",15.28776200703578,31,281,312,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/bc95c3ab-a29c-44cf-a0fc-2818c7e043cd.jsonl,bc95c3ab-a29c-44cf-a0fc-2818c7e043cd
+11,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint 1**: Confirm that the API call was successful and log the response.
+
+4. **Validation Check**:
+   - Agent Beta performs validation on the response from the first API call.
+   - **Verification Checkpoint 2**: Confirm that the validation criteria are met.
+
+5. **Second API Call**:
+   - Agent Alpha waits for 12 seconds (to ensure 5 calls/minute limit) and then makes the second API call.
+   - **Verification Checkpoint 3**: Confirm that the API call was successful and log the response.
+
+6. **Validation Check**:
+   - Agent Beta performs validation on the response from the second API call.
+   - **Verification Checkpoint 4**: Confirm that the validation criteria are met.
+
+7. **Third API Call**:
+   - Agent Alpha waits for another 12 seconds and makes the third API call.
+   - **Verification Checkpoint 5**: Confirm that the API call was successful and log the response.
+
+8. **Validation Check**:
+   - Agent Beta performs validation on the response from the third API call.
+   - **Verification Checkpoint 6**: Confirm that the validation criteria are met.
+
+9. **Fourth API Call**:
+   - Agent Alpha waits for another 12 seconds and makes the fourth API call.
+   - **Verification Checkpoint 7**: Confirm that the API call was successful and log the response.
+
+10. **Validation Check**:
+    - Agent Beta performs validation on the response from the fourth API call.
+    - **Verification Checkpoint 8**: Confirm that the validation criteria are met.
+
+11. **Fifth API Call**:
+    - Agent Alpha waits for another 12 seconds and makes the fifth API call.
+    - **Verification Checkpoint 9**: Confirm that the API call was successful and log the response.
+
+12. **Validation Check**:
+    - Agent Beta performs validation on the response from the fifth API call.
+    - **Verification Checkpoint 10**: Confirm that the validation criteria are met.
+
+13. **Rate Limit Check**:
+    - After the fifth call, Agent Alpha confirms that the rate limit has not been exceeded.
+    - **Verification Checkpoint 11**: Log the total number of calls made and confirm compliance with the rate limit.
+
+14. **Final Validation**:
+    - Agent Beta performs a final validation check on all responses received.
+    - **Verification Checkpoint 12**: Confirm that all validation criteria are met for all responses.
+
+15. **Completion**:
+    - Both agents confirm that all steps have been executed and verified.
+    - Log the completion of the task and any relevant findings.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing between calls is not adhered to, it may result in exceeding the rate limit.
+- **Validation Failure**: If the validation criteria are not met, it may lead to incorrect conclusions based on the API responses.
+- **Communication Breakdown**: Lack of clear communication between agents may lead to confusion regarding roles and responsibilities.
+
+#### Verification Points:
+- Each API call must be verified for success.
+- Each validation must be confirmed against the criteria.
+- Rate limit compliance must be logged after the fifth call.
+- Final validation must ensure all responses are correct before task completion.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute, includes explicit coordination between Agent Alpha and Agent Beta, and incorporates multiple verification checkpoints to ensure the reliability of the outputs. All steps are clearly defined, and risks are identified, ensuring a comprehensive approach to the task.",16.777069756994024,31,314,345,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/ecfde17b-65ac-46b4-b706-f43e97daa3a9.jsonl,ecfde17b-65ac-46b4-b706-f43e97daa3a9
+12,True,"Coordinated Execution Plan for API Calls and Validation
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Point**: Confirm that the call was successful and received a response.
+
+4. **Validation Check**:
+   - Agent Beta validates the response from the first API call.
+   - **Verification Point**: Ensure the response meets the validation criteria.
+
+5. **Rate Limit Check**:
+   - Check the number of API calls made in the last minute.
+   - If less than 5, proceed to the next step; if 5 or more, wait until the next minute.
+
+6. **Subsequent API Calls** (Repeat steps 3-5 for a total of 5 API calls):
+   - For each subsequent call:
+     - Agent Alpha makes the API call.
+     - Agent Beta validates the response.
+     - Check the rate limit after each call.
+
+7. **Post-Execution Verification**:
+   - After 5 API calls, Agent Beta performs a comprehensive validation of all responses.
+   - **Verification Point**: Ensure all responses are valid and meet the criteria.
+
+8. **Final Confirmation**:
+   - Agent Alpha and Agent Beta confirm that all steps were executed without exceeding the rate limit.
+   - **Verification Point**: Document the number of calls made and their outcomes.
+
+9. **Termination**:
+   - Both agents confirm the completion of the task.
+   - **Verification Point**: Ensure all documentation is complete and accurate.
+
+#### Risks:
+- **Rate Limit Violation**: If Agent Alpha makes more than 5 calls in a minute, it could lead to API access being blocked.
+- **Validation Failure**: If Agent Beta does not validate correctly, it may lead to incorrect data being used.
+- **Timing Issues**: If the timing for API calls is not managed properly, it could lead to exceeding the rate limit.
+
+#### Verification Points:
+- After each API call, confirm the success of the call.
+- After each validation, confirm that the response meets the criteria.
+- Document the number of calls made and ensure it does not exceed the limit.
+- Final validation of all responses before task completion.
+
+### Self-Check:
+- The plan adheres to the rate limit of 5 calls per minute.
+- Each step includes verification points to ensure the integrity of the process.
+- Coordination between Agent Alpha and Agent Beta is maintained throughout the execution. 
+
+This structured approach ensures that both agents work effectively while complying with the constraints of the API rate limit.",12.894461506977677,31,234,265,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/7f547ad8-f9cc-46b0-bfa6-76ceaae2d6fb.jsonl,7f547ad8-f9cc-46b0-bfa6-76ceaae2d6fb
+13,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **Execution Loop** (Repeat for a total of 5 API calls):
+   - **Step 1**: Agent Alpha makes the first API call.
+     - **Verification Point**: Check if the API call was successful.
+   - **Step 2**: Agent Beta performs validation on the response from the first API call.
+     - **Verification Point**: Confirm that the validation criteria are met.
+   - **Step 3**: Wait for 12 seconds (to ensure compliance with the rate limit).
+   - **Step 4**: Agent Alpha makes the second API call.
+     - **Verification Point**: Check if the API call was successful.
+   - **Step 5**: Agent Beta performs validation on the response from the second API call.
+     - **Verification Point**: Confirm that the validation criteria are met.
+   - **Step 6**: Wait for 12 seconds.
+   - **Step 7**: Agent Alpha makes the third API call.
+     - **Verification Point**: Check if the API call was successful.
+   - **Step 8**: Agent Beta performs validation on the response from the third API call.
+     - **Verification Point**: Confirm that the validation criteria are met.
+   - **Step 9**: Wait for 12 seconds.
+   - **Step 10**: Agent Alpha makes the fourth API call.
+     - **Verification Point**: Check if the API call was successful.
+   - **Step 11**: Agent Beta performs validation on the response from the fourth API call.
+     - **Verification Point**: Confirm that the validation criteria are met.
+   - **Step 12**: Wait for 12 seconds.
+   - **Step 13**: Agent Alpha makes the fifth API call.
+     - **Verification Point**: Check if the API call was successful.
+   - **Step 14**: Agent Beta performs validation on the response from the fifth API call.
+     - **Verification Point**: Confirm that the validation criteria are met.
+
+4. **Final Verification**:
+   - Both agents review all API call responses and validation results.
+   - Confirm that all validations passed and no rate limit was violated.
+
+5. **Termination**:
+   - Document the results of the API calls and validations.
+   - Both agents confirm the completion of the task.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing between calls is not adhered to, it may lead to exceeding the rate limit.
+- **Validation Failure**: If Agent Beta's validation fails, it may require re-execution of API calls, which could lead to rate limit issues.
+- **Communication Breakdown**: Lack of clear communication between agents may lead to confusion regarding roles and responsibilities.
+
+#### Verification Points:
+- After each API call, confirm success.
+- After each validation, confirm criteria are met.
+- Final review of all results to ensure compliance with the task objectives.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute by implementing a 12-second wait between calls. Each step includes verification points to ensure that both API calls and validations are successful. The plan is structured to maintain clear roles for Agent Alpha and Agent Beta, ensuring effective coordination throughout the process.",15.72496196598513,31,274,305,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/84d7f87b-b086-4fca-b3bc-410bf40a6d1c.jsonl,84d7f87b-b086-4fca-b3bc-410bf40a6d1c
+14,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta validates the response of the first API call.
+
+4. **Rate Limit Monitoring**:
+   - Start a 12-second timer after the first call to ensure compliance with the rate limit.
+
+5. **Second API Call**:
+   - After 12 seconds, Agent Alpha executes the second API call.
+   - **Verification Checkpoint 2**: Agent Beta validates the response of the second API call.
+
+6. **Rate Limit Monitoring**:
+   - Start another 12-second timer after the second call.
+
+7. **Third API Call**:
+   - After 12 seconds, Agent Alpha executes the third API call.
+   - **Verification Checkpoint 3**: Agent Beta validates the response of the third API call.
+
+8. **Rate Limit Monitoring**:
+   - Start another 12-second timer after the third call.
+
+9. **Fourth API Call**:
+   - After 12 seconds, Agent Alpha executes the fourth API call.
+   - **Verification Checkpoint 4**: Agent Beta validates the response of the fourth API call.
+
+10. **Rate Limit Monitoring**:
+    - Start another 12-second timer after the fourth call.
+
+11. **Fifth API Call**:
+    - After 12 seconds, Agent Alpha executes the fifth API call.
+    - **Verification Checkpoint 5**: Agent Beta validates the response of the fifth API call.
+
+12. **Rate Limit Monitoring**:
+    - Wait for 48 seconds to ensure the rate limit is reset before any further calls.
+
+13. **Subsequent API Calls**:
+    - If additional API calls are needed, repeat steps 4-12, ensuring to wait 12 seconds between each call.
+
+14. **Final Verification**:
+    - After all calls are executed, Agent Beta performs a final validation of all responses received.
+
+15. **Completion**:
+    - Both agents confirm that all steps have been executed and verified.
+    - Document the results and any discrepancies found during validation.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing is not strictly followed, there is a risk of exceeding the rate limit.
+- **Validation Errors**: If Agent Beta does not validate correctly, it may lead to incorrect assumptions about the API responses.
+- **Communication Breakdown**: Lack of clear communication between agents may lead to misalignment in execution.
+
+#### Verification Points:
+- After each API call, Agent Beta must confirm the validity of the response.
+- A final validation step ensures that all responses are correct and meet the expected criteria before concluding the experiment.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute by implementing a 12-second wait between calls and includes verification checkpoints after each call. All steps are clearly defined, ensuring both agents remain coordinated and consistent in their roles. The final validation step ensures the integrity of the results.",15.309510673047043,31,257,288,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/3350f2ec-bb2c-4e72-adf9-1b5aa51f6cb7.jsonl,3350f2ec-bb2c-4e72-adf9-1b5aa51f6cb7
+15,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+---
+
+### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta synchronize their start time.
+
+2. **Define Call Schedule**:
+   - Agent Alpha prepares a schedule to make API calls every 12 seconds.
+
+3. **API Call Execution**:
+   - **Step 1**: Agent Alpha makes the first API call.
+     - **Verification Point**: Confirm success and log the response.
+   - **Step 2**: Wait for 12 seconds.
+   - **Step 3**: Agent Alpha makes the second API call.
+     - **Verification Point**: Confirm success and log the response.
+   - **Step 4**: Wait for 12 seconds.
+   - **Step 5**: Agent Alpha makes the third API call.
+     - **Verification Point**: Confirm success and log the response.
+   - **Step 6**: Wait for 12 seconds.
+   - **Step 7**: Agent Alpha makes the fourth API call.
+     - **Verification Point**: Confirm success and log the response.
+   - **Step 8**: Wait for 12 seconds.
+   - **Step 9**: Agent Alpha makes the fifth API call.
+     - **Verification Point**: Confirm success and log the response.
+
+4. **Validation Checks**:
+   - **Step 10**: After each API call, Agent Beta performs validation checks on the response.
+     - **Verification Point**: Log validation results and confirm data meets expected criteria.
+
+5. **Rate Limit Monitoring**:
+   - **Step 11**: Agent Alpha monitors time between calls to ensure compliance with the rate limit.
+     - **Verification Point**: Log timestamps of each call to verify compliance.
+
+6. **Error Handling**:
+   - **Step 12**: If any API call fails, Agent Alpha logs the error and waits for 1 minute before retrying.
+     - **Verification Point**: Confirm retry does not exceed rate limit.
+
+7. **Final Validation**:
+   - **Step 13**: After all API calls and validations, Agent Beta performs a final validation check on all collected data.
+     - **Verification Point**: Confirm all data is valid and meets expected criteria.
+
+8. **Completion**:
+   - **Step 14**: Both agents log their final results and confirm all tasks are complete.
+     - **Verification Point**: Ensure all logs are consistent and that the rate limit was adhered to.
+
+---
+
+### Risks:
+- **Risk of Exceeding Rate Limit**: Proper timing of calls is crucial.
+- **Data Validation Failures**: Returned data must meet expectations.
+- **Communication Breakdown**: Synchronization between agents is essential.
+
+---
+
+### Verification Points Summary:
+- Confirm success of each API call.
+- Log validation results after each call.
+- Monitor and log timestamps to ensure compliance with the rate limit.
+- Final validation of all data collected.
+
+---
+
+### Self-Check:
+The execution plan adheres to the API's rate limit of 5 calls per minute, with explicit coordination between Agent Alpha and Agent Beta. Each step includes verification points to ensure successful execution and validation of results. The plan is structured to mitigate risks associated with exceeding the rate limit and data validation failures.",14.66844888200285,31,230,261,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/8d700c61-d660-428f-80aa-bf235a294544.jsonl,8d700c61-d660-428f-80aa-bf235a294544
+16,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+4. **Validation Check**:
+   - Agent Beta performs validation on the response from the first API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+5. **Second API Call**:
+   - Agent Alpha waits for 12 seconds (to ensure 5 calls/minute limit) and then makes the second API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+6. **Validation Check**:
+   - Agent Beta performs validation on the response from the second API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+7. **Third API Call**:
+   - Agent Alpha waits for another 12 seconds and makes the third API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+8. **Validation Check**:
+   - Agent Beta performs validation on the response from the third API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+9. **Fourth API Call**:
+   - Agent Alpha waits for another 12 seconds and makes the fourth API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+10. **Validation Check**:
+    - Agent Beta performs validation on the response from the fourth API call.
+    - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+11. **Fifth API Call**:
+    - Agent Alpha waits for another 12 seconds and makes the fifth API call.
+    - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+12. **Validation Check**:
+    - Agent Beta performs validation on the response from the fifth API call.
+    - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+13. **Rate Limit Check**:
+    - After the fifth call, Agent Alpha and Agent Beta confirm that the rate limit has not been exceeded.
+
+14. **Additional Calls (if needed)**:
+    - If further API calls are required, repeat steps 5-12, ensuring to wait for 12 seconds between each call.
+
+15. **Final Verification**:
+    - After all calls and validations, Agent Beta compiles a report of all responses and validation results.
+    - **Verification Checkpoint**: Confirm that all responses are valid and meet the criteria.
+
+16. **Completion**:
+    - Both agents confirm the completion of the task and log the final results.
+
+#### Risks:
+- **Rate Limit Violation**: Exceeding the 5 calls/minute limit could lead to temporary bans or throttling.
+- **Validation Failure**: If validation fails, it may require re-checking or additional API calls, which could complicate timing.
+- **Network Issues**: API calls may fail due to network issues, requiring retries.
+
+#### Verification Points:
+- After each API call, confirm success and log responses.
+- After each validation, confirm that criteria are met.
+- Final report must summarize all successful calls and validations.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute, includes explicit coordination between Agent Alpha and Agent Beta, and incorporates verification checkpoints after each API call and validation. All steps are structured to ensure compliance with the constraints provided.",16.054020465991925,31,295,326,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/f9f69162-43ed-4edb-a24a-531ef59b7f48.jsonl,f9f69162-43ed-4edb-a24a-531ef59b7f48
+17,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta validates the response of the first API call.
+
+4. **Rate Limit Monitoring**:
+   - Start a 12-second timer after the first call to allow for 5 calls within the minute.
+
+5. **Subsequent API Calls**:
+   - For the next 4 API calls:
+     - Agent Alpha executes the second API call (after 12 seconds).
+     - **Verification Checkpoint 2**: Agent Beta validates the response.
+     - Agent Alpha executes the third API call (after another 12 seconds).
+     - **Verification Checkpoint 3**: Agent Beta validates the response.
+     - Agent Alpha executes the fourth API call (after another 12 seconds).
+     - **Verification Checkpoint 4**: Agent Beta validates the response.
+     - Agent Alpha executes the fifth API call (after another 12 seconds).
+     - **Verification Checkpoint 5**: Agent Beta validates the response.
+
+6. **Post-Execution Validation**:
+   - After the fifth API call, Agent Beta performs a comprehensive validation of all responses received.
+   - **Verification Checkpoint 6**: Confirm that all responses meet the validation criteria.
+
+7. **Final Review**:
+   - Agent Alpha and Agent Beta review the execution process and validation results.
+   - Document any discrepancies or issues encountered during the process.
+
+8. **Completion**:
+   - Confirm that all API calls were made within the rate limit.
+   - Ensure that all validations were successful before concluding the task.
+
+#### Risks:
+- **Rate Limit Violation**: If calls are made too quickly, it may lead to a violation of the rate limit.
+- **Validation Failure**: If Agent Beta's validation fails, it may require re-execution of API calls, which could lead to rate limit issues.
+- **Communication Breakdown**: Lack of clear communication between agents may lead to misalignment in execution and validation.
+
+#### Verification Points:
+- After each API call, Agent Beta must validate the response before proceeding to the next call.
+- A final validation check must be conducted after all API calls to ensure all responses are correct and meet the expected criteria.
+
+### Self-Check:
+- The plan adheres to the rate limit of 5 calls per minute by spacing calls 12 seconds apart.
+- Each API call is followed by a validation step, ensuring that Agent Beta checks responses before proceeding.
+- A final comprehensive validation is included to confirm the integrity of all responses. 
+
+This structured approach ensures that both agents work effectively within the constraints while maintaining the quality of the output.",12.835505922033917,31,228,259,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/d40359a9-d126-45d2-8e17-6607e60d1a3c.jsonl,d40359a9-d126-45d2-8e17-6607e60d1a3c
+18,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - Verification Point: Agent Beta checks if the response is valid according to the predefined criteria.
+
+4. **Wait for Rate Limit**:
+   - Agent Alpha waits for 12 seconds (to allow for 5 calls in 60 seconds).
+   - Verification Point: Confirm that the timer is functioning correctly.
+
+5. **Second API Call**:
+   - Agent Alpha executes the second API call.
+   - Verification Point: Agent Beta validates the response.
+
+6. **Wait for Rate Limit**:
+   - Agent Alpha waits for another 12 seconds.
+   - Verification Point: Confirm that the timer is functioning correctly.
+
+7. **Third API Call**:
+   - Agent Alpha executes the third API call.
+   - Verification Point: Agent Beta validates the response.
+
+8. **Wait for Rate Limit**:
+   - Agent Alpha waits for another 12 seconds.
+   - Verification Point: Confirm that the timer is functioning correctly.
+
+9. **Fourth API Call**:
+   - Agent Alpha executes the fourth API call.
+   - Verification Point: Agent Beta validates the response.
+
+10. **Wait for Rate Limit**:
+    - Agent Alpha waits for another 12 seconds.
+    - Verification Point: Confirm that the timer is functioning correctly.
+
+11. **Fifth API Call**:
+    - Agent Alpha executes the fifth API call.
+    - Verification Point: Agent Beta validates the response.
+
+12. **Final Wait**:
+    - Agent Alpha waits for 60 seconds before any further calls to reset the rate limit.
+    - Verification Point: Confirm that the timer is functioning correctly.
+
+13. **Review and Adjust**:
+    - Agent Alpha and Agent Beta review the results of the API calls and validations.
+    - Adjust the validation criteria if necessary based on the responses received.
+
+14. **Documentation**:
+    - Document all API calls made, responses received, and validation results.
+    - Verification Point: Ensure documentation is complete and accurate.
+
+15. **Final Verification**:
+    - Agent Beta performs a final check to ensure all validations are complete and responses are as expected.
+    - Verification Point: Confirm that all checks have been performed and documented.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing is not managed correctly, there is a risk of exceeding the rate limit.
+- **Validation Failure**: If Agent Beta's validation criteria are too strict or incorrect, valid responses may be rejected.
+- **Communication Breakdown**: Lack of clear communication between agents may lead to confusion about roles and responsibilities.
+
+#### Verification Points Summary:
+- After each API call, Agent Beta must validate the response.
+- Confirm the timer is functioning correctly after each wait period.
+- Document all actions and results for final review.
+- Perform a final verification of all validations before concluding the task.
+
+### Self-Check:
+The plan adheres to the rate limit of 5 calls per minute, includes explicit coordination between agents, and ensures thorough validation and documentation. All verification points are clearly defined to maintain integrity throughout the process.",15.079154298000503,31,260,291,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/da5007f1-ced6-41dd-afc2-1416bac09fd4.jsonl,da5007f1-ced6-41dd-afc2-1416bac09fd4
+19,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta synchronize their clocks.
+
+2. **Define Call Schedule**:
+   - Agent Alpha prepares a schedule for API calls, allowing for a maximum of 5 calls per minute, divided into 12-second intervals.
+
+3. **Execution Phase**:
+   - **Step 1**: Agent Alpha makes the first API call at time T0.
+     - **Verification Point**: Logs the response and checks for errors.
+   - **Step 2**: Agent Alpha waits for 12 seconds.
+   - **Step 3**: Agent Alpha makes the second API call at time T0 + 12 seconds.
+     - **Verification Point**: Logs the response and checks for errors.
+   - **Step 4**: Agent Alpha waits for another 12 seconds.
+   - **Step 5**: Agent Alpha makes the third API call at time T0 + 24 seconds.
+     - **Verification Point**: Logs the response and checks for errors.
+   - **Step 6**: Agent Alpha waits for another 12 seconds.
+   - **Step 7**: Agent Alpha makes the fourth API call at time T0 + 36 seconds.
+     - **Verification Point**: Logs the response and checks for errors.
+   - **Step 8**: Agent Alpha waits for another 12 seconds.
+   - **Step 9**: Agent Alpha makes the fifth API call at time T0 + 48 seconds.
+     - **Verification Point**: Logs the response and checks for errors.
+
+4. **Validation Phase**:
+   - **Step 10**: After completing the 5 API calls, Agent Beta performs validation checks on the responses received.
+     - **Verification Point**: Logs the validation results and checks for consistency with expected outcomes.
+
+5. **Cooldown Period**:
+   - **Step 11**: Agent Alpha waits for 1 minute before making any further API calls.
+     - **Verification Point**: Confirms the cooldown period has elapsed.
+
+6. **Repeat Execution**:
+   - **Step 12**: Repeat Steps 1-11 for a total of 5 cycles, ensuring adherence to the rate limit and including validation by Agent Beta.
+
+7. **Final Verification**:
+   - **Step 13**: After completing all cycles, Agent Beta performs a final validation of all responses collected.
+     - **Verification Point**: Compiles a report of all validation results and confirms that no errors were found.
+
+8. **Termination**:
+   - **Step 14**: Both agents log their final results and confirm that all tasks have been completed without exceeding the rate limit.
+
+#### Self-Check:
+- The plan adheres to the API rate limit of 5 calls per minute by spacing calls 12 seconds apart.
+- Each API call is verified immediately after execution, and validation is performed after all calls.
+- A cooldown period is included to reset the rate limit before repeating the process.
+- Coordination between Agent Alpha and Agent Beta is maintained throughout the execution and validation phases. 
+
+This structured approach ensures reliable outputs while respecting the constraints of the API.",13.708905423001852,31,225,256,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/285df3b4-f838-44c9-b601-dbdacbed41e6.jsonl,285df3b4-f838-44c9-b601-dbdacbed41e6
+20,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls
+
+---
+
+### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta synchronize their clocks to ensure they are operating on the same time reference.
+
+2. **Define Call Schedule**:
+   - Agent Alpha prepares a schedule for API calls, allowing for a maximum of 5 calls per minute.
+   - The schedule is divided into 12-second intervals (5 calls in 60 seconds).
+
+3. **Execution Phase**:
+   - **Minute 1**:
+     - **0-12 seconds**: Agent Alpha makes the first API call.
+     - **12-24 seconds**: Agent Alpha makes the second API call.
+     - **24-36 seconds**: Agent Alpha makes the third API call.
+     - **36-48 seconds**: Agent Alpha makes the fourth API call.
+     - **48-60 seconds**: Agent Alpha makes the fifth API call.
+   - **Verification Check**: After each call, Agent Beta validates the response within 5 seconds.
+
+4. **Cooldown Period**:
+   - After 5 calls, Agent Alpha waits for 60 seconds before making the next set of calls to avoid exceeding the rate limit.
+
+5. **Repeat Execution**:
+   - Repeat steps 3 and 4 for the next 4 minutes, ensuring that Agent Alpha adheres to the 5 calls per minute limit.
+
+6. **Final Verification**:
+   - After completing all scheduled calls, Agent Beta performs a final validation of all responses received from the API.
+   - This includes checking for errors, ensuring data integrity, and confirming that all expected responses were received.
+
+7. **Documentation**:
+   - Both agents document the results of their actions, including timestamps of API calls, validation results, and any anomalies encountered.
+
+8. **Termination**:
+   - Once all validations are complete and documented, both agents confirm the successful completion of the task and terminate their processes.
+
+---
+
+### Risks:
+- **Rate Limit Violation**: If Agent Alpha does not adhere to the call schedule, it may exceed the rate limit.
+- **Response Delays**: If the API response is delayed, it may interfere with the validation process.
+- **Synchronization Issues**: If the agents' clocks are not synchronized, it may lead to mismanagement of the call schedule.
+
+---
+
+### Verification Points:
+- After each API call, Agent Beta verifies the response within 5 seconds.
+- A final validation check is conducted after all API calls to ensure all responses are correct and complete.
+- Documentation is reviewed to ensure all steps were followed and recorded accurately.
+
+---
+
+### Self-Check:
+The execution plan adheres to the API rate limit of 5 calls per minute, maintains clear coordination between Agent Alpha and Agent Beta, and includes thorough verification steps to ensure the integrity of the results. All risks have been identified and addressed in the plan.",11.433983212977182,31,216,247,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/3eea0679-6fa9-4520-976d-53517ee70608.jsonl,3eea0679-6fa9-4520-976d-53517ee70608
+21,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - Verification Point: Agent Beta checks if the response is valid according to the prepared criteria.
+
+4. **Wait for Rate Limit**:
+   - Agent Alpha waits for 12 seconds (to allow for 5 calls in 60 seconds).
+   - Verification Point: Confirm that the timer is functioning correctly.
+
+5. **Second API Call**:
+   - Agent Alpha executes the second API call.
+   - Verification Point: Agent Beta validates the response.
+
+6. **Wait for Rate Limit**:
+   - Agent Alpha waits for another 12 seconds.
+   - Verification Point: Confirm that the timer is functioning correctly.
+
+7. **Third API Call**:
+   - Agent Alpha executes the third API call.
+   - Verification Point: Agent Beta validates the response.
+
+8. **Wait for Rate Limit**:
+   - Agent Alpha waits for another 12 seconds.
+   - Verification Point: Confirm that the timer is functioning correctly.
+
+9. **Fourth API Call**:
+   - Agent Alpha executes the fourth API call.
+   - Verification Point: Agent Beta validates the response.
+
+10. **Wait for Rate Limit**:
+    - Agent Alpha waits for another 12 seconds.
+    - Verification Point: Confirm that the timer is functioning correctly.
+
+11. **Fifth API Call**:
+    - Agent Alpha executes the fifth API call.
+    - Verification Point: Agent Beta validates the response.
+
+12. **Final Wait**:
+    - Agent Alpha waits for 60 seconds before any further calls to reset the rate limit.
+    - Verification Point: Confirm that the timer is functioning correctly.
+
+13. **Review and Adjust**:
+    - Agent Alpha and Agent Beta review the results of the API calls and validations.
+    - Adjust the validation criteria if necessary based on the responses received.
+
+14. **Documentation**:
+    - Document all API calls made, responses received, and validation results.
+    - Verification Point: Ensure documentation is complete and accurate.
+
+15. **Final Verification**:
+    - Agent Beta performs a final check to ensure all validations are complete and responses are as expected.
+    - Verification Point: Confirm that all checks have been performed and documented.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing is not managed correctly, there is a risk of exceeding the rate limit.
+- **Validation Failure**: If Agent Beta's validation criteria are not aligned with the expected responses, it may lead to incorrect conclusions.
+- **Timer Malfunction**: If the timer does not function correctly, it may lead to premature or delayed API calls.
+
+#### Conclusion:
+This plan ensures that Agent Alpha and Agent Beta work in a coordinated manner, respecting the API's rate limit while performing necessary validations. Each step includes verification points to confirm the integrity of the process before moving on to the next step.
+
+### Self-Check:
+The execution plan adheres to the rate limit constraints and includes explicit coordination between Agent Alpha and Agent Beta. Each step is verified to ensure compliance and accuracy, minimizing risks associated with API calls and validations.",14.819677922991104,31,273,304,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/1b0c4a7b-d409-401f-b388-bf589ce57b95.jsonl,1b0c4a7b-d409-401f-b388-bf589ce57b95
+22,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls
+
+1. **Initialization**:
+   - Agent Alpha prepares to make API calls.
+   - Agent Beta prepares to perform validation checks.
+
+2. **Set Rate Limit Timer**:
+   - Agent Alpha sets a timer to track the number of API calls made within a minute.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint**: Agent Beta confirms the successful execution of the first call.
+
+4. **Second API Call**:
+   - Agent Alpha makes the second API call.
+   - **Verification Checkpoint**: Agent Beta confirms the successful execution of the second call.
+
+5. **Third API Call**:
+   - Agent Alpha makes the third API call.
+   - **Verification Checkpoint**: Agent Beta confirms the successful execution of the third call.
+
+6. **Fourth API Call**:
+   - Agent Alpha makes the fourth API call.
+   - **Verification Checkpoint**: Agent Beta confirms the successful execution of the fourth call.
+
+7. **Fifth API Call**:
+   - Agent Alpha makes the fifth API call.
+   - **Verification Checkpoint**: Agent Beta confirms the successful execution of the fifth call.
+
+8. **Wait for Rate Limit Reset**:
+   - Agent Alpha waits for 60 seconds to reset the rate limit before making additional calls.
+
+9. **Repeat Process**:
+   - Steps 3 to 8 are repeated for the next set of API calls, ensuring that no more than 5 calls are made within any 60-second window.
+
+10. **Final Validation**:
+    - After all API calls are completed, Agent Beta performs a final validation check to ensure all responses are valid and meet the expected criteria.
+
+11. **Completion Confirmation**:
+    - Agent Beta confirms that all tasks are completed successfully and that the API rate limit was not violated.
+
+---
+
+### Self-Check:
+- The plan adheres to the API rate limit of 5 calls per minute.
+- Each API call is followed by a verification checkpoint to ensure successful execution.
+- A final validation check is included to confirm data integrity.
+- Coordination between Agent Alpha and Agent Beta is maintained throughout the process.
+
+This structured approach ensures compliance with the rate limit while achieving the objectives of both agents effectively.",10.158571463020053,31,175,206,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/a99a2808-4b60-46b9-85ba-1fd7ad724eaa.jsonl,a99a2808-4b60-46b9-85ba-1fd7ad724eaa
+23,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta validates the response of the first API call.
+
+4. **Rate Limit Monitoring**:
+   - Start a 12-second timer after the first call to allow for 5 calls within the minute.
+
+5. **Second API Call**:
+   - After 12 seconds, Agent Alpha executes the second API call.
+   - **Verification Checkpoint 2**: Agent Beta validates the response of the second API call.
+
+6. **Third API Call**:
+   - After another 12 seconds, Agent Alpha executes the third API call.
+   - **Verification Checkpoint 3**: Agent Beta validates the response of the third API call.
+
+7. **Fourth API Call**:
+   - After another 12 seconds, Agent Alpha executes the fourth API call.
+   - **Verification Checkpoint 4**: Agent Beta validates the response of the fourth API call.
+
+8. **Fifth API Call**:
+   - After another 12 seconds, Agent Alpha executes the fifth API call.
+   - **Verification Checkpoint 5**: Agent Beta validates the response of the fifth API call.
+
+9. **Rate Limit Reset**:
+   - Wait for the remaining time in the minute to ensure the rate limit is reset.
+
+10. **Additional Calls (if needed)**:
+    - If further API calls are required, repeat steps 4-9, ensuring to monitor the rate limit.
+
+11. **Final Verification**:
+    - After all calls, Agent Beta performs a final validation of all responses received.
+    - **Verification Checkpoint 6**: Confirm that all responses meet the validation criteria.
+
+12. **Completion**:
+    - Both agents confirm the successful execution of the plan and the validity of the results.
+    - Document the results and any anomalies encountered during the process.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing between calls is not strictly adhered to, it may lead to exceeding the rate limit.
+- **Validation Failure**: If Agent Beta's validation criteria are not clear, it may lead to incorrect assumptions about the API responses.
+
+#### Verification Points:
+- After each API call, Agent Beta must validate the response.
+- A final validation must be conducted after all calls to ensure all responses are correct and meet the expected criteria.
+
+### Self-Check:
+The plan adheres to the rate limit of 5 calls per minute by spacing calls 12 seconds apart. Each response is validated immediately after the corresponding API call, ensuring that the validation process is thorough and consistent. The final verification step confirms the integrity of all responses before completion.",12.268922463990748,31,227,258,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/312d6de4-26d7-4f2d-89cf-d5d71cc2bb66.jsonl,312d6de4-26d7-4f2d-89cf-d5d71cc2bb66
+24,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+4. **Validation Check**:
+   - Agent Beta performs validation on the response from the first API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+5. **Second API Call**:
+   - Agent Alpha makes the second API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+6. **Validation Check**:
+   - Agent Beta performs validation on the response from the second API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+7. **Third API Call**:
+   - Agent Alpha makes the third API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+8. **Validation Check**:
+   - Agent Beta performs validation on the response from the third API call.
+   - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+9. **Fourth API Call**:
+   - Agent Alpha makes the fourth API call.
+   - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+10. **Validation Check**:
+    - Agent Beta performs validation on the response from the fourth API call.
+    - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+11. **Fifth API Call**:
+    - Agent Alpha makes the fifth API call.
+    - **Verification Checkpoint**: Confirm that the API call was successful and log the response.
+
+12. **Validation Check**:
+    - Agent Beta performs validation on the response from the fifth API call.
+    - **Verification Checkpoint**: Confirm that the validation criteria are met.
+
+13. **Rate Limit Wait**:
+    - Agent Alpha and Agent Beta wait for 1 minute to reset the rate limit.
+
+14. **Repeat Process**:
+    - Steps 3 to 12 are repeated for the next set of API calls, ensuring that the rate limit is adhered to.
+
+15. **Final Validation**:
+    - After all API calls are completed, Agent Beta performs a final validation on all responses.
+    - **Verification Checkpoint**: Confirm that all validation criteria are met for all responses.
+
+16. **Logging**:
+    - Both agents log the results of the API calls and validations for future reference.
+
+17. **Termination**:
+    - Confirm that all steps have been executed and verified.
+    - Both agents conclude their tasks and report completion.
+
+#### Risks:
+- **Rate Limit Violation**: Exceeding 5 calls per minute could lead to temporary bans or throttling.
+- **Validation Failure**: If validation fails, it may lead to incorrect data being used.
+- **Communication Breakdown**: Lack of coordination between agents could result in missed verification checkpoints.
+
+#### Verification Points:
+- After each API call, confirm success and log responses.
+- After each validation, confirm that criteria are met.
+- Final validation ensures all responses are correct before concluding the task.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 API calls per minute, includes explicit coordination between Agent Alpha and Agent Beta, and incorporates multiple verification checkpoints to ensure the integrity of the process. All steps are clearly defined, and risks are identified, ensuring a reliable and reproducible experiment.",16.63868321600603,31,293,324,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/fde8bfb3-4681-40bc-92fa-25ed27f8e061.jsonl,fde8bfb3-4681-40bc-92fa-25ed27f8e061
+25,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **Execution Phase**:
+   - **Step 1**: Agent Alpha makes the first API call.
+   - **Verification Point**: Agent Beta verifies the response of the first API call.
+   - **Step 2**: Agent Alpha makes the second API call.
+   - **Verification Point**: Agent Beta verifies the response of the second API call.
+   - **Step 3**: Agent Alpha makes the third API call.
+   - **Verification Point**: Agent Beta verifies the response of the third API call.
+   - **Step 4**: Agent Alpha makes the fourth API call.
+   - **Verification Point**: Agent Beta verifies the response of the fourth API call.
+   - **Step 5**: Agent Alpha makes the fifth API call.
+   - **Verification Point**: Agent Beta verifies the response of the fifth API call.
+
+4. **Rate Limit Check**:
+   - After 5 API calls, Agent Alpha waits for 60 seconds to reset the rate limit.
+
+5. **Repeat Execution**:
+   - Repeat Steps 3-4 for the next set of API calls (up to 5 calls).
+   - Ensure that Agent Beta continues to validate each response.
+
+6. **Final Verification**:
+   - After all API calls are completed, Agent Beta performs a comprehensive validation of all responses received.
+   - Document any discrepancies or issues found during validation.
+
+7. **Completion**:
+   - Both agents confirm that all steps have been executed and verified.
+   - Final report is generated summarizing the API calls and validation results.
+
+#### Risks:
+- **Rate Limit Violation**: If Agent Alpha makes more than 5 calls in a minute, it could lead to API access being blocked.
+- **Validation Overlap**: If Agent Beta performs validation too quickly, it may lead to missed errors or inconsistencies.
+- **Communication Breakdown**: Lack of clear communication between agents may lead to confusion about roles and responsibilities.
+
+#### Verification Points:
+- After each API call, Agent Beta must confirm the validity of the response.
+- A final validation check must be conducted after all API calls to ensure all responses are correct and consistent.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 API calls per minute, ensuring that Agent Beta validates each response immediately after each call. The plan includes a comprehensive final verification step to ensure all responses are accurate and consistent. All roles and responsibilities are clearly defined, minimizing the risk of communication breakdowns.",11.72049362998223,31,227,258,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/e7dc3c86-bf57-4580-a482-aa480cdb3adb.jsonl,e7dc3c86-bf57-4580-a482-aa480cdb3adb
+26,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls
+
+1. **Initialization**:
+   - Agent Alpha prepares the API call parameters.
+   - Agent Beta prepares the validation criteria.
+
+2. **Rate Limit Awareness**:
+   - Agent Alpha confirms the rate limit of 5 calls/minute.
+   - Agent Beta acknowledges the need for validation without excessive checks.
+
+3. **Execution Phase**:
+   - **Step 1**: Agent Alpha makes the first API call.
+     - **Verification Point**: Agent Beta confirms the response is received.
+   - **Step 2**: Agent Alpha makes the second API call.
+     - **Verification Point**: Agent Beta validates the response.
+   - **Step 3**: Agent Alpha makes the third API call.
+     - **Verification Point**: Agent Beta checks the response for accuracy.
+   - **Step 4**: Agent Alpha makes the fourth API call.
+     - **Verification Point**: Agent Beta verifies the response.
+   - **Step 5**: Agent Alpha makes the fifth API call.
+     - **Verification Point**: Agent Beta confirms the response is valid.
+
+4. **Rate Limit Pause**:
+   - **Step 6**: Agent Alpha pauses for 60 seconds to reset the rate limit.
+   - **Verification Point**: Agent Beta confirms the pause duration.
+
+5. **Revalidation Phase**:
+   - **Step 7**: Agent Beta performs a validation check on the previous responses.
+     - **Verification Point**: Agent Beta documents any discrepancies.
+
+6. **Additional Calls** (if needed):
+   - **Step 8**: If validation is successful, Agent Alpha can make another API call.
+     - **Verification Point**: Agent Beta checks the response.
+   - **Step 9**: Repeat Steps 8 and 9 up to 5 times, ensuring to pause for 60 seconds after every 5 calls.
+     - **Verification Point**: Agent Beta verifies each response.
+
+7. **Final Validation**:
+   - **Step 10**: After all calls, Agent Beta performs a comprehensive validation of all responses.
+     - **Verification Point**: Document the final validation results.
+
+8. **Completion**:
+   - **Step 11**: Both agents confirm the completion of the task.
+   - **Verification Point**: Ensure all responses are validated and documented.
+
+#### Risks:
+- **Risk of Exceeding Rate Limit**: Ensure strict adherence to the 5 calls/minute rule.
+- **Validation Overhead**: Agent Beta must balance validation checks to avoid unnecessary delays.
+- **Response Errors**: Ensure that all responses are thoroughly validated to prevent incorrect data usage.
+
+#### Verification Points:
+- After each API call, Agent Beta must confirm the response.
+- Document any discrepancies found during validation.
+- Final validation must ensure all responses are accurate and meet the expected criteria.
+
+### Self-Check:
+The plan adheres to the rate limit of 5 calls per minute, includes explicit coordination between Agent Alpha and Agent Beta, and ensures thorough validation of responses. All steps are clearly defined, and verification points are established to confirm the integrity of the process. The plan is structured to avoid any violations of the rate limit while maintaining the necessary validation checks.",13.092218172037974,31,226,257,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/c35a5cb9-c1e1-4e30-bfed-7a4b854f7176.jsonl,c35a5cb9-c1e1-4e30-bfed-7a4b854f7176
+27,True,"Execution Plan for Coordinated API Calls and Validation
+
+#### Objective:
+To execute API calls through Agent Alpha while ensuring that Agent Beta performs validation without exceeding the rate limit of 5 calls per minute.
+
+#### Steps:
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the data required for the API call.
+   - Agent Beta prepares the validation criteria.
+
+3. **First API Call**:
+   - Agent Alpha makes the first API call.
+   - **Verification Checkpoint 1**: Confirm that the API call was successful and log the response.
+
+4. **Validation Check**:
+   - Agent Beta performs validation on the response from the first API call.
+   - **Verification Checkpoint 2**: Confirm that the validation criteria are met.
+
+5. **Second API Call**:
+   - Agent Alpha waits for 12 seconds (to ensure 5 calls/minute limit) and then makes the second API call.
+   - **Verification Checkpoint 3**: Confirm that the API call was successful and log the response.
+
+6. **Validation Check**:
+   - Agent Beta performs validation on the response from the second API call.
+   - **Verification Checkpoint 4**: Confirm that the validation criteria are met.
+
+7. **Third API Call**:
+   - Agent Alpha waits for another 12 seconds and makes the third API call.
+   - **Verification Checkpoint 5**: Confirm that the API call was successful and log the response.
+
+8. **Validation Check**:
+   - Agent Beta performs validation on the response from the third API call.
+   - **Verification Checkpoint 6**: Confirm that the validation criteria are met.
+
+9. **Fourth API Call**:
+   - Agent Alpha waits for another 12 seconds and makes the fourth API call.
+   - **Verification Checkpoint 7**: Confirm that the API call was successful and log the response.
+
+10. **Validation Check**:
+    - Agent Beta performs validation on the response from the fourth API call.
+    - **Verification Checkpoint 8**: Confirm that the validation criteria are met.
+
+11. **Fifth API Call**:
+    - Agent Alpha waits for another 12 seconds and makes the fifth API call.
+    - **Verification Checkpoint 9**: Confirm that the API call was successful and log the response.
+
+12. **Validation Check**:
+    - Agent Beta performs validation on the response from the fifth API call.
+    - **Verification Checkpoint 10**: Confirm that the validation criteria are met.
+
+13. **Final Review**:
+    - Both agents review all responses and validation results.
+    - **Verification Checkpoint 11**: Confirm that all API calls were successful and all validations passed.
+
+14. **Completion**:
+    - Document the results of the API calls and validations.
+    - Confirm that the task is complete and all criteria are met.
+
+#### Risks:
+- **Rate Limit Violation**: If the timing between calls is not adhered to, it may result in exceeding the rate limit.
+- **Validation Failure**: If the validation criteria are not met, it may lead to incorrect conclusions based on the API responses.
+
+#### Verification Points:
+- After each API call, confirm success and log responses.
+- After each validation, confirm that criteria are met.
+- Final review to ensure all steps were executed correctly and all validations passed.
+
+### Self-Check:
+The execution plan adheres to the rate limit of 5 calls per minute by ensuring a wait time of 12 seconds between each call. Each API call is followed by a validation step, and a final review confirms the success of all operations. The plan is structured to maintain coordination between Agent Alpha and Agent Beta, ensuring role consistency and thorough verification throughout the process.",15.368354674021248,31,288,319,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/aaf09e28-857a-4001-90de-1f93cf0c3bc7.jsonl,aaf09e28-857a-4001-90de-1f93cf0c3bc7
+28,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha prepares the API call parameters.
+   - Agent Beta prepares the validation criteria.
+
+2. **Rate Limit Awareness**:
+   - Agent Alpha confirms the rate limit of 5 calls per minute.
+   - Agent Beta acknowledges the need for validation without excessive checks.
+
+3. **Execution Phase**:
+   - **Step 1**: Agent Alpha makes the first API call.
+   - **Verification Point**: Agent Beta verifies the response of the first API call.
+   - **Step 2**: Agent Alpha makes the second API call.
+   - **Verification Point**: Agent Beta verifies the response of the second API call.
+   - **Step 3**: Agent Alpha makes the third API call.
+   - **Verification Point**: Agent Beta verifies the response of the third API call.
+   - **Step 4**: Agent Alpha makes the fourth API call.
+   - **Verification Point**: Agent Beta verifies the response of the fourth API call.
+   - **Step 5**: Agent Alpha makes the fifth API call.
+   - **Verification Point**: Agent Beta verifies the response of the fifth API call.
+
+4. **Rate Limit Pause**:
+   - **Step 6**: Agent Alpha pauses for 1 minute to respect the rate limit.
+
+5. **Repeat Execution Phase**:
+   - **Step 7**: Agent Alpha makes the sixth API call.
+   - **Verification Point**: Agent Beta verifies the response of the sixth API call.
+   - **Step 8**: Agent Alpha makes the seventh API call.
+   - **Verification Point**: Agent Beta verifies the response of the seventh API call.
+   - **Step 9**: Agent Alpha makes the eighth API call.
+   - **Verification Point**: Agent Beta verifies the response of the eighth API call.
+   - **Step 10**: Agent Alpha makes the ninth API call.
+   - **Verification Point**: Agent Beta verifies the response of the ninth API call.
+   - **Step 11**: Agent Alpha makes the tenth API call.
+   - **Verification Point**: Agent Beta verifies the response of the tenth API call.
+
+6. **Final Verification**:
+   - **Step 12**: Agent Beta performs a final validation check on all responses received.
+   - **Verification Point**: Confirm that all responses are valid and meet the expected criteria.
+
+7. **Completion**:
+   - **Step 13**: Both agents confirm the completion of the task.
+   - **Step 14**: Document the results and any anomalies encountered during the process.
+
+---
+
+### Self-Check:
+- The plan adheres to the rate limit of 5 API calls per minute.
+- Each API call is followed by a verification step to ensure response validity.
+- A final validation check is included to confirm the correctness of all responses.
+- Coordination between Agent Alpha and Agent Beta is maintained throughout the process.
+
+This structured approach ensures that the task is completed efficiently while respecting the constraints of the API rate limit.",14.727167757053394,31,223,254,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/699901d6-5bd9-443d-8c84-8524b8986b5e.jsonl,699901d6-5bd9-443d-8c84-8524b8986b5e
+29,True,"Coordinated Execution and Verification Plan
+
+#### Execution Plan for Coordinated API Calls and Validation
+
+1. **Initialization**:
+   - Agent Alpha and Agent Beta confirm their roles and responsibilities.
+   - Set a timer to track the rate limit.
+
+2. **API Call Preparation**:
+   - Agent Alpha prepares the first API call.
+   - Agent Beta prepares the validation criteria for the response.
+
+3. **First API Call**:
+   - Agent Alpha executes the first API call.
+   - **Verification Checkpoint 1**: Agent Beta validates the response of the first API call.
+
+4. **Rate Limit Monitoring**:
+   - Start a 12-second timer after the first call to allow for 5 calls within the minute.
+
+5. **Subsequent API Calls**:
+   - For the next 4 API calls:
+     - Agent Alpha executes the second API call after 12 seconds.
+     - **Verification Checkpoint 2**: Agent Beta validates the response.
+     - Agent Alpha executes the third API call after another 12 seconds.
+     - **Verification Checkpoint 3**: Agent Beta validates the response.
+     - Agent Alpha executes the fourth API call after another 12 seconds.
+     - **Verification Checkpoint 4**: Agent Beta validates the response.
+     - Agent Alpha executes the fifth API call after another 12 seconds.
+     - **Verification Checkpoint 5**: Agent Beta validates the response.
+
+6. **Post-Execution Validation**:
+   - After the fifth API call, Agent Beta performs a comprehensive validation of all responses received.
+   - **Verification Checkpoint 6**: Confirm that all responses meet the validation criteria.
+
+7. **Rate Limit Confirmation**:
+   - Ensure that no more than 5 API calls were made within the minute.
+   - Document the timestamps of each call for verification.
+
+8. **Final Review**:
+   - Agent Alpha and Agent Beta review the results together.
+   - Discuss any discrepancies or issues encountered during the validation process.
+
+9. **Termination**:
+   - Confirm that all tasks are completed and documented.
+   - Agent Alpha and Agent Beta finalize their reports and submit them for review.
+
+#### Risks:
+- **Rate Limit Violation**: If calls are made too quickly, it may lead to a temporary ban on the API.
+- **Validation Errors**: If Agent Beta does not validate correctly, it may lead to incorrect conclusions.
+- **Communication Breakdown**: Lack of clear communication between agents may lead to missed verification checkpoints.
+
+#### Verification Points:
+- After each API call, Agent Beta must confirm the validity of the response.
+- A final validation of all responses must be conducted after the fifth call.
+- Documentation of call timestamps to ensure compliance with the rate limit.
+
+### Self-Check:
+- The plan adheres to the rate limit of 5 calls per minute by spacing calls 12 seconds apart.
+- Each API call is followed by a validation checkpoint to ensure response accuracy.
+- All steps are clearly defined, ensuring coordination between Agent Alpha and Agent Beta.",19.060778009006754,31,225,256,0,2,0.0,/workspace/results/coordination_baseline_2026-08-09/traces/crewai/crewai/bcad7207-9652-48ea-9a31-948b628ab65b.jsonl,bcad7207-9652-48ea-9a31-948b628ab65b

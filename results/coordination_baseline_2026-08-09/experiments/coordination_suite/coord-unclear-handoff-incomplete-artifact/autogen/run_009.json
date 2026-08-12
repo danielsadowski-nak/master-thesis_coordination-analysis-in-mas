@@ -1,0 +1,114 @@
+{
+  "run_index": 9,
+  "success": false,
+  "final_output": "AutoGen native run timed out before completion. timeout_seconds=180.0",
+  "metrics": {
+    "latency_seconds": 275.6626408759621,
+    "prompt_tokens": 28,
+    "completion_tokens": 0,
+    "total_tokens": 28,
+    "tool_calls": 0,
+    "steps_executed": 1,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_baseline_2026-08-09/traces/autogen/autogen/2d7f00b0-96a3-4e8a-babe-2f4b6589d71c.jsonl",
+  "run_id": "2d7f00b0-96a3-4e8a-babe-2f4b6589d71c",
+  "judgement": {
+    "task_successful": false,
+    "summary": "The task was not completed due to a timeout error, indicating a failure to execute within the given time constraints. No steps were executed beyond the initial prompt, and no operational plan was created.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": true,
+        "evidence": "The task required creating a final operational plan with explicit handoff fields, but no steps were executed to fulfill this requirement.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "There is no evidence of role specification violation as no agent actions were recorded.",
+        "confidence": 0.8
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "No steps were repeated as no steps were executed.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "No conversation history was lost as no conversation took place beyond the initial prompt.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": true,
+        "evidence": "The system did not complete the task within the allowed time, indicating unawareness of termination conditions.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "There was no conversation reset as no conversation occurred.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": true,
+        "evidence": "The task was underspecified with missing details, but no clarification was requested.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "No task derailment occurred as no task progress was made.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "No information was withheld as no information exchange occurred.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "No input from other agents was present to be ignored.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "No actions were taken, so no mismatch could occur.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": true,
+        "evidence": "The task terminated prematurely due to a timeout without any progress.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": false,
+        "evidence": "No verification was attempted as no task progress was made.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": true,
+        "evidence": "The task ended without any verification of results due to the timeout.",
+        "confidence": 0.9
+      }
+    ],
+    "primary_failure_modes": [
+      "1.1 Disobey Task Specification",
+      "1.5 Unaware of Termination Conditions",
+      "2.2 Fail to Ask for Clarification",
+      "3.1 Premature Termination",
+      "3.3 No or Incorrect Verification"
+    ],
+    "overall_confidence": 0.9
+  }
+}

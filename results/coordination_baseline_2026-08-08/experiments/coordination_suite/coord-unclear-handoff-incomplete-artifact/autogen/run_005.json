@@ -1,0 +1,114 @@
+{
+  "run_index": 5,
+  "success": false,
+  "final_output": "AutoGen native run timed out before completion. timeout_seconds=180.0",
+  "metrics": {
+    "latency_seconds": 246.30459240300115,
+    "prompt_tokens": 28,
+    "completion_tokens": 0,
+    "total_tokens": 28,
+    "tool_calls": 0,
+    "steps_executed": 1,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_baseline_2026-08-08/traces/autogen/autogen/262de75b-5efb-4eaa-a5dc-52d087a88a1a.jsonl",
+  "run_id": "262de75b-5efb-4eaa-a5dc-52d087a88a1a",
+  "judgement": {
+    "task_successful": false,
+    "summary": "The task was not completed due to a timeout error, indicating a failure to execute within the given time constraints. No operational plan was created or verified.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": true,
+        "evidence": "The task required creating a final operational plan with explicit handoff fields, but the task was not completed due to a timeout.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "There is no evidence of role specification violation as the task did not progress to a point where roles could be assessed.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "The task did not progress far enough to exhibit step repetition.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "There is no indication of conversation history loss as the task did not progress.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": true,
+        "evidence": "The system did not complete the task within the allowed time, indicating unawareness of termination conditions.",
+        "confidence": 0.8
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "There is no evidence of a conversation reset as the task did not progress.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": true,
+        "evidence": "The task was underspecified with missing details, but there was no indication of clarification being sought.",
+        "confidence": 0.8
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "The task did not progress to a point where derailment could be assessed.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "There is no evidence of information withholding as the task did not progress.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "There is no evidence of ignoring input as the task did not progress.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "There is no evidence of action-reasoning mismatch as the task did not progress.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": true,
+        "evidence": "The task ended prematurely due to a timeout before any operational plan was created or verified.",
+        "confidence": 0.9
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": false,
+        "evidence": "Verification did not occur due to premature termination.",
+        "confidence": 0.7
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": true,
+        "evidence": "The task ended without any verification of the operational plan.",
+        "confidence": 0.9
+      }
+    ],
+    "primary_failure_modes": [
+      "1.1 Disobey Task Specification",
+      "1.5 Unaware of Termination Conditions",
+      "2.2 Fail to Ask for Clarification",
+      "3.1 Premature Termination",
+      "3.3 No or Incorrect Verification"
+    ],
+    "overall_confidence": 0.85
+  }
+}
