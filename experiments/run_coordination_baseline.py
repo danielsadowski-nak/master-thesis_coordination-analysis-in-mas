@@ -24,7 +24,7 @@ from frameworks.langgraph_runner import LangGraphRunner
 from frameworks.metagpt_runner import MetaGptRunner
 from utils.benchmark_loader import load_benchmark_tasks
 from utils.config import apply_llm_runtime_environment, resolve_repo_path
-from utils.runtime_checks import assert_framework_runtime_ready
+from utils.runtime_checks import assert_framework_runtime_ready, assert_metagpt_native_runtime_ready
 
 
 def parse_args() -> argparse.Namespace:
@@ -292,6 +292,8 @@ def main() -> None:
         raise ValueError("At least one framework must be selected.")
     if args.require_native_frameworks:
         assert_framework_runtime_ready(selected_frameworks)
+        if "metagpt" in selected_frameworks:
+            assert_metagpt_native_runtime_ready()
 
     tasks = select_coordination_tasks(
         resolve_repo_path(args.coordination_source),

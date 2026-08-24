@@ -15,6 +15,7 @@ import pandas as pd
 from scipy import stats as scipy_stats
 
 from evaluation.mast_classifier import MASTCategory, MASTFailureMode
+from evaluation.multiple_comparisons import add_holm_adjustment
 from evaluation.statistical_analysis import (
     compare_continuous,
     compare_mast_distributions,
@@ -74,6 +75,8 @@ def results_to_frame(results: Sequence[TraceResult]) -> pd.DataFrame:
                 "cost_usd": result.metrics.cost_usd,
                 "raw_log_path": result.raw_log_path,
                 "run_id": result.run_id,
+                "runtime_mode": result.runtime_mode,
+                "is_valid_analytical": result.is_valid_analytical,
             }
         )
     return pd.DataFrame(rows)
@@ -293,11 +296,14 @@ def build_statistical_report(
         level="category",
     )
 
-    comparisons = {
-        metric: pairwise_condition_comparisons(results_df, metric_column=metric, condition_column=condition_column)
-        for metric in ("success", "latency_seconds", "cost_usd")
-        if metric in results_df.columns
-    }
+    comparisons: dict[str, pd.DataFrame] = {}
+    if "success" in results_df.columns:
+        comparisons["success"] = add_holm_adjustment(compare_success_rates(results_df, condition_column))
+    for metric in ("latency_seconds", "cost_usd"):
+        if metric in results_df.columns:
+            comparisons[metric] = add_holm_adjustment(
+                pairwise_condition_comparisons(results_df, metric_column=metric, condition_column=condition_column)
+            )
     anova = {
         metric: one_way_anova(results_df, metric_column=metric, condition_column=condition_column)
         for metric in ("latency_seconds", "cost_usd")

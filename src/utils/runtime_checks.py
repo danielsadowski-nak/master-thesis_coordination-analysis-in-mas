@@ -16,6 +16,15 @@ FRAMEWORK_IMPORTS: dict[str, tuple[str, ...]] = {
 }
 
 
+METAGPT_REQUIRED_CLASSES: tuple[tuple[str, str], ...] = (
+    ("metagpt.actions", "Action"),
+    ("metagpt.environment", "Environment"),
+    ("metagpt.roles", "Role"),
+    ("metagpt.team", "Team"),
+    ("metagpt.schema", "Message"),
+)
+
+
 def detect_missing_framework_imports(frameworks: list[str]) -> dict[str, list[str]]:
     """Return missing import paths per requested framework."""
 
@@ -49,3 +58,32 @@ def assert_framework_runtime_ready(frameworks: list[str]) -> None:
         "constraints can conflict with this project's numpy/pandas stack. "
         "On Apple Silicon/macOS, prefer the provided Linux/x86 Docker runtime."
     )
+
+
+def assert_metagpt_native_runtime_ready() -> None:
+    """Raise when MetaGPT native integration modules/classes are unavailable."""
+
+    try:
+        import_module("metagpt")
+    except Exception as exc:
+        raise RuntimeError(
+            "MetaGPT native runtime is unavailable because module 'metagpt' cannot be imported. "
+            "Use docker-compose.metagpt.yml for native execution and pass --require-native-frameworks."
+        ) from exc
+
+    missing_members: list[str] = []
+    for module_name, class_name in METAGPT_REQUIRED_CLASSES:
+        try:
+            module = import_module(module_name)
+        except Exception:
+            missing_members.append(module_name)
+            continue
+        if getattr(module, class_name, None) is None:
+            missing_members.append(f"{module_name}.{class_name}")
+
+    if missing_members:
+        details = ", ".join(sorted(set(missing_members)))
+        raise RuntimeError(
+            "MetaGPT native runtime is incomplete; required modules/classes are missing: "
+            f"{details}. Use docker-compose.metagpt.yml and rerun with --require-native-frameworks."
+        )

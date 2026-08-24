@@ -203,3 +203,34 @@ Recommended analysis order for strict internal validity:
 1. Run primary human agreement on the strict balanced subset (`n=24`) to minimize framework/task-pressure confounding.
 2. Run secondary robustness analysis on the broader pool (`n=57`) for higher power.
 3. Compare whether conclusions are directionally stable across both sets.
+
+## 9) Current cycle (v4)
+
+Primary path for the current annotation cycle:
+
+- sample root: results/judge_validation_phase_c_v4
+- blinded sheet 1: results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv
+- blinded sheet 2: results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer2.csv
+- adjudication table: results/judge_validation_phase_c_v4/annotation_adjudication.csv
+- agreement output: results/judge_validation_phase_c_v4/agreement
+
+Run sequence:
+
+```bash
+uv run python experiments/check_phase_c_annotation_quality.py \
+  --sample-root results/judge_validation_phase_c_v4
+
+uv run python experiments/prepare_phase_c_adjudication.py \
+  results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv \
+  results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer2.csv \
+  --output-csv results/judge_validation_phase_c_v4/annotation_adjudication.csv
+
+uv run python experiments/run_phase_c_agreement.py \
+  --adjudication-csv results/judge_validation_phase_c_v4/annotation_adjudication.csv \
+  --master-csv results/judge_validation_phase_c_v4/annotation_master.csv \
+  --output-dir results/judge_validation_phase_c_v4/agreement
+```
+
+Important deprecation note:
+
+- v3 balanced_k2 success-only assets are deprecated for H5 and must not be used for binary task-success agreement claims.

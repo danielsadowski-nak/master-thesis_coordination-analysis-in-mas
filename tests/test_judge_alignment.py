@@ -66,7 +66,7 @@ def test_filter_annotation_candidates_excludes_scaffold_and_fallback_runs() -> N
     assert filtered.iloc[0]["final_output"] == "A genuine model response with substantive task content."
 
 
-def test_filter_annotation_candidates_real_model_only_requires_success() -> None:
+def test_filter_annotation_candidates_real_model_only_keeps_failure_rows() -> None:
     df = pd.DataFrame(
         [
             {"success": True, "final_output": "A genuine model response with substantive task content."},
@@ -76,8 +76,22 @@ def test_filter_annotation_candidates_real_model_only_requires_success() -> None
 
     filtered = filter_annotation_candidates(df, real_model_only=True)
 
+    assert len(filtered) == 2
+    assert set(filtered["success"].astype(bool).tolist()) == {False, True}
+
+
+def test_filter_annotation_candidates_real_model_only_drops_scaffold_placeholder_text() -> None:
+    df = pd.DataFrame(
+        [
+            {"success": False, "final_output": "metagpt scaffold completed a reproducible placeholder run for the task."},
+            {"success": False, "final_output": "A genuine failure output with unresolved dependency conflict."},
+        ]
+    )
+
+    filtered = filter_annotation_candidates(df, real_model_only=True)
+
     assert len(filtered) == 1
-    assert bool(filtered.iloc[0]["success"]) is True
+    assert "placeholder" not in filtered.iloc[0]["final_output"].lower()
 
 
 def test_load_annotation_reference_prefers_adjudicated_labels(tmp_path: Path) -> None:
@@ -142,13 +156,43 @@ def test_build_judge_validation_report_computes_summary_and_disagreements() -> N
     assert len(report["disagreements"]) == 1
 
 
-def test_write_annotation_template_from_existing_results(tmp_path: Path) -> None:
-    results_root = Path("/workspace/results/validation_20260801_175116/experiments")
+def test_write_annotation_template_from_existing_results(tmp_path: Path, monkeypatch) -> None:
+    results_root = tmp_path / "synthetic_results"
     output_csv = tmp_path / "annotation_template.csv"
+
+    synthetic = pd.DataFrame(
+        [
+            {
+                "framework": "langgraph",
+                "benchmark": "coordination_suite/coord-info-asymmetry-constraint",
+                "run_index": 0,
+                "run_id": "r1",
+                "raw_log_path": "trace-1.jsonl",
+                "success": True,
+                "final_output": "substantive response",
+                "judge_task_successful": True,
+                "judge_primary_failure_modes": "3.2 Weak Verification",
+                "judge_summary": "ok",
+            },
+            {
+                "framework": "autogen",
+                "benchmark": "coordination_suite/coord-clarification-before-execution",
+                "run_index": 1,
+                "run_id": "r2",
+                "raw_log_path": "trace-2.jsonl",
+                "success": False,
+                "final_output": "genuine failure explanation",
+                "judge_task_successful": False,
+                "judge_primary_failure_modes": "2.2 Fail to Ask for Clarification",
+                "judge_summary": "fail",
+            },
+        ]
+    )
+    monkeypatch.setattr("evaluation.judge_alignment.load_runs_for_annotation", lambda _: synthetic)
 
     written = write_annotation_template(results_root, output_csv, sample_size=2, seed=42, real_model_only=True)
 
     assert len(written) == 2
     assert output_csv.exists()
     loaded = pd.read_csv(output_csv)
-    assert {"judge_task_successful", "manual_primary_failure_modes", "run_id"}.issubset(loaded.columns)
+    assert {"judge_task_successful", "judge_primary_failure_modes", "run_id"}.issubset(loaded.columns)

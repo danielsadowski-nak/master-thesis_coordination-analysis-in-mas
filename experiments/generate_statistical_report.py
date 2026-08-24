@@ -23,10 +23,11 @@ if str(SRC_DIR) not in sys.path:
 from evaluation.metrics import (
     build_statistical_report,
     one_way_anova,
-    pairwise_condition_comparisons,
     summarize_conditions,
 )
+from evaluation.multiple_comparisons import add_holm_adjustment
 from evaluation.plots import load_experiment_dataframe, render_thesis_report
+from evaluation.statistical_analysis import compare_continuous, compare_success_rates
 
 
 def parse_args() -> argparse.Namespace:
@@ -130,15 +131,16 @@ def main() -> None:
                     advanced_tables[f"continuous_{metric_name}_tests"] = path.name
 
     comparison_tables: dict[str, str] = {}
-    for metric_name in ("success", "latency_seconds", "cost_usd"):
+    if "success" in results_df.columns:
+        success_df = add_holm_adjustment(compare_success_rates(results_df, args.condition_column))
+        success_path = output_dir / "pairwise_success_chi2_fisher_holm.csv"
+        success_df.to_csv(success_path, index=False)
+        comparison_tables["success"] = success_path.name
+
+    for metric_name in ("latency_seconds", "cost_usd"):
         if metric_name in results_df.columns:
-            comparison_df = pairwise_condition_comparisons(
-                results_df,
-                metric_column=metric_name,
-                condition_column=args.condition_column,
-                test=args.comparison_test,
-            )
-            comparison_path = output_dir / f"pairwise_{metric_name}.csv"
+            comparison_df = add_holm_adjustment(compare_continuous(results_df, args.condition_column, metric_name))
+            comparison_path = output_dir / f"pairwise_{metric_name}_holm.csv"
             comparison_df.to_csv(comparison_path, index=False)
             comparison_tables[metric_name] = comparison_path.name
 

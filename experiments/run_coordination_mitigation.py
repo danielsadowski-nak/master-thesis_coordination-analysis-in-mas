@@ -1,4 +1,8 @@
-"""Run mitigation comparisons on the Coordination Suite primary benchmark."""
+"""Run mitigation comparisons on the Coordination Suite primary benchmark.
+
+Smoke runs remain possible for debugging, but thesis-grade runs should use
+--thesis-strict (or equivalent protocol checks) to block underpowered designs.
+"""
 
 from __future__ import annotations
 
@@ -27,7 +31,7 @@ from frameworks.metagpt_runner import MetaGptRunner
 from utils.benchmark_loader import load_benchmark_tasks
 from utils.config import apply_llm_runtime_environment, resolve_repo_path
 from utils.mitigations import build_mitigation_strategies
-from utils.runtime_checks import assert_framework_runtime_ready
+from utils.runtime_checks import assert_framework_runtime_ready, assert_metagpt_native_runtime_ready
 
 
 def parse_args() -> argparse.Namespace:
@@ -70,6 +74,8 @@ def parse_args() -> argparse.Namespace:
         choices=["langgraph", "autogen", "crewai", "metagpt"],
     )
     parser.add_argument("--require-native-frameworks", action="store_true")
+    parser.add_argument("--thesis-strict", action="store_true", help="Abort underpowered runs (num_runs < 30 or degenerate design cells).")
+    parser.add_argument("--allow-smoke", action="store_true", help="Allow smoke-sized runs when --thesis-strict is enabled.")
     return parser.parse_args()
 
 
@@ -311,6 +317,10 @@ def _write_design_metadata(run_root: Path, args: argparse.Namespace, tasks: list
             "model_name": args.model_name,
             "temperature": args.temperature,
             "comparison_test": args.comparison_test,
+            "mast_judge_enabled": args.mast_judge_enabled,
+            "require_native_frameworks": args.require_native_frameworks,
+            "thesis_strict": args.thesis_strict,
+            "allow_smoke": args.allow_smoke,
             "study_protocol": "docs/study_protocol.md",
             "codebook": "docs/coordination_suite_codebook.md",
         },
@@ -335,12 +345,25 @@ def main() -> None:
         raise ValueError("At least one framework must be selected.")
     if args.require_native_frameworks:
         assert_framework_runtime_ready(selected_frameworks)
+        if "metagpt" in selected_frameworks:
+            assert_metagpt_native_runtime_ready()
 
     tasks = select_coordination_tasks(
         resolve_repo_path(args.coordination_source),
         task_ids=args.task_ids,
         task_limit=args.task_limit,
     )
+
+    if args.thesis_strict and not args.allow_smoke:
+        if args.num_runs < 30:
+            raise ValueError("--thesis-strict requires --num-runs >= 30 unless --allow-smoke is set.")
+        if len(selected_frameworks) <= 1:
+            raise ValueError("--thesis-strict requires more than one framework unless --allow-smoke is set.")
+        if len(tasks) <= 1:
+            raise ValueError("--thesis-strict requires more than one task unless --allow-smoke is set.")
+        if len(args.strategies) <= 1:
+            raise ValueError("--thesis-strict requires more than one mitigation strategy unless --allow-smoke is set.")
+
     run_root = run_coordination_mitigation(args, tasks)
     print(f"Coordination mitigation study finished. Artifacts saved to: {run_root}")
 

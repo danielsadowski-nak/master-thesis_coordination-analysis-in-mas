@@ -127,6 +127,8 @@ class FrameworkAdapterRunner(BaseMASRunner):
             metrics=metrics,
             raw_log_path=str(context.log_path),
             run_id=run_id,
+            runtime_mode="scaffold",
+            is_valid_analytical=False,
         )
 
     def _build_prompt(self, *, task_description: str, max_steps: int) -> str:

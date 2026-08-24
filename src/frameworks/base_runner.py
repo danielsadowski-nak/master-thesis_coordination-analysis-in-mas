@@ -64,6 +64,8 @@ class TraceResult(BaseModel):
     metrics: RunMetrics
     raw_log_path: str
     run_id: str | None = None
+    runtime_mode: str | None = None
+    is_valid_analytical: bool | None = None
 
 
 class RunnerProtocol(Protocol):

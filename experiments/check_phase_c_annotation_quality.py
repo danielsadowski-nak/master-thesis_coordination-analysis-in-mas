@@ -600,8 +600,15 @@ def _build_annotation_worklist(missing_df: pd.DataFrame, seed: int) -> pd.DataFr
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run quality-control checks for Phase C annotation assets.")
     parser.add_argument(
+        "--sample-root",
+        type=Path,
+        default=None,
+        help="Optional root folder override (e.g., results/judge_validation_phase_c_v4). Overrides reviewer/adjudication/output defaults.",
+    )
+    parser.add_argument(
         "--reviewer1-csv",
         type=Path,
+        # Kept on v3 paths for backward compatibility; prefer --sample-root for current v4 runs.
         default=Path("results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded.csv"),
     )
     parser.add_argument(
@@ -635,6 +642,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    if args.sample_root is not None:
+        sample_root = _resolve_repo_path(args.sample_root)
+        args.reviewer1_csv = sample_root / "annotation_sheet_blinded_reviewer1.csv"
+        args.reviewer2_csv = sample_root / "annotation_sheet_blinded_reviewer2.csv"
+        args.adjudication_csv = sample_root / "annotation_adjudication.csv"
+        args.output_dir = sample_root / "agreement"
+
     args.reviewer1_csv = _resolve_repo_path(args.reviewer1_csv)
     args.reviewer2_csv = _resolve_repo_path(args.reviewer2_csv)
     args.adjudication_csv = _resolve_repo_path(args.adjudication_csv)

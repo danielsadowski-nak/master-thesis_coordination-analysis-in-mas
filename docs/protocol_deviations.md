@@ -41,3 +41,13 @@ This log records deviations from `docs/study_protocol.md` and freeze memos.
 - **Impact:** Reduced internal homogeneity of the validation sample.
 - **Correction:** Rebuild Phase C from a single baseline root (`coordination_baseline_2026-08-09`) when possible.
 - **Thesis handling:** Disclose lineage if any legacy sample is referenced.
+
+## DEV-006 — Native MetaGPT baseline execution status
+
+- **Detected:** [YYYY-MM-DD]
+- **Description:** Native MetaGPT baseline [executed successfully / failed] under dockerized runtime.
+- **Results root:** [results/coordination_baseline_YYYY-MM-DD or other path]
+- **Sample size:** planned [N planned], valid [N valid]
+- **Primary RQ1 inclusion:** [included / excluded]
+- **Residual scaffold rows:** [count or unknown]
+- **Exclusion handling:** [e.g., filtered by runtime_mode=scaffold and is_valid_analytical=false]

@@ -12,6 +12,8 @@ import json
 import sys
 from pathlib import Path
 
+import pandas as pd
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
@@ -27,20 +29,67 @@ from evaluation.task_success import annotate_criteria_success
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Reanalyze baseline runs under validity filters.")
-    parser.add_argument("results_root", type=Path, help="Experiment root with batch artifacts.")
+    parser.add_argument("results_root", nargs="?", type=Path, default=None, help="Optional primary experiment root with batch artifacts.")
+    parser.add_argument(
+        "--results-root",
+        dest="results_roots",
+        action="append",
+        type=Path,
+        default=[],
+        help="Repeatable experiment root argument. Can be provided multiple times.",
+    )
+    parser.add_argument(
+        "--extra-roots",
+        nargs="*",
+        type=Path,
+        default=[],
+        help="Optional additional experiment roots appended to --results-root inputs.",
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--exclude-frameworks", nargs="*", default=["metagpt"], help="Frameworks excluded from primary tables.")
+    parser.add_argument("--exclude-frameworks", nargs="*", default=[], help="Frameworks excluded from primary tables.")
     parser.add_argument("--require-model-judge", action="store_true")
     return parser.parse_args()
+
+
+def _resolve_roots(args: argparse.Namespace) -> list[Path]:
+    roots: list[Path] = []
+    if args.results_root is not None:
+        roots.append(args.results_root)
+    roots.extend(args.results_roots)
+    roots.extend(args.extra_roots)
+
+    deduped: list[Path] = []
+    seen: set[str] = set()
+    for root in roots:
+        normalized = str(root)
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        deduped.append(root)
+    return deduped
 
 
 def main() -> None:
     args = parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    raw = load_experiment_dataframe(args.results_root)
-    if raw.empty:
-        raise SystemExit(f"No experiment records found under {args.results_root}")
+    roots = _resolve_roots(args)
+    if not roots:
+        raise SystemExit("No experiment roots provided. Use positional results_root, --results-root, or --extra-roots.")
+
+    raw_frames: list[pd.DataFrame] = []
+    per_root_counts: list[dict[str, int | str]] = []
+    for root in roots:
+        loaded = load_experiment_dataframe(root)
+        per_root_counts.append({"root": str(root), "n_rows": int(len(loaded))})
+        if not loaded.empty:
+            loaded = loaded.copy()
+            loaded["source_root"] = str(root)
+            raw_frames.append(loaded)
+
+    if not raw_frames:
+        raise SystemExit(f"No experiment records found under requested roots: {[str(root) for root in roots]}")
+    raw = pd.concat(raw_frames, ignore_index=True)
 
     annotated = annotate_validity(raw)
     annotated = annotate_criteria_success(annotated)
@@ -53,8 +102,27 @@ def main() -> None:
         exclude_scaffold=True,
         require_model_judge=args.require_model_judge,
     )
+    excluded_frameworks = [f.lower() for f in (args.exclude_frameworks or [])]
+    requested_frameworks: list[str] = []
+    if "framework" in annotated.columns:
+        requested_frameworks = sorted(
+            {
+                str(f).lower()
+                for f in annotated["framework"].dropna().astype(str).tolist()
+                if str(f).lower() not in excluded_frameworks
+            }
+        )
     if args.exclude_frameworks:
-        clean = clean.loc[~clean["framework"].astype(str).str.lower().isin([f.lower() for f in args.exclude_frameworks])].copy()
+        clean = clean.loc[~clean["framework"].astype(str).str.lower().isin(excluded_frameworks)].copy()
+
+    if requested_frameworks and "framework" in clean.columns:
+        available = set(clean["framework"].astype(str).str.lower().tolist())
+        missing_after_filter = sorted(f for f in requested_frameworks if f not in available)
+        if missing_after_filter:
+            raise SystemExit(
+                "Requested frameworks have zero valid rows after filtering: "
+                f"{missing_after_filter}. Inspect validity_summary.csv and source artifacts."
+            )
 
     clean.to_csv(args.output_dir / "valid_runs.csv", index=False)
 
@@ -82,7 +150,8 @@ def main() -> None:
         criteria_tests.to_csv(args.output_dir / "pairwise_criteria_success_holm.csv", index=False)
 
     manifest = {
-        "source": str(args.results_root),
+        "sources": [str(root) for root in roots],
+        "per_root_counts": per_root_counts,
         "n_raw": int(len(annotated)),
         "n_valid": int(len(clean)),
         "excluded_frameworks": args.exclude_frameworks,

@@ -18,6 +18,8 @@ import yaml
 from benchmarks.base import BenchmarkTask
 from evaluation.mast_classifier import MASTClassifier, MASTJudgement
 from evaluation.metrics import results_to_frame, summarize_results
+from evaluation.run_validity import classify_run_row
+from evaluation.task_success import extract_task_id, score_output_against_criteria
 from frameworks.base_runner import TraceResult
 
 
@@ -95,7 +97,16 @@ class ExperimentHarness:
             traces.append(result)
             trace_text = self._serialize_trace(result)
             judgement = judge.classify(trace_text)
-            self._write_single_run(batch_dir=batch_dir, run_index=run_index, result=result, judgement=judgement)
+            self._write_single_run(
+                batch_dir=batch_dir,
+                run_index=run_index,
+                result=result,
+                judgement=judgement,
+                benchmark_name=benchmark_name,
+                framework_name=framework_name,
+                mast_judge_enabled=self.mast_judge_enabled,
+                mast_judge_runtime="model" if self.mast_judge_enabled and self.mast_judge_model is not None else "heuristic_fallback",
+            )
 
         summary = summarize_results(traces)
         summary.update(
@@ -178,7 +189,27 @@ class ExperimentHarness:
         run_index: int,
         result: TraceResult,
         judgement: MASTJudgement,
+        benchmark_name: str,
+        framework_name: str,
+        mast_judge_enabled: bool,
+        mast_judge_runtime: str,
     ) -> None:
+        task_id = extract_task_id(benchmark_name)
+        criteria = score_output_against_criteria(task_id, result.final_output)
+        runtime_mode = result.runtime_mode
+        validity_seed = {
+            "framework": framework_name,
+            "final_output": result.final_output,
+            "mast_summary": judgement.summary,
+            "latency_seconds": result.metrics.latency_seconds,
+            "runtime_mode": runtime_mode,
+            "is_valid_analytical": result.is_valid_analytical,
+        }
+        validity_flags = classify_run_row(validity_seed)
+        if isinstance(runtime_mode, str) and runtime_mode.strip().lower() == "scaffold":
+            validity_flags["is_scaffold"] = True
+            validity_flags["is_valid_analytical"] = False
+
         run_payload = {
             "run_index": run_index,
             "success": result.success,
@@ -186,7 +217,21 @@ class ExperimentHarness:
             "metrics": result.metrics.model_dump(),
             "raw_log_path": result.raw_log_path,
             "run_id": result.run_id,
+            "runtime_mode": runtime_mode,
+            "is_valid_analytical": result.is_valid_analytical,
             "judgement": judgement.model_dump(),
+            "criteria_success": criteria["criteria_success"],
+            "criteria_matched": criteria["criteria_matched"],
+            "criteria_total": criteria["criteria_total"],
+            "criteria_scorer": criteria["scorer"],
+            "task_id": task_id,
+            "is_scaffold": validity_flags["is_scaffold"],
+            "is_heuristic_judge": validity_flags["is_heuristic_judge"],
+            "is_runtime_failure": validity_flags["is_runtime_failure"],
+            "validity_reason": validity_flags["validity_reason"],
+            "derived_is_valid_analytical": validity_flags["is_valid_analytical"],
+            "mast_judge_enabled": mast_judge_enabled,
+            "mast_judge_runtime": mast_judge_runtime,
         }
         (batch_dir / f"run_{run_index:03d}.json").write_text(
             json.dumps(run_payload, indent=2, ensure_ascii=False),

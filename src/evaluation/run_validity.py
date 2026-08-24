@@ -35,10 +35,14 @@ def classify_run_row(row: pd.Series | dict[str, Any]) -> dict[str, Any]:
     mast_summary = str(row.get("mast_summary") or row.get("judge_summary") or "")
     latency = _as_float(row.get("latency_seconds"))
     framework = str(row.get("framework") or "").lower()
+    runtime_mode = str(row.get("runtime_mode") or "").strip().lower()
+    persisted_validity = row.get("is_valid_analytical")
 
     is_scaffold = _contains_any(final_output, SCAFFOLD_MARKERS) or _contains_any(
         mast_summary, SCAFFOLD_MARKERS
     )
+    if runtime_mode == "scaffold":
+        is_scaffold = True
     # Extremely low latency with perfect success is a strong scaffold signature,
     # especially for MetaGPT which falls back when the package is missing.
     if framework == "metagpt" and latency is not None and latency < 0.05:
@@ -49,6 +53,8 @@ def classify_run_row(row: pd.Series | dict[str, Any]) -> dict[str, Any]:
     is_heuristic_judge = _contains_any(mast_summary, HEURISTIC_JUDGE_MARKERS)
     is_runtime_failure = bool(row.get("runtime_failure", False))
     is_valid_analytical = (not is_scaffold) and (not is_runtime_failure)
+    if isinstance(persisted_validity, bool):
+        is_valid_analytical = bool(persisted_validity) and is_valid_analytical
 
     return {
         "is_scaffold": bool(is_scaffold),

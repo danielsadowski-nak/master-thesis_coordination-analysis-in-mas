@@ -155,6 +155,19 @@ def build_batch_dataframe(artifacts: ExperimentBatchArtifacts) -> pd.DataFrame:
                 "mast_task_successful": judgement.get("task_successful"),
                 "mast_summary": judgement.get("summary"),
                 "primary_failure_modes": judgement.get("primary_failure_modes", []),
+                "runtime_mode": payload.get("runtime_mode") if isinstance(payload, dict) else None,
+                "is_valid_analytical": payload.get("is_valid_analytical") if isinstance(payload, dict) else None,
+                "criteria_success": payload.get("criteria_success") if isinstance(payload, dict) else None,
+                "criteria_matched": payload.get("criteria_matched") if isinstance(payload, dict) else None,
+                "criteria_total": payload.get("criteria_total") if isinstance(payload, dict) else None,
+                "criteria_scorer": payload.get("criteria_scorer") if isinstance(payload, dict) else None,
+                "task_id": payload.get("task_id") if isinstance(payload, dict) else None,
+                "is_scaffold": payload.get("is_scaffold") if isinstance(payload, dict) else None,
+                "is_heuristic_judge": payload.get("is_heuristic_judge") if isinstance(payload, dict) else None,
+                "is_runtime_failure": payload.get("is_runtime_failure") if isinstance(payload, dict) else None,
+                "validity_reason": payload.get("validity_reason") if isinstance(payload, dict) else None,
+                "mast_judge_enabled": payload.get("mast_judge_enabled") if isinstance(payload, dict) else None,
+                "mast_judge_runtime": payload.get("mast_judge_runtime") if isinstance(payload, dict) else None,
             }
         )
 

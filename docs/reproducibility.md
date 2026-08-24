@@ -31,7 +31,7 @@ Minimum for real runs:
 
 - `MAS_LLM_API_KEY`
 - `MAS_MODEL_NAME=gpt-4o-mini`
-- `MAS_NUM_RUNS=3`
+- `MAS_NUM_RUNS=30`
 - `MAS_MAST_JUDGE_ENABLED=true`
 
 Optional:
@@ -81,7 +81,10 @@ Primary internal-validity mitigation study on the Coordination Suite:
 uv run python experiments/run_coordination_mitigation.py \
   --num-runs 30 \
   --model-name gpt-4o-mini \
-  --mast-judge-enabled
+  --mast-judge-enabled \
+  --thesis-strict
+
+For smoke/debug-only mitigation runs (not thesis evidence), add `--allow-smoke`.
 ```
 
 Secondary external-validity baseline:
