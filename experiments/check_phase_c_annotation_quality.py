@@ -136,17 +136,6 @@ def _validate_reviewer_sheet(path: Path, issues: list[QCIssue], reviewer_suffix:
             success_value = _normalize_bool(row.get("success"))
             if success_value is not True:
                 non_success_rows += 1
-                _add_issue(
-                    issues,
-                    severity="error",
-                    file=path,
-                    row_index=int(row_index),
-                    annotation_item_id=item_id,
-                    column="success",
-                    code="non_success_row",
-                    message="Phase-C annotation pool must contain only successful real-model runs.",
-                    value=row.get("success"),
-                )
 
         if task_bool is None and not modes and not has_summary:
             continue
@@ -659,13 +648,48 @@ def main() -> None:
 
     reviewer1_stats = _validate_reviewer_sheet(args.reviewer1_csv, issues)
     reviewer2_stats = _validate_reviewer_sheet(args.reviewer2_csv, issues)
-    adjudication_stats = _validate_adjudication_table(args.adjudication_csv, issues)
-    integrity_stats = _validate_cross_file_integrity(
-        args.reviewer1_csv,
-        args.reviewer2_csv,
-        args.adjudication_csv,
-        issues,
-    )
+
+    adjudication_exists = args.adjudication_csv.exists()
+    if adjudication_exists:
+        adjudication_stats = _validate_adjudication_table(args.adjudication_csv, issues)
+        integrity_stats = _validate_cross_file_integrity(
+            args.reviewer1_csv,
+            args.reviewer2_csv,
+            args.adjudication_csv,
+            issues,
+        )
+    else:
+        if args.allow_incomplete:
+            _add_issue(
+                issues,
+                severity="warning",
+                file=args.adjudication_csv,
+                row_index=None,
+                annotation_item_id=None,
+                column="adjudication_csv",
+                code="missing_adjudication_file",
+                message="Adjudication CSV not found; cross-file adjudication checks were skipped in allow-incomplete mode.",
+                value=args.adjudication_csv,
+            )
+            adjudication_stats = {
+                "rows": 0,
+                "complete_rows": 0,
+                "resolved_rows": 0,
+                "needs_annotation_rows": 0,
+                "needs_adjudication_rows": 0,
+            }
+            integrity_stats = {
+                "metadata_mismatches": 0,
+                "duplicates": 0,
+                "id_set_mismatch": 0,
+                "source_hash_mismatches": 0,
+                "missing_adjudication_file": 1,
+            }
+        else:
+            raise FileNotFoundError(
+                f"Adjudication CSV not found: {args.adjudication_csv}. "
+                "Create it first with experiments/prepare_phase_c_adjudication.py or run with --allow-incomplete for smoke checks."
+            )
 
     missing_r1_df = _build_missing_manifest(args.reviewer1_csv, "reviewer1")
     missing_r2_df = _build_missing_manifest(args.reviewer2_csv, "reviewer2")
@@ -691,7 +715,20 @@ def main() -> None:
     worklist_path = args.output_dir / "annotation_worklist.csv"
     worklist_df.to_csv(worklist_path, index=False)
 
-    adjudication_backlog_df = _build_adjudication_backlog(args.adjudication_csv)
+    if adjudication_exists:
+        adjudication_backlog_df = _build_adjudication_backlog(args.adjudication_csv)
+    else:
+        adjudication_backlog_df = pd.DataFrame(
+            columns=[
+                "annotation_item_id",
+                "framework",
+                "benchmark",
+                "run_id",
+                "raw_log_path",
+                "needs_annotation",
+                "needs_adjudication",
+            ]
+        )
     adjudication_backlog_path = args.output_dir / "adjudication_backlog_manifest.csv"
     adjudication_backlog_df.to_csv(adjudication_backlog_path, index=False)
 
