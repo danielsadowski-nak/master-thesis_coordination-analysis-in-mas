@@ -41,9 +41,9 @@ For double-coding, first build an adjudication table from both reviewer sheets:
 
 ```bash
 uv run python experiments/prepare_phase_c_adjudication.py \
-  results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded.csv \
-  results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv \
-  --output-csv results/judge_validation_phase_c_cli_v3/annotation_adjudication_balanced_k2.csv
+  results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv \
+  results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer2.csv \
+  --output-csv results/judge_validation_phase_c_v4/annotation_adjudication.csv
 ```
 
 Interpretation of the adjudication helper columns:
@@ -55,19 +55,16 @@ Compute the final agreement report from adjudication artifacts (QC preflight is 
 
 ```bash
 uv run python experiments/run_phase_c_agreement.py \
-  --adjudication-csv results/judge_validation_phase_c_cli_v3/annotation_adjudication_balanced_k2.csv \
-  --master-csv results/judge_validation_phase_c_cli_v3/annotation_master_balanced_k2.csv \
-  --output-dir results/judge_validation_phase_c_cli_v3/agreement_balanced_k2
+  --adjudication-csv results/judge_validation_phase_c_v4/annotation_adjudication.csv \
+  --master-csv results/judge_validation_phase_c_v4/annotation_master.csv \
+  --output-dir results/judge_validation_phase_c_v4/agreement
 ```
 
 Run annotation quality-control before the strict agreement run:
 
 ```bash
 uv run python experiments/check_phase_c_annotation_quality.py \
-  --reviewer1-csv results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded.csv \
-  --reviewer2-csv results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv \
-  --adjudication-csv results/judge_validation_phase_c_cli_v3/annotation_adjudication_balanced_k2.csv \
-  --output-dir results/judge_validation_phase_c_cli_v3/agreement_balanced_k2
+  --sample-root results/judge_validation_phase_c_v4
 ```
 
 QC outputs:
@@ -141,9 +138,9 @@ For a preliminary (partial) report before all rows are fully resolved:
 ```bash
 uv run python experiments/run_phase_c_agreement.py \
   --allow-partial \
-  --adjudication-csv results/judge_validation_phase_c_cli_v3/annotation_adjudication_balanced_k2.csv \
-  --master-csv results/judge_validation_phase_c_cli_v3/annotation_master_balanced_k2.csv \
-  --output-dir results/judge_validation_phase_c_cli_v3/agreement_balanced_k2
+  --adjudication-csv results/judge_validation_phase_c_v4/annotation_adjudication.csv \
+  --master-csv results/judge_validation_phase_c_v4/annotation_master.csv \
+  --output-dir results/judge_validation_phase_c_v4/agreement
 ```
 
 ## 4) Evidence standard

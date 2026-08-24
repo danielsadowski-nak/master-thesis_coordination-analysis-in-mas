@@ -168,14 +168,15 @@ def main() -> None:
     if args.exclude_frameworks and "framework" in pool.columns:
         pool = pool.loc[~pool["framework"].astype(str).str.lower().isin([f.lower() for f in args.exclude_frameworks])].copy()
 
+    pool = _ensure_annotation_item_id(pool)
+
     excluded_runtime_failures = 0
     excluded_runtime_failure_item_ids: list[str] = []
     if "final_output" in pool.columns:
         timeout_mask = pool["final_output"].fillna("").astype(str).apply(_contains_timeout_text)
         excluded_runtime_failures = int(timeout_mask.sum())
         if excluded_runtime_failures:
-            if "annotation_item_id" in pool.columns:
-                excluded_runtime_failure_item_ids = pool.loc[timeout_mask, "annotation_item_id"].astype(str).tolist()
+            excluded_runtime_failure_item_ids = pool.loc[timeout_mask, "annotation_item_id"].astype(str).tolist()
             pool = pool.loc[~timeout_mask].copy()
 
     if pool.empty:
