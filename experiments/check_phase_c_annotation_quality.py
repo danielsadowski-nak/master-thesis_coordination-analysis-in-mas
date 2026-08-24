@@ -631,12 +631,20 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    success_only_manifest = False
     if args.sample_root is not None:
         sample_root = _resolve_repo_path(args.sample_root)
         args.reviewer1_csv = sample_root / "annotation_sheet_blinded_reviewer1.csv"
         args.reviewer2_csv = sample_root / "annotation_sheet_blinded_reviewer2.csv"
         args.adjudication_csv = sample_root / "annotation_adjudication.csv"
         args.output_dir = sample_root / "agreement"
+        manifest_path = sample_root / "annotation_manifest.json"
+        if manifest_path.exists():
+            try:
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                success_only_manifest = bool(manifest.get("success_only", False))
+            except Exception:
+                success_only_manifest = False
 
     args.reviewer1_csv = _resolve_repo_path(args.reviewer1_csv)
     args.reviewer2_csv = _resolve_repo_path(args.reviewer2_csv)
@@ -648,6 +656,32 @@ def main() -> None:
 
     reviewer1_stats = _validate_reviewer_sheet(args.reviewer1_csv, issues)
     reviewer2_stats = _validate_reviewer_sheet(args.reviewer2_csv, issues)
+
+    if success_only_manifest:
+        if reviewer1_stats.get("non_success_rows", 0) > 0:
+            _add_issue(
+                issues,
+                severity="error",
+                file=args.reviewer1_csv,
+                row_index=None,
+                annotation_item_id=None,
+                column="success",
+                code="non_success_row_in_success_only_sample",
+                message="Manifest marks success_only=true, but reviewer sheet contains failure rows.",
+                value=reviewer1_stats.get("non_success_rows"),
+            )
+        if reviewer2_stats.get("non_success_rows", 0) > 0:
+            _add_issue(
+                issues,
+                severity="error",
+                file=args.reviewer2_csv,
+                row_index=None,
+                annotation_item_id=None,
+                column="success",
+                code="non_success_row_in_success_only_sample",
+                message="Manifest marks success_only=true, but reviewer sheet contains failure rows.",
+                value=reviewer2_stats.get("non_success_rows"),
+            )
 
     adjudication_exists = args.adjudication_csv.exists()
     if adjudication_exists:

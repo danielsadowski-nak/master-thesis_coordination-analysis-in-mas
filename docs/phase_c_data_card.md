@@ -1,136 +1,135 @@
-# Phase C Data Card (Judge-Validation Sample)
+# Phase C Data Card (v4)
 
 ## Purpose
 
-This document describes the provenance, construction logic, quality gates, and limitations of the Phase C annotation dataset used for human-vs-judge validation.
+This data card documents the current Phase C reviewer package used for human-vs-judge validation.
 
 Primary objective:
 
-- create a manually labeled reference set for evaluating agreement with automated MAST judgments.
+- build a double-coded reference set for H5-level agreement analysis.
 
-## Dataset variants
+## Current cycle status
 
-Current variants in this repository:
+Current active sample root:
 
-- broad real-model pool (`n=57`): [results/judge_validation_phase_c_cli_v3/annotation_template.csv](results/judge_validation_phase_c_cli_v3/annotation_template.csv)
-- strict balanced subset (`n=24`): [results/judge_validation_phase_c_cli_v3/annotation_template_balanced_k2.csv](results/judge_validation_phase_c_cli_v3/annotation_template_balanced_k2.csv)
+- `results/judge_validation_phase_c_v4`
 
-This data card focuses on the strict balanced subset (`n=24`) because it is the primary internal-validity sample for double-coding.
+Deprecated for H5:
 
-## Unit of analysis
+- all v3 `balanced_k2` success-only assets under `results/judge_validation_phase_c_cli_v3`
 
-One row equals one completed run with:
+## Source lineage and exclusions
 
-- framework
-- benchmark/task id
-- run index and run id
-- raw trace path
-- final output
-- automated judge fields
-- empty manual/adjudication fields (to be completed later)
+Source experiment root:
 
-## Source lineage
+- `results/coordination_baseline_2026-08-09/experiments`
 
-The balanced subset was created from existing run artifacts generated in earlier phases. The source mapping is encoded via `raw_log_path`.
+Excluded frameworks:
 
-Observed source roots for the current `n=24` subset:
+- `metagpt`
 
-- `coordination_baseline_2026-08-01`: 8 rows
-- `phase_b_autogen_repair_v5`: 5 rows
-- `phase_b_crewai_balance_v1`: 4 rows
-- `phase_b_autogen_repair`: 3 rows
-- `validation_20260801_175116`: 3 rows
-- `validation_20260801_093923`: 1 row
+Excluded runtime failures:
 
-## Sampling and balancing logic
+- timeout-like outputs containing `timed out before completion`
+- excluded count: `60`
 
-Construction metadata is recorded in:
+No cross-root mixing was used.
 
-- [results/judge_validation_phase_c_cli_v3/annotation_manifest_balanced_k2.json](results/judge_validation_phase_c_cli_v3/annotation_manifest_balanced_k2.json)
+## Sampling design
+
+Manifest:
+
+- `results/judge_validation_phase_c_v4/annotation_manifest.json`
 
 Design parameters:
 
 - seed: `42`
-- subset size: `24`
-- all rows must satisfy `success=true`
-- exact cell balancing: `k=2` per framework x benchmark cell
+- requested sample size: `60`
+- realized sample size: `60`
+- stratification success label: `criteria_success` (not runner `success`)
+- `success_only=false`
 
-Resulting marginals:
+Post-filter class balance:
 
-- framework: autogen `8`, crewai `8`, langgraph `8`
-- benchmark tasks: each of 4 coordination tasks contributes `6`
+- `n_success=26`
+- `n_failure=34`
 
-Interpretation:
+Framework counts:
 
-- this is a controlled, stratified validation sample optimized for comparability, not a natural-frequency sample.
+- crewai: `26`
+- langgraph: `19`
+- autogen: `15`
 
-## Inclusion and exclusion rules
+## Unit of analysis
 
-Implemented inclusion intent:
+One row equals one run instance with immutable metadata and evidence text:
 
-- real-model runs only (scaffold/fallback excluded)
-- successful runs only (`success=true`)
-- balanced coverage across framework x task-pressure cells
+- `annotation_item_id`
+- `framework`, `benchmark`, `run_index`, `run_id`
+- `raw_log_path`
+- `final_output`
 
-Operational checks are enforced through the Phase C QC pipeline.
+## Blinding policy
 
-## Quality-control gates
+Reviewer sheets are strictly blinded against automated labels.
 
-QC script:
+Removed from blinded reviewer sheets:
 
-- [experiments/check_phase_c_annotation_quality.py](experiments/check_phase_c_annotation_quality.py)
+- `success`
+- `judge_task_successful`
+- `judge_primary_failure_modes`
+- `judge_summary`
 
-QC outputs:
+Reviewer sheets retain only operational metadata, output evidence, and empty manual/adjudication fields.
 
-- [results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_qc_summary.json](results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_qc_summary.json)
-- [results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_qc_issues.csv](results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_qc_issues.csv)
-- [results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_missing_manifest.csv](results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_missing_manifest.csv)
-- [results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_progress_matrix.csv](results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_progress_matrix.csv)
-- [results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_worklist.csv](results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_worklist.csv)
-- [results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/adjudication_backlog_manifest.csv](results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/adjudication_backlog_manifest.csv)
+## Files
 
-Key guarantees:
+Non-reviewer files:
 
-- required columns present
-- boolean format validity
-- MAST label whitelist validation
-- cross-file integrity (unique IDs, equal item sets, immutable metadata consistency)
+- template: `results/judge_validation_phase_c_v4/annotation_template.csv`
+- master: `results/judge_validation_phase_c_v4/annotation_master.csv`
 
-## Current readiness status
+Reviewer files:
 
-At the time of writing:
+- reviewer1 sheet: `results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv`
+- reviewer2 sheet: `results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer2.csv`
+- worklist: `results/judge_validation_phase_c_v4/annotation_worklist.csv`
+- forms output folder: `results/judge_validation_phase_c_v4/review_forms/`
 
-- reviewer completion is pending (manual fields not yet filled)
-- strict QC remains failing due to incompleteness
-- structural integrity checks are passing
+## Cell balance caveat
 
-This means:
+The manifest includes `unbalanced_cells` and must be checked before interpretation.
 
-- data collection infrastructure is ready
-- inferential agreement reporting is not yet ready until double-coding and adjudication are completed.
+Interpretation rule:
 
-## Intended claims and non-claims
+- unbalanced cells are disclosed as design limitations;
+- H5 subgroup claims should not over-interpret framework-task cells lacking both classes.
 
-Defensible claims after completion:
+## QC policy for this stage
 
-- agreement quality between automated judge and adjudicated human labels under a controlled balanced sample
-- disagreement patterns by mode/category in this constrained setup
+Current stage is pre-annotation shipping.
 
-Non-claims:
+Allowed now:
 
-- population-level prevalence estimates for all possible real-world MAS tasks
-- external generalization beyond the Coordination Suite without additional benchmarks
+- `--allow-incomplete` smoke QC
+- missing adjudication file as warning
 
-## Known limitations
+Not allowed yet:
 
-- custom benchmark design may favor specific coordination pressures
-- sample size `n=24` is validation-oriented and limited for broad subgroup inference
-- source runs originate from multiple experiment roots; balancing controls comparability but not full temporal/model drift
-- automated judge fields currently include heuristic-fallback traces in parts of the pool; this should be disclosed in final reporting
+- strict final QC claims before both reviewer sheets are filled
+- agreement reporting before adjudication
 
-## Recommended thesis wording anchor
+Smoke command:
 
-Use this sample as:
+```bash
+uv run python experiments/check_phase_c_annotation_quality.py \
+  --sample-root results/judge_validation_phase_c_v4 \
+  --allow-incomplete
+```
 
-- an internally controlled validation set for measurement-alignment analysis,
-- complemented by broader robustness checks on the `n=57` pool and external benchmarks for transfer claims.
+## H5 reporting guardrails
+
+- Runtime failures are not part of the annotation set.
+- MetaGPT is excluded in this cycle.
+- Success stratification uses `criteria_success` for sample balancing.
+- Any interpretation must reference `unbalanced_cells` from the v4 manifest.

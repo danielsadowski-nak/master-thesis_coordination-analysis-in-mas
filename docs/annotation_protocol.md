@@ -83,16 +83,16 @@ Independent-reviewer HTML forms can be generated from the blinded reviewer sheet
 
 ```bash
 uv run python experiments/generate_phase_c_review_form.py \
-  --reviewer-csv results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded.csv \
-  --worklist-csv results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_worklist.csv \
+  --reviewer-csv results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv \
+  --worklist-csv results/judge_validation_phase_c_v4/annotation_worklist.csv \
   --reviewer-tag reviewer1 \
-  --output-html results/judge_validation_phase_c_cli_v3/review_forms/reviewer1_form.html
+  --output-html results/judge_validation_phase_c_v4/review_forms/reviewer1_form.html
 
 uv run python experiments/generate_phase_c_review_form.py \
-  --reviewer-csv results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv \
-  --worklist-csv results/judge_validation_phase_c_cli_v3/agreement_balanced_k2/annotation_worklist.csv \
+  --reviewer-csv results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer2.csv \
+  --worklist-csv results/judge_validation_phase_c_v4/annotation_worklist.csv \
   --reviewer-tag reviewer2 \
-  --output-html results/judge_validation_phase_c_cli_v3/review_forms/reviewer2_form.html
+  --output-html results/judge_validation_phase_c_v4/review_forms/reviewer2_form.html
 ```
 
 Reviewer workflow for the HTML form:
@@ -104,8 +104,8 @@ Reviewer workflow for the HTML form:
 
 Distribution assets for independent reviewers:
 
-- briefing: results/judge_validation_phase_c_cli_v3/review_forms/reviewer_briefing_de.md
-- email template: results/judge_validation_phase_c_cli_v3/review_forms/email_template_reviewer_de.txt
+- briefing: results/judge_validation_phase_c_v4/review_forms/reviewer_briefing_de.md
+- email template: results/judge_validation_phase_c_v4/review_forms/email_template_reviewer_de.txt
 
 QC also enforces cross-file integrity checks across reviewer and adjudication tables:
 
@@ -187,38 +187,42 @@ uv run python experiments/run_judge_validation.py \
 - Report per-mode precision, recall, and F1.
 - Include a short qualitative discussion of the highest-value disagreement cases.
 
-## 8) Current cycle assets (2026-08-01)
+## 8) Deprecated legacy assets (v3)
 
-Current generated artifacts for the active Phase C round:
+The v3 `balanced_k2` success-only assets remain for audit lineage only and are deprecated for H5 claims.
 
 - Broad real-model pool (`n=57`): [results/judge_validation_phase_c_cli_v3/annotation_template.csv](results/judge_validation_phase_c_cli_v3/annotation_template.csv)
 - Strict balanced subset (`n=24`, `k=2` per framework x benchmark cell): [results/judge_validation_phase_c_cli_v3/annotation_template_balanced_k2.csv](results/judge_validation_phase_c_cli_v3/annotation_template_balanced_k2.csv)
 - Blinded reviewer sheet 1: [results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded.csv](results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded.csv)
-- Blinded reviewer sheet 2 (duplicate for double-coding): [results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv](results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv)
-- Non-blinded master (for later alignment computation only): [results/judge_validation_phase_c_cli_v3/annotation_master_balanced_k2.csv](results/judge_validation_phase_c_cli_v3/annotation_master_balanced_k2.csv)
-- Reproducibility manifest (seed and cell counts): [results/judge_validation_phase_c_cli_v3/annotation_manifest_balanced_k2.json](results/judge_validation_phase_c_cli_v3/annotation_manifest_balanced_k2.json)
+- Blinded reviewer sheet 2: [results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv](results/judge_validation_phase_c_cli_v3/annotation_sheet_balanced_k2_blinded_reviewer2.csv)
+- Non-blinded master: [results/judge_validation_phase_c_cli_v3/annotation_master_balanced_k2.csv](results/judge_validation_phase_c_cli_v3/annotation_master_balanced_k2.csv)
 
-Recommended analysis order for strict internal validity:
-
-1. Run primary human agreement on the strict balanced subset (`n=24`) to minimize framework/task-pressure confounding.
-2. Run secondary robustness analysis on the broader pool (`n=57`) for higher power.
-3. Compare whether conclusions are directionally stable across both sets.
+Do not use these files for current H5 reporting.
 
 ## 9) Current cycle (v4)
 
 Primary path for the current annotation cycle:
 
-- sample root: results/judge_validation_phase_c_v4
-- blinded sheet 1: results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv
-- blinded sheet 2: results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer2.csv
-- adjudication table: results/judge_validation_phase_c_v4/annotation_adjudication.csv
-- agreement output: results/judge_validation_phase_c_v4/agreement
+- source sample root: results/judge_validation_phase_c_v4
+- reviewer sheet 1: results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv
+- reviewer sheet 2: results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer2.csv
+- worklist: results/judge_validation_phase_c_v4/annotation_worklist.csv
+- master file (non-reviewer): results/judge_validation_phase_c_v4/annotation_master.csv
+- manifest: results/judge_validation_phase_c_v4/annotation_manifest.json
+
+Current-cycle rules:
+
+- MetaGPT excluded.
+- Runtime timeout rows excluded from reviewer sheets.
+- Stratification uses `criteria_success`.
+- Reviewer sheets are blinded and must not include `success` or judge-label columns.
 
 Run sequence:
 
 ```bash
 uv run python experiments/check_phase_c_annotation_quality.py \
-  --sample-root results/judge_validation_phase_c_v4
+  --sample-root results/judge_validation_phase_c_v4 \
+  --allow-incomplete
 
 uv run python experiments/prepare_phase_c_adjudication.py \
   results/judge_validation_phase_c_v4/annotation_sheet_blinded_reviewer1.csv \
@@ -231,6 +235,4 @@ uv run python experiments/run_phase_c_agreement.py \
   --output-dir results/judge_validation_phase_c_v4/agreement
 ```
 
-Important deprecation note:
-
-- v3 balanced_k2 success-only assets are deprecated for H5 and must not be used for binary task-success agreement claims.
+Strict QC is only meaningful after both reviewer sheets are completed and adjudication is available.

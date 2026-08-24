@@ -51,3 +51,11 @@ This log records deviations from `docs/study_protocol.md` and freeze memos.
 - **Primary RQ1 inclusion:** [included / excluded]
 - **Residual scaffold rows:** [count or unknown]
 - **Exclusion handling:** [e.g., filtered by runtime_mode=scaffold and is_valid_analytical=false]
+
+## DEV-007 — Phase C v4 stratification switch and timeout exclusion
+
+- **Detected:** 2026-08-24
+- **Description:** Reviewer-shipping sample moved to v4 with stratification by `criteria_success` instead of runner `success`; runtime timeout rows (`timed out before completion`) were excluded from reviewer sheets.
+- **Impact:** Better alignment with protocol intent (`Runtime-Failures != Task-Failures`) and reduced risk of annotating infrastructure failures as task behavior.
+- **Correction:** Rebuilt `results/judge_validation_phase_c_v4` from `coordination_baseline_2026-08-09` only, excluding MetaGPT and timeout rows.
+- **Thesis handling:** Report the exact v4 manifest fields (`stratification_success_column`, `excluded_runtime_failures`, `unbalanced_cells`) in Phase C methods and limitations.
