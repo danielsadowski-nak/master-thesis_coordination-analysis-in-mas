@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from evaluation.plots import build_batch_dataframe, discover_batch_directories, load_batch_artifacts
+from evaluation.run_validity import annotate_validity, filter_valid_runs
 
 
 ANNOTATION_TEMPLATE_COLUMNS = [
@@ -36,6 +37,9 @@ ANNOTATION_TEMPLATE_COLUMNS = [
 SCAFFOLD_OR_FALLBACK_MARKERS = (
     "No external model configured. This LangGraph runner is operating in fallback mode.",
     "scaffold completed a reproducible placeholder run for the task.",
+    "Framework adapter scaffold",
+    "This adapter currently runs in scaffold mode",
+    "Heuristic fallback only",
 )
 
 
@@ -60,26 +64,41 @@ def load_runs_for_annotation(results_root: Path | str) -> pd.DataFrame:
 
     merged = pd.concat(rows, ignore_index=True)
     available_columns = [
-        "framework",
-        "benchmark",
-        "run_index",
-        "run_id",
-        "raw_log_path",
-        "success",
-        "final_output",
-        "judge_task_successful",
-        "judge_primary_failure_modes",
-        "judge_summary",
+        column
+        for column in [
+            "framework",
+            "benchmark",
+            "run_index",
+            "run_id",
+            "raw_log_path",
+            "success",
+            "final_output",
+            "latency_seconds",
+            "judge_task_successful",
+            "judge_primary_failure_modes",
+            "judge_summary",
+        ]
+        if column in merged.columns
     ]
     template = merged[available_columns].copy()
     for column in ANNOTATION_TEMPLATE_COLUMNS:
         if column not in template.columns:
             template[column] = ""
-    return template[ANNOTATION_TEMPLATE_COLUMNS]
+    return template.reindex(columns=[c for c in ANNOTATION_TEMPLATE_COLUMNS if c in template.columns] + [c for c in template.columns if c not in ANNOTATION_TEMPLATE_COLUMNS])
 
 
-def sample_annotation_rows(df: pd.DataFrame, sample_size: int | None, seed: int = 42) -> pd.DataFrame:
-    """Sample rows for human annotation while preserving group coverage where possible."""
+def sample_annotation_rows(
+    df: pd.DataFrame,
+    sample_size: int | None,
+    seed: int = 42,
+    *,
+    balance_success: bool = True,
+) -> pd.DataFrame:
+    """Sample rows for human annotation with framework x task coverage.
+
+    When balance_success is True and a binary success column exists, the sampler
+    prefers mixed success/failure coverage within each framework x benchmark cell.
+    """
 
     if sample_size is None or sample_size <= 0 or sample_size >= len(df):
         return df.reset_index(drop=True)
@@ -88,52 +107,58 @@ def sample_annotation_rows(df: pd.DataFrame, sample_size: int | None, seed: int 
     if not {"framework", "benchmark"}.issubset(work_df.columns):
         return work_df.sample(n=sample_size, random_state=seed).reset_index(drop=True)
 
+    rng = np.random.default_rng(seed)
     grouped = list(work_df.groupby(["framework", "benchmark"], dropna=False, sort=True))
-    if sample_size <= len(grouped):
-        chosen_group_indices = work_df[["framework", "benchmark"]].drop_duplicates().sample(
-            n=sample_size,
-            random_state=seed,
-        )
-        sampled_indices = []
-        for _, chosen_row in chosen_group_indices.iterrows():
-            matching_group = work_df[
-                (work_df["framework"] == chosen_row["framework"]) &
-                (work_df["benchmark"] == chosen_row["benchmark"])
-            ]
-            sampled_indices.append(int(matching_group.sample(n=1, random_state=seed).index[0]))
-        return work_df.loc[sorted(set(sampled_indices))].reset_index(drop=True)
-
     sampled_indices: list[int] = []
+
+    # First pass: one (preferably mixed) draw per cell.
     for _, group_df in grouped:
-        sampled_indices.append(int(group_df.sample(n=1, random_state=seed).index[0]))
+        chosen = _sample_cell(group_df, n=1, rng=rng, balance_success=balance_success)
+        sampled_indices.extend(int(i) for i in chosen.index.tolist())
 
-    remaining = sample_size - len(sampled_indices)
+    remaining = sample_size - len(set(sampled_indices))
     if remaining > 0:
-        remaining_pool = work_df.drop(index=sampled_indices)
+        remaining_pool = work_df.drop(index=list(set(sampled_indices)))
         if not remaining_pool.empty:
-            extra = remaining_pool.sample(n=min(remaining, len(remaining_pool)), random_state=seed).index.tolist()
-            sampled_indices.extend(int(index) for index in extra)
+            # Prefer underrepresented success polarity if available.
+            if balance_success and "success" in remaining_pool.columns:
+                failures = remaining_pool.loc[~remaining_pool["success"].fillna(False).astype(bool)]
+                successes = remaining_pool.loc[remaining_pool["success"].fillna(False).astype(bool)]
+                ordered_pool = pd.concat([failures, successes], ignore_index=False)
+            else:
+                ordered_pool = remaining_pool
+            extra = ordered_pool.sample(n=min(remaining, len(ordered_pool)), random_state=seed)
+            sampled_indices.extend(int(i) for i in extra.index.tolist())
 
-    sampled = work_df.loc[sorted(set(sampled_indices))]
-    if len(sampled) < sample_size:
-        top_up = work_df.drop(index=sampled.index).sample(n=sample_size - len(sampled), random_state=seed)
-        sampled = pd.concat([sampled, top_up], ignore_index=False)
-
-    return sampled.reset_index(drop=True)
+    unique_indices = sorted(set(sampled_indices))[:sample_size]
+    return work_df.loc[unique_indices].reset_index(drop=True)
 
 
-def filter_annotation_candidates(df: pd.DataFrame, *, real_model_only: bool = False) -> pd.DataFrame:
-    """Filter annotation candidates, optionally excluding scaffold and fallback runs."""
+def filter_annotation_candidates(
+    df: pd.DataFrame,
+    *,
+    real_model_only: bool = False,
+    success_only: bool = False,
+) -> pd.DataFrame:
+    """Filter annotation candidates.
 
-    if not real_model_only or df.empty or "final_output" not in df.columns:
+    Important: real_model_only excludes scaffold/fallback runs but must NOT drop
+    task failures. Restricting to success=true was a protocol bug that made
+    task-success kappa unusable.
+    """
+
+    if df.empty:
         return df.reset_index(drop=True)
 
     work_df = df.copy()
-    if "success" in work_df.columns:
-        work_df = work_df.loc[work_df["success"].fillna(False).astype(bool)]
-    final_output = work_df["final_output"].fillna("").astype(str)
-    mask = ~final_output.apply(_contains_scaffold_or_fallback_marker)
-    return work_df.loc[mask].reset_index(drop=True)
+    if real_model_only:
+        work_df = filter_valid_runs(work_df, exclude_scaffold=True, require_model_judge=False)
+        if "final_output" in work_df.columns:
+            final_output = work_df["final_output"].fillna("").astype(str)
+            work_df = work_df.loc[~final_output.apply(_contains_scaffold_or_fallback_marker)].reset_index(drop=True)
+    if success_only and "success" in work_df.columns:
+        work_df = work_df.loc[work_df["success"].fillna(False).astype(bool)].reset_index(drop=True)
+    return work_df.reset_index(drop=True)
 
 
 def write_annotation_template(
@@ -143,16 +168,29 @@ def write_annotation_template(
     sample_size: int | None = None,
     seed: int = 42,
     real_model_only: bool = False,
+    success_only: bool = False,
+    balance_success: bool = True,
 ) -> pd.DataFrame:
     """Write an annotation template CSV from experiment results."""
 
     template = load_runs_for_annotation(results_root)
-    template = filter_annotation_candidates(template, real_model_only=real_model_only)
-    sampled = sample_annotation_rows(template, sample_size=sample_size, seed=seed)
+    template = filter_annotation_candidates(
+        template,
+        real_model_only=real_model_only,
+        success_only=success_only,
+    )
+    sampled = sample_annotation_rows(
+        template,
+        sample_size=sample_size,
+        seed=seed,
+        balance_success=balance_success,
+    )
     output_path = Path(output_csv)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    sampled.to_csv(output_path, index=False)
-    return sampled
+    # Persist only the annotation schema columns in stable order.
+    export_columns = [c for c in ANNOTATION_TEMPLATE_COLUMNS if c in sampled.columns]
+    sampled[export_columns].to_csv(output_path, index=False)
+    return sampled[export_columns]
 
 
 def compute_cohens_kappa(left: list[bool], right: list[bool]) -> float:
@@ -234,7 +272,14 @@ def build_judge_validation_report(annotations_df: pd.DataFrame) -> dict[str, Any
     """Compute human-vs-judge agreement statistics from annotation rows."""
 
     work_df = annotations_df.copy()
-    work_df = work_df.dropna(subset=["judge_task_successful", "reference_task_successful", "judge_primary_failure_modes", "reference_primary_failure_modes"])
+    work_df = work_df.dropna(
+        subset=[
+            "judge_task_successful",
+            "reference_task_successful",
+            "judge_primary_failure_modes",
+            "reference_primary_failure_modes",
+        ]
+    )
     if work_df.empty:
         raise ValueError("No comparable annotated rows available for judge validation.")
 
@@ -280,9 +325,17 @@ def build_judge_validation_report(annotations_df: pd.DataFrame) -> dict[str, Any
             }
         )
 
-    disagreements = work_df.loc[
-        [not (success_match and mode_match) for success_match, mode_match in zip((work_df["judge_task_successful"].astype(bool) == work_df["reference_task_successful"].astype(bool)).tolist(), exact_matches, strict=False)],
-        [
+    disagreement_mask = [
+        not (success_match and mode_match)
+        for success_match, mode_match in zip(
+            (work_df["judge_task_successful"].astype(bool) == work_df["reference_task_successful"].astype(bool)).tolist(),
+            exact_matches,
+            strict=False,
+        )
+    ]
+    disagreement_columns = [
+        column
+        for column in [
             "framework",
             "benchmark",
             "run_index",
@@ -295,12 +348,16 @@ def build_judge_validation_report(annotations_df: pd.DataFrame) -> dict[str, Any
             "manual_summary",
             "adjudicated_summary",
             "notes",
-        ],
-    ].copy()
+        ]
+        if column in work_df.columns
+    ]
+    disagreements = work_df.loc[disagreement_mask, disagreement_columns].copy()
 
     summary = {
         "n_runs": int(len(work_df)),
-        "task_success_raw_agreement": float(sum(a == b for a, b in zip(judge_success, reference_success, strict=False)) / len(work_df)),
+        "task_success_raw_agreement": float(
+            sum(a == b for a, b in zip(judge_success, reference_success, strict=False)) / len(work_df)
+        ),
         "task_success_cohens_kappa": float(compute_cohens_kappa(judge_success, reference_success)),
         "primary_mode_exact_match_rate": float(sum(exact_matches) / len(exact_matches)),
         "primary_mode_mean_jaccard": float(np.mean(jaccards)) if jaccards else float("nan"),
@@ -362,6 +419,19 @@ def render_judge_validation_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _sample_cell(group_df: pd.DataFrame, *, n: int, rng: np.random.Generator, balance_success: bool) -> pd.DataFrame:
+    if len(group_df) <= n:
+        return group_df
+    if balance_success and "success" in group_df.columns:
+        failures = group_df.loc[~group_df["success"].fillna(False).astype(bool)]
+        successes = group_df.loc[group_df["success"].fillna(False).astype(bool)]
+        if not failures.empty:
+            return failures.sample(n=1, random_state=int(rng.integers(0, 1_000_000)))
+        if not successes.empty:
+            return successes.sample(n=1, random_state=int(rng.integers(0, 1_000_000)))
+    return group_df.sample(n=n, random_state=int(rng.integers(0, 1_000_000)))
+
+
 def _jaccard_score(left: set[str], right: set[str]) -> float:
     if not left and not right:
         return 1.0
@@ -372,5 +442,5 @@ def _jaccard_score(left: set[str], right: set[str]) -> float:
 
 
 def _contains_scaffold_or_fallback_marker(text: str) -> bool:
-    normalized = text.strip()
-    return any(marker in normalized for marker in SCAFFOLD_OR_FALLBACK_MARKERS)
+    normalized = text.strip().lower()
+    return any(marker.lower() in normalized for marker in SCAFFOLD_OR_FALLBACK_MARKERS)
