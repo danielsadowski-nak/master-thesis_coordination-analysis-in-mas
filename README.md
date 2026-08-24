@@ -94,31 +94,40 @@ docker compose -f docker-compose.metagpt.yml build
 docker compose -f docker-compose.metagpt.yml run --rm metagpt-runtime python scripts/check_runtime.py --frameworks metagpt --strict
 ```
 
+**Thesis rule:** Scaffold-/Fallback-Läufe gehören nicht in die primären Ergebnis-Tabellen. MetaGPT wird standardmäßig aus der sauberen Reanalyse ausgeschlossen, bis native Läufe vorliegen.
+
 ## Experimental Protocol (Validation -> Baseline -> Mitigation)
 
 1. **Smoke**: `scripts/smoke_run.py`
 2. **Validation**: `experiments/run_validation.py` (LangGraph, N=3..5)
-3. **Baseline**: `experiments/run_full_baseline_comparison.py` (N=30..50)
-4. **Mitigation**: `experiments/run_mitigation_comparison.py`
+3. **Baseline**: `experiments/run_coordination_baseline.py` (N=30..50)
+4. **Judge validation (Phase C)**: `experiments/build_phase_c_sample_v4.py` + Double-Coding
+5. **Mitigation**: `experiments/run_coordination_mitigation.py`
 
-## Automatische Auswertung vorhandener Ergebnisse
-
-Wenn bereits Experimentartefakte unter `results/` liegen, kannst du direkt Reports erzeugen:
+## Thesis-ready Auswertung vorhandener Ergebnisse
 
 ```bash
-uv run python experiments/generate_statistical_report.py \
-	results/coordination_baseline_2026-08-01/experiments \
-	--output-dir results/coordination_baseline_2026-08-01/reports/thesis_stat_report_v1
+# 1) Baseline ohne Scaffold/MetaGPT-Kontamination neu auswerten
+uv run python experiments/reanalyze_baseline.py \
+  results/coordination_baseline_2026-08-09/experiments \
+  --output-dir results/coordination_baseline_2026-08-09/reports/thesis_clean_v1 \
+  --exclude-frameworks metagpt
 
-uv run python experiments/generate_statistical_report.py \
-	results/coordination_mitigations_2026-08-01/experiments \
-	--output-dir results/coordination_mitigations_2026-08-01/reports/thesis_stat_report_v1
+# 2) Phase-C-Sample neu ziehen (Success + Failure, n=60)
+uv run python experiments/build_phase_c_sample_v4.py \
+  results/coordination_baseline_2026-08-09/experiments \
+  --output-dir results/judge_validation_phase_c_v4 \
+  --sample-size 60 \
+  --exclude-frameworks metagpt
 
+# 3) Readiness der laufenden Annotation prüfen
 uv run python experiments/phase_c_readiness_status.py
 ```
 
 ## Zentrale Dokumentation
 
+- Thesis Readiness Plan: [docs/thesis_readiness_plan.md](docs/thesis_readiness_plan.md)
+- Protocol Deviations: [docs/protocol_deviations.md](docs/protocol_deviations.md)
 - Installation: [docs/install_guide.md](docs/install_guide.md)
 - Reproduzierbarkeit: [docs/reproducibility.md](docs/reproducibility.md)
 - Nutzung: [docs/user_guide.md](docs/user_guide.md)
