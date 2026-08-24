@@ -21,6 +21,9 @@ class FrameworkAdapterRunner(BaseMASRunner):
 
     The class provides a deterministic, traceable scaffold that can later be
     replaced with native framework orchestration without changing downstream APIs.
+
+    Scaffold runs are intentionally marked as analytically invalid so they cannot
+    silently enter primary thesis comparisons.
     """
 
     def __init__(
@@ -44,7 +47,13 @@ class FrameworkAdapterRunner(BaseMASRunner):
         context = self.trace_logger.start_run(
             framework_name=self.name,
             task_description=task_description,
-            metadata={"max_steps": max_steps, "seed": self.seed, "adapter": self.name},
+            metadata={
+                "max_steps": max_steps,
+                "seed": self.seed,
+                "adapter": self.name,
+                "runtime_mode": "scaffold",
+                "is_valid_analytical": False,
+            },
             run_id=run_id,
         )
 
@@ -56,7 +65,11 @@ class FrameworkAdapterRunner(BaseMASRunner):
             kind=StepKind.PROMPT,
             role="system",
             content=prompt,
-            state_snapshot={"task_description": task_description, "max_steps": max_steps},
+            state_snapshot={
+                "task_description": task_description,
+                "max_steps": max_steps,
+                "runtime_mode": "scaffold",
+            },
         )
 
         response_text = self._generate_response(task_description=task_description, max_steps=max_steps)
@@ -71,7 +84,11 @@ class FrameworkAdapterRunner(BaseMASRunner):
             content=response_text,
             latency_ms=latency_seconds * 1000.0,
             token_count=token_estimate,
-            state_snapshot={"adapter": self.name, "latency_seconds": latency_seconds},
+            state_snapshot={
+                "adapter": self.name,
+                "latency_seconds": latency_seconds,
+                "runtime_mode": "scaffold",
+            },
         )
         self.trace_logger.log_event(
             run_id=run_id,
@@ -79,7 +96,12 @@ class FrameworkAdapterRunner(BaseMASRunner):
             kind=StepKind.FINAL,
             role="system",
             content=response_text,
-            state_snapshot={"success": True, "adapter": self.name},
+            state_snapshot={
+                "success": False,
+                "adapter": self.name,
+                "runtime_mode": "scaffold",
+                "is_valid_analytical": False,
+            },
         )
 
         metrics = RunMetrics(
@@ -94,12 +116,12 @@ class FrameworkAdapterRunner(BaseMASRunner):
         full_trace = self.trace_logger.read_trace(run_id)
         self.trace_logger.finish_run(
             run_id=run_id,
-            success=True,
+            success=False,
             final_output=response_text,
             metrics=metrics.model_dump(),
         )
         return TraceResult(
-            success=True,
+            success=False,
             final_output=response_text,
             full_trace=full_trace,
             metrics=metrics,
@@ -119,5 +141,6 @@ class FrameworkAdapterRunner(BaseMASRunner):
     def _generate_response(self, *, task_description: str, max_steps: int) -> str:
         return (
             f"{self.name} scaffold completed a reproducible placeholder run for the task. "
-            f"The framework-specific integration can now be attached to this adapter without changing the API."
+            f"The framework-specific integration can now be attached to this adapter without changing the API. "
+            f"runtime_mode=scaffold; is_valid_analytical=false."
         )
