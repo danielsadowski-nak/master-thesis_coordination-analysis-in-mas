@@ -416,6 +416,21 @@ def _validate_adjudication_table(path: Path, issues: list[QCIssue]) -> dict[str,
                 message="Adjudicated task-success label is required for disagreement rows.",
                 value=row.get("adjudicated_task_successful"),
             )
+
+        no_mode_selected = len(adjudicated_modes) == 1 and adjudicated_modes[0] == NO_FAILURE_MODE_LABEL
+        if NO_FAILURE_MODE_LABEL in adjudicated_modes and not no_mode_selected:
+            _add_issue(
+                issues,
+                severity="error",
+                file=path,
+                row_index=int(row_index),
+                annotation_item_id=item_id,
+                column="adjudicated_primary_failure_modes",
+                code="invalid_adjudicated_no_mode_combination",
+                message="NO_FAILURE_MODE must not be combined with other adjudicated mode labels.",
+                value=row.get("adjudicated_primary_failure_modes"),
+            )
+
         if not adjudicated_modes:
             _add_issue(
                 issues,
@@ -428,9 +443,10 @@ def _validate_adjudication_table(path: Path, issues: list[QCIssue]) -> dict[str,
                 message="Adjudicated mode labels are required for disagreement rows.",
                 value=row.get("adjudicated_primary_failure_modes"),
             )
-        else:
-            invalid_modes = [mode for mode in adjudicated_modes if mode not in ALLOWED_MODES]
-            if invalid_modes:
+            continue
+
+        if adjudicated_success is True:
+            if not no_mode_selected:
                 _add_issue(
                     issues,
                     severity="error",
@@ -438,10 +454,39 @@ def _validate_adjudication_table(path: Path, issues: list[QCIssue]) -> dict[str,
                     row_index=int(row_index),
                     annotation_item_id=item_id,
                     column="adjudicated_primary_failure_modes",
-                    code="invalid_adjudicated_mode_label",
-                    message="Adjudicated mode label is not part of the canonical MAST taxonomy.",
-                    value="; ".join(invalid_modes),
+                    code="adjudicated_success_requires_no_failure_mode",
+                    message="Adjudicated success rows must use NO_FAILURE_MODE as the sole mode label.",
+                    value=row.get("adjudicated_primary_failure_modes"),
                 )
+            continue
+
+        if no_mode_selected:
+            _add_issue(
+                issues,
+                severity="error",
+                file=path,
+                row_index=int(row_index),
+                annotation_item_id=item_id,
+                column="adjudicated_primary_failure_modes",
+                code="adjudicated_failure_cannot_use_no_failure_mode",
+                message="Adjudicated failure rows must use canonical MAST mode labels, not NO_FAILURE_MODE.",
+                value=row.get("adjudicated_primary_failure_modes"),
+            )
+            continue
+
+        invalid_modes = [mode for mode in adjudicated_modes if mode not in ALLOWED_MODES]
+        if invalid_modes:
+            _add_issue(
+                issues,
+                severity="error",
+                file=path,
+                row_index=int(row_index),
+                annotation_item_id=item_id,
+                column="adjudicated_primary_failure_modes",
+                code="invalid_adjudicated_mode_label",
+                message="Adjudicated mode label is not part of the canonical MAST taxonomy.",
+                value="; ".join(invalid_modes),
+            )
 
     return {"rows": int(len(df)), "rows_needing_adjudication": int(rows_needing_adjudication)}
 

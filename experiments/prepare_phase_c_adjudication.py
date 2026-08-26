@@ -15,7 +15,6 @@ KEY_COLUMNS = [
     "run_index",
     "run_id",
     "raw_log_path",
-    "success",
     "final_output",
 ]
 
