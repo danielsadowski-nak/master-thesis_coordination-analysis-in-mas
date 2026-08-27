@@ -10,7 +10,7 @@ Scope: Phase D mitigation study configuration freeze (pre-run).
 - Model name: `gpt-4o-mini`
 - Temperature: `0.0`
 - Max steps: `25`
-- Seed strategy: fixed deterministic seed `42` for reproducible replay
+- Seed strategy: fixed base seed `42` with deterministic per-repeat derivation (`base_seed + run_index`)
 - Runs per cell target: `30`
 - Task source: `data/coordination_tasks/coordination_suite_v1.jsonl`
 - Task family: Coordination Suite (8 tasks)
@@ -20,6 +20,11 @@ Scope: Phase D mitigation study configuration freeze (pre-run).
   - `supervisor_orchestrator`
   - `reflection_independent_verification`
 - Judge in Phase D confirmatory run: disabled by default (`--mast-judge-enabled` not set)
+
+## Confirmatory Analysis Unit (Frozen)
+
+- H4 confirmatory tests are pooled within framework across all Coordination Suite tasks.
+- Per-task outputs are descriptive/exploratory and reported separately from confirmatory inference.
 
 ## Operationalization Note
 

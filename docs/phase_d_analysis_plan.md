@@ -13,6 +13,10 @@ Status: Frozen for review before any Phase D runtime execution.
 ## Outcomes
 
 - Primary outcome: `criteria_success`.
+- Criteria-scoring input normalization (measurement validity):
+  - Apply one identical extraction rule across all four conditions.
+  - If `final_output` is parseable JSON and contains non-empty `final_answer`, score criteria on `final_answer`.
+  - Otherwise, score criteria on the full raw `final_output`.
 - Secondary outcomes:
   - `latency_seconds`
   - `token` and `cost` only when fields are present and non-null/non-empty in the analyzed rows.
@@ -33,6 +37,8 @@ Status: Frozen for review before any Phase D runtime execution.
 - All confirmatory comparisons are within-framework.
 - For each framework, compare `none` versus each of the three mitigation conditions.
 - No multi-plugin combination cells.
+- Confirmatory analysis unit: pooled runs within framework across all 8 tasks.
+- Per-task contrasts are descriptive/exploratory only and are not part of the confirmatory H4 test family.
 
 ## Statistical Plan
 
@@ -40,9 +46,19 @@ Status: Frozen for review before any Phase D runtime execution.
   - Use Chi-square when assumptions are met, otherwise Fisher exact.
   - Do not use Welch t-test for binary outcomes.
 - Continuous secondary outcome (`latency_seconds`):
-  - Report Mann-Whitney U and Welch t-test for pairwise `none` vs strategy contrasts.
+  - Confirmatory family: Mann-Whitney U for pairwise `none` vs strategy contrasts.
+  - Robustness only: Welch t-test reported separately as sensitivity analysis.
 - Multiplicity control:
   - Holm correction across the 3 strategy comparisons per framework (family-wise per framework).
+- Effect sizes (report with tests):
+  - `criteria_success`: risk difference and odds ratio.
+  - `latency_seconds`: Cliff's Delta.
+
+## Seed Policy
+
+- Base seed remains fixed for reproducibility.
+- Repeated runs inside one design cell must use deterministic derived seeds (`base_seed + run_index` or equivalent one-to-one mapping).
+- Identical seed reuse across all repeats in a cell is not allowed for confirmatory Phase D.
 
 ## Exclusions And Missingness
 

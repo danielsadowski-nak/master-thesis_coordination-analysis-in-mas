@@ -5,6 +5,7 @@ Generated with GitHub Copilot assistance - reviewed and adapted by author.
 
 from __future__ import annotations
 
+import inspect
 import json
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -23,7 +24,7 @@ from evaluation.task_success import extract_task_id, score_output_against_criter
 from frameworks.base_runner import TraceResult
 
 
-RunnerFactory = Callable[[], Any]
+RunnerFactory = Callable[..., Any]
 
 
 @dataclass(slots=True)
@@ -84,7 +85,7 @@ class ExperimentHarness:
         traces_dir.mkdir(parents=True, exist_ok=True)
 
         for run_index in range(num_runs):
-            runner = self.runner_factory()
+            runner = self._build_runner_for_index(run_index)
             run_with_context = getattr(runner, "run_task_with_context", None)
             if callable(run_with_context):
                 result = run_with_context(
@@ -134,6 +135,17 @@ class ExperimentHarness:
             "records_path": str(records_path),
             "batch_dir": str(batch_dir),
         }
+
+    def _build_runner_for_index(self, run_index: int) -> Any:
+        """Instantiate runner factory, forwarding run index when supported."""
+
+        try:
+            parameters = inspect.signature(self.runner_factory).parameters
+            if "run_index" in parameters:
+                return self.runner_factory(run_index=run_index)
+        except (TypeError, ValueError):
+            pass
+        return self.runner_factory()
 
     def _build_judge_model(self) -> Any | None:
         """Build an optional LLM-as-Judge model when enabled by config."""

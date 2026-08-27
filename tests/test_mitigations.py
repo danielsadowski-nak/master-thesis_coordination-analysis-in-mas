@@ -5,6 +5,8 @@ from __future__ import annotations
 from types import SimpleNamespace
 
 from frameworks.adapter_runner import FrameworkAdapterRunner
+from frameworks.autogen_runner import AutoGenRunner
+from frameworks.crewai_runner import CrewAIRunner
 from frameworks.langgraph_runner import LangGraphRunner
 from utils.mitigations import (
     StructuredOutputValidationMitigation,
@@ -120,3 +122,25 @@ def test_build_mitigation_strategies_resolves_and_validates_names() -> None:
         "supervisor_orchestrator",
         "reflection_independent_verification",
     ]
+
+
+def test_none_vs_plugin_changes_prompt_for_primary_runners() -> None:
+    task = "Solve the task."
+
+    autogen_none = AutoGenRunner(mitigation_strategies=())._build_system_prompt(task, 3)
+    autogen_plugin = AutoGenRunner(mitigation_strategies=(StructuredOutputValidationMitigation(),))._build_system_prompt(task, 3)
+    assert "Mitigation plugin:" not in autogen_none
+    assert "Mitigation plugin:" in autogen_plugin
+    assert autogen_none != autogen_plugin
+
+    crewai_none = CrewAIRunner(mitigation_strategies=())._build_system_prompt(task, 3)
+    crewai_plugin = CrewAIRunner(mitigation_strategies=(StructuredOutputValidationMitigation(),))._build_system_prompt(task, 3)
+    assert "Mitigation plugin:" not in crewai_none
+    assert "Mitigation plugin:" in crewai_plugin
+    assert crewai_none != crewai_plugin
+
+    langgraph_none = LangGraphRunner(mitigation_strategies=())._build_prompt(task, [])
+    langgraph_plugin = LangGraphRunner(mitigation_strategies=(StructuredOutputValidationMitigation(),))._build_prompt(task, [])
+    assert "Mitigation plugin:" not in langgraph_none
+    assert "Mitigation plugin:" in langgraph_plugin
+    assert langgraph_none != langgraph_plugin

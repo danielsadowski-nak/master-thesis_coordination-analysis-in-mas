@@ -136,56 +136,76 @@ def build_runner_factory(
     mitigation_strategies = build_mitigation_strategies(mitigation_names)
     if framework == "langgraph":
         model = _build_langgraph_model(model_name, temperature, api_key=llm_api_key, base_url=llm_base_url)
-        return lambda: LangGraphRunner(
-            model=model,
-            mitigation_strategies=mitigation_strategies,
-            trace_dir=trace_dir,
-            checkpoint_dir=checkpoint_dir,
-            seed=seed,
-            langsmith_enabled=False,
-            langsmith_project=langsmith_project,
-            langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
-            llm_api_key=llm_api_key,
-            llm_base_url=llm_base_url,
-        )
+
+        def _factory(run_index: int = 0) -> LangGraphRunner:
+            derived_seed = seed + int(run_index)
+            return LangGraphRunner(
+                model=model,
+                mitigation_strategies=mitigation_strategies,
+                trace_dir=trace_dir,
+                checkpoint_dir=checkpoint_dir,
+                seed=derived_seed,
+                langsmith_enabled=False,
+                langsmith_project=langsmith_project,
+                langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
+                llm_api_key=llm_api_key,
+                llm_base_url=llm_base_url,
+            )
+
+        return _factory
     if framework == "autogen":
-        return lambda: AutoGenRunner(
-            mitigation_strategies=mitigation_strategies,
-            trace_dir=trace_dir,
-            seed=seed,
-            model_name=model_name,
-            temperature=temperature,
-            langsmith_enabled=False,
-            langsmith_project=langsmith_project,
-            langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
-            llm_api_key=llm_api_key,
-            llm_base_url=llm_base_url,
-        )
+
+        def _factory(run_index: int = 0) -> AutoGenRunner:
+            derived_seed = seed + int(run_index)
+            return AutoGenRunner(
+                mitigation_strategies=mitigation_strategies,
+                trace_dir=trace_dir,
+                seed=derived_seed,
+                model_name=model_name,
+                temperature=temperature,
+                langsmith_enabled=False,
+                langsmith_project=langsmith_project,
+                langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
+                llm_api_key=llm_api_key,
+                llm_base_url=llm_base_url,
+            )
+
+        return _factory
     if framework == "crewai":
-        return lambda: CrewAIRunner(
-            mitigation_strategies=mitigation_strategies,
-            trace_dir=trace_dir,
-            seed=seed,
-            model_name=model_name,
-            temperature=temperature,
-            process="sequential",
-            langsmith_enabled=False,
-            langsmith_project=langsmith_project,
-            langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
-            llm_api_key=llm_api_key,
-            llm_base_url=llm_base_url,
-        )
+
+        def _factory(run_index: int = 0) -> CrewAIRunner:
+            derived_seed = seed + int(run_index)
+            return CrewAIRunner(
+                mitigation_strategies=mitigation_strategies,
+                trace_dir=trace_dir,
+                seed=derived_seed,
+                model_name=model_name,
+                temperature=temperature,
+                process="sequential",
+                langsmith_enabled=False,
+                langsmith_project=langsmith_project,
+                langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
+                llm_api_key=llm_api_key,
+                llm_base_url=llm_base_url,
+            )
+
+        return _factory
     if framework == "metagpt":
-        return lambda: MetaGptRunner(
-            mitigation_strategies=mitigation_strategies,
-            trace_dir=trace_dir,
-            seed=seed,
-            langsmith_enabled=False,
-            langsmith_project=langsmith_project,
-            langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
-            llm_api_key=llm_api_key,
-            llm_base_url=llm_base_url,
-        )
+
+        def _factory(run_index: int = 0) -> MetaGptRunner:
+            derived_seed = seed + int(run_index)
+            return MetaGptRunner(
+                mitigation_strategies=mitigation_strategies,
+                trace_dir=trace_dir,
+                seed=derived_seed,
+                langsmith_enabled=False,
+                langsmith_project=langsmith_project,
+                langsmith_tags=("coordination-mitigation", framework, *(mitigation_names or ("none",))),
+                llm_api_key=llm_api_key,
+                llm_base_url=llm_base_url,
+            )
+
+        return _factory
     raise ValueError(f"Unsupported framework '{framework}'")
 
 

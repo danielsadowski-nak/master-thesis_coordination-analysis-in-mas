@@ -51,3 +51,28 @@ def test_harness_reports_heuristic_judge_runtime_by_default(tmp_path) -> None:
     )
 
     assert result["summary"]["mast_judge_runtime"] == "heuristic_fallback"
+
+
+def test_harness_passes_run_index_when_runner_factory_supports_it(tmp_path) -> None:
+    class IndexedRunner(DummyRunner):
+        def __init__(self, seed: int) -> None:
+            super().__init__()
+            self.seed = seed
+
+    created_seeds: list[int] = []
+
+    def runner_factory(*, run_index: int) -> IndexedRunner:
+        seed = 42 + run_index
+        created_seeds.append(seed)
+        return IndexedRunner(seed=seed)
+
+    harness = ExperimentHarness(runner_factory=runner_factory, output_dir=tmp_path)
+    harness.run(
+        task_description="Solve the task.",
+        framework_name="langgraph",
+        benchmark_name="gaia",
+        num_runs=3,
+        max_steps=3,
+    )
+
+    assert created_seeds == [42, 43, 44]
