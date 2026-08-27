@@ -70,7 +70,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--frameworks",
         nargs="*",
-        default=["langgraph", "autogen", "crewai", "metagpt"],
+        default=["langgraph", "autogen", "crewai"],
         choices=["langgraph", "autogen", "crewai", "metagpt"],
     )
     parser.add_argument("--require-native-frameworks", action="store_true")
@@ -325,6 +325,22 @@ def _write_analysis_reports(run_root: Path, experiments_root: Path, reports_root
     comparisons_df = pd.DataFrame(comparison_rows)
     comparisons_df.to_csv(reports_root / "with_vs_without_mitigation_tests.csv", index=False)
 
+    legacy_notice = {
+        "status": "non_confirmatory_legacy",
+        "reason": "Inline mitigation report is legacy convenience output and not the confirmatory Phase D H4 analysis.",
+        "confirmatory_primary_outcome": "criteria_success",
+        "confirmatory_latency_test": "mannwhitney",
+        "confirmatory_reanalysis_script": "experiments/reanalyze_phase_d.py",
+        "recommended_command": (
+            "uv run python experiments/reanalyze_phase_d.py <phase_d_results_root> "
+            "--output-dir <phase_d_results_root>/reports/thesis_clean_v1"
+        ),
+    }
+    (reports_root / "non_confirmatory_legacy_notice.json").write_text(
+        json.dumps(legacy_notice, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
 
 def _write_design_metadata(run_root: Path, args: argparse.Namespace, tasks: list[Any]) -> None:
     metadata = {
@@ -375,6 +391,8 @@ def main() -> None:
     )
 
     if args.thesis_strict and not args.allow_smoke:
+        if "metagpt" in selected_frameworks:
+            raise ValueError("--thesis-strict does not allow metagpt. Use only langgraph/autogen/crewai for confirmatory Phase D.")
         if args.num_runs < 30:
             raise ValueError("--thesis-strict requires --num-runs >= 30 unless --allow-smoke is set.")
         if len(selected_frameworks) <= 1:

@@ -20,7 +20,7 @@ from benchmarks.base import BenchmarkTask
 from evaluation.mast_classifier import MASTClassifier, MASTJudgement
 from evaluation.metrics import results_to_frame, summarize_results
 from evaluation.run_validity import classify_run_row
-from evaluation.task_success import extract_task_id, score_output_against_criteria
+from evaluation.task_success import extract_task_id, normalize_output_for_criteria_scoring, score_output_against_criteria
 from frameworks.base_runner import TraceResult
 
 
@@ -207,7 +207,8 @@ class ExperimentHarness:
         mast_judge_runtime: str,
     ) -> None:
         task_id = extract_task_id(benchmark_name)
-        criteria = score_output_against_criteria(task_id, result.final_output)
+        criteria_input = normalize_output_for_criteria_scoring(result.final_output)
+        criteria = score_output_against_criteria(task_id, criteria_input)
         runtime_mode = result.runtime_mode
         validity_seed = {
             "framework": framework_name,

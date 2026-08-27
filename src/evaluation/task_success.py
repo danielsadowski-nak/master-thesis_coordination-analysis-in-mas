@@ -73,6 +73,38 @@ def extract_task_id(benchmark: str | None) -> str:
     return text
 
 
+def normalize_output_for_criteria_scoring(final_output: Any) -> str:
+    """Normalize model output for criteria scoring.
+
+    Rule (applied uniformly across conditions):
+    - If final_output is parseable JSON object with a non-empty final_answer field,
+      score only final_answer.
+    - Otherwise score the raw final_output text.
+    """
+
+    raw_text = "" if final_output is None else str(final_output)
+    stripped = raw_text.strip()
+    if not stripped:
+        return raw_text
+
+    try:
+        parsed = json.loads(stripped)
+    except json.JSONDecodeError:
+        return raw_text
+
+    if not isinstance(parsed, dict):
+        return raw_text
+
+    final_answer = parsed.get("final_answer")
+    if final_answer is None:
+        return raw_text
+
+    final_answer_text = str(final_answer).strip()
+    if not final_answer_text:
+        return raw_text
+    return final_answer_text
+
+
 def score_output_against_criteria(task_id: str, final_output: str) -> dict[str, Any]:
     """Score one output against the independent criteria anchors."""
 
@@ -121,7 +153,8 @@ def annotate_criteria_success(df: pd.DataFrame) -> pd.DataFrame:
     rows: list[dict[str, Any]] = []
     for _, row in df.iterrows():
         task_id = extract_task_id(row.get("benchmark") or row.get("task_id"))
-        scored = score_output_against_criteria(task_id, str(row.get("final_output") or ""))
+        scoring_text = normalize_output_for_criteria_scoring(row.get("final_output"))
+        scored = score_output_against_criteria(task_id, scoring_text)
         rows.append(
             {
                 "task_id": scored["task_id"],
