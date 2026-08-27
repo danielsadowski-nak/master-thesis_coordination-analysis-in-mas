@@ -59,3 +59,11 @@ This log records deviations from `docs/study_protocol.md` and freeze memos.
 - **Impact:** Better alignment with protocol intent (`Runtime-Failures != Task-Failures`) and reduced risk of annotating infrastructure failures as task behavior.
 - **Correction:** Rebuilt `results/judge_validation_phase_c_v4` from `coordination_baseline_2026-08-09` only, excluding MetaGPT and timeout rows.
 - **Thesis handling:** Report the exact v4 manifest fields (`stratification_success_column`, `excluded_runtime_failures`, `unbalanced_cells`) in Phase C methods and limitations.
+
+## DEV-008 — Phase D mitigations are prompt-level operationalizations
+
+- **Detected:** 2026-08-27
+- **Description:** Registered Phase D mitigation strategies (`structured_output_validation`, `supervisor_orchestrator`, `reflection_independent_verification`) are currently implemented as prompt augmentation plugins (`augment_system_prompt`), not architecture-level agent rewrites.
+- **Impact:** H4 interpretation is bounded to this operationalization level; results must not be framed as architectural intervention effects.
+- **Correction:** Freeze Phase D claims to prompt-level mitigation efficacy only; keep registry names and runner wiring stable for confirmatory runs.
+- **Thesis handling:** State explicitly in methods and limitations that H4 is tested only under prompt-level operationalization in the current implementation.
