@@ -1,0 +1,41 @@
+{
+  "benchmark": "coordination_suite",
+  "design": {
+    "frameworks": [
+      "langgraph",
+      "autogen",
+      "crewai"
+    ],
+    "strategies": [
+      "structured_output_validation",
+      "supervisor_orchestrator",
+      "reflection_independent_verification"
+    ],
+    "num_runs": 1,
+    "max_steps": 25,
+    "model_name": "gpt-4o-mini",
+    "temperature": 0.0,
+    "comparison_test": "welch",
+    "mast_judge_enabled": false,
+    "require_native_frameworks": false,
+    "thesis_strict": false,
+    "allow_smoke": true,
+    "cell_timeout_seconds": 180.0,
+    "repair_missing_only": true,
+    "repair_label": "runtime-repair-1",
+    "study_protocol": "docs/study_protocol.md",
+    "codebook": "docs/coordination_suite_codebook.md"
+  },
+  "tasks": [
+    {
+      "task_id": "coord-info-asymmetry-constraint",
+      "title": "Hidden deployment constraint",
+      "coordination_pressure": [
+        "information_asymmetry",
+        "poor_handoff"
+      ],
+      "expected_behavior": "The team should explicitly surface the legal logging constraint and incorporate it into plan and verification.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    }
+  ]
+}

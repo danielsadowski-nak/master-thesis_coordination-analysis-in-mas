@@ -7,9 +7,14 @@ Smoke runs remain possible for debugging, but thesis-grade runs should use
 from __future__ import annotations
 
 import argparse
+import csv
 import json
+import signal
 import sys
-from datetime import date
+import time
+import uuid
+from contextlib import contextmanager
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +29,7 @@ if str(SRC_DIR) not in sys.path:
 from evaluation.experiment_harness import ExperimentHarness
 from evaluation.metrics import build_statistical_report, pairwise_condition_comparisons
 from evaluation.plots import load_experiment_dataframe, render_thesis_report
+from evaluation.task_success import score_output_against_criteria
 from frameworks.autogen_runner import AutoGenRunner
 from frameworks.crewai_runner import CrewAIRunner
 from frameworks.langgraph_runner import LangGraphRunner
@@ -76,7 +82,197 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--require-native-frameworks", action="store_true")
     parser.add_argument("--thesis-strict", action="store_true", help="Abort underpowered runs (num_runs < 30 or degenerate design cells).")
     parser.add_argument("--allow-smoke", action="store_true", help="Allow smoke-sized runs when --thesis-strict is enabled.")
+    parser.add_argument(
+        "--cell-timeout-seconds",
+        type=float,
+        default=None,
+        help="Optional wall-clock timeout per framework/task/condition cell. On timeout, a runtime_failure artifact is written and execution continues.",
+    )
+    parser.add_argument(
+        "--repair-missing-only",
+        action="store_true",
+        help="Only execute cells that do not already have run artifacts for the requested num-runs.",
+    )
+    parser.add_argument(
+        "--repair-label",
+        type=str,
+        default="",
+        help="Optional label recorded in manifest metadata to mark repair/incomplete runs.",
+    )
     return parser.parse_args()
+
+
+class CellTimeoutError(TimeoutError):
+    """Raised when a mitigation cell exceeds the configured wall-clock timeout."""
+
+
+@contextmanager
+def _cell_timeout(seconds: float | None):
+    if seconds is None:
+        yield
+        return
+    if seconds <= 0:
+        yield
+        return
+
+    def _handle_timeout(_signum, _frame):
+        raise CellTimeoutError(f"Cell exceeded wall-clock timeout ({seconds}s)")
+
+    previous_handler = signal.getsignal(signal.SIGALRM)
+    signal.signal(signal.SIGALRM, _handle_timeout)
+    signal.setitimer(signal.ITIMER_REAL, float(seconds))
+    try:
+        yield
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous_handler)
+
+
+def _cell_batch_dir(experiments_root: Path, *, task_key: str, condition_name: str, framework: str) -> Path:
+    benchmark_name = f"{task_key}/{condition_name}"
+    return experiments_root / benchmark_name / framework
+
+
+def _cell_completed(batch_dir: Path, num_runs: int) -> bool:
+    if num_runs <= 0:
+        return False
+    target_run = batch_dir / f"run_{num_runs - 1:03d}.json"
+    records = batch_dir / "records.csv"
+    summary = batch_dir / "summary.json"
+    return target_run.exists() and records.exists() and summary.exists()
+
+
+def _write_runtime_failure_artifacts(
+    *,
+    experiments_root: Path,
+    traces_root: Path,
+    task_id: str,
+    task_key: str,
+    condition_name: str,
+    framework: str,
+    timeout_seconds: float | None,
+    reason: str,
+) -> dict[str, Any]:
+    benchmark_name = f"{task_key}/{condition_name}"
+    batch_dir = _cell_batch_dir(experiments_root, task_key=task_key, condition_name=condition_name, framework=framework)
+    batch_dir.mkdir(parents=True, exist_ok=True)
+
+    trace_framework_dir = traces_root / framework / condition_name / framework
+    trace_framework_dir.mkdir(parents=True, exist_ok=True)
+    trace_path = trace_framework_dir / f"{uuid.uuid4()}.jsonl"
+
+    timeout_text = (
+        f"Runtime failure: mitigation cell timed out before completion. "
+        f"framework={framework}; condition={condition_name}; timeout_seconds={timeout_seconds}"
+    )
+    criteria = score_output_against_criteria(task_id, timeout_text)
+    now_iso = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+
+    trace_event = {
+        "step_index": 0,
+        "kind": "error",
+        "role": "system",
+        "content": timeout_text,
+        "timestamp": now_iso,
+        "metadata": {"reason": reason, "timeout_seconds": timeout_seconds},
+    }
+    trace_path.write_text(json.dumps(trace_event, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    run_payload = {
+        "run_index": 0,
+        "success": False,
+        "final_output": timeout_text,
+        "metrics": {
+            "latency_seconds": float(timeout_seconds or 0.0),
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0,
+            "tool_calls": 0,
+            "steps_executed": 1,
+            "cost_usd": 0.0,
+        },
+        "raw_log_path": str(trace_path),
+        "run_id": str(uuid.uuid4()),
+        "runtime_mode": "runtime_failure",
+        "is_valid_analytical": False,
+        "judgement": {
+            "task_successful": False,
+            "primary_failure_modes": [],
+            "summary": timeout_text,
+            "reasoning": "runtime timeout",
+            "raw_response": "",
+        },
+        "criteria_success": criteria["criteria_success"],
+        "criteria_matched": criteria["criteria_matched"],
+        "criteria_total": criteria["criteria_total"],
+        "criteria_scorer": criteria["scorer"],
+        "task_id": task_id,
+        "is_scaffold": False,
+        "is_heuristic_judge": True,
+        "is_runtime_failure": True,
+        "validity_reason": reason,
+        "derived_is_valid_analytical": False,
+        "mast_judge_enabled": False,
+        "mast_judge_runtime": "heuristic_fallback",
+    }
+    (batch_dir / "run_000.json").write_text(json.dumps(run_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    with (batch_dir / "records.csv").open("w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(
+            fh,
+            fieldnames=[
+                "run_index",
+                "success",
+                "final_output",
+                "latency_seconds",
+                "prompt_tokens",
+                "completion_tokens",
+                "total_tokens",
+                "tool_calls",
+                "steps_executed",
+                "cost_usd",
+                "raw_log_path",
+                "run_id",
+                "runtime_mode",
+                "is_valid_analytical",
+            ],
+        )
+        writer.writeheader()
+        writer.writerow(
+            {
+                "run_index": 0,
+                "success": False,
+                "final_output": timeout_text,
+                "latency_seconds": float(timeout_seconds or 0.0),
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0,
+                "tool_calls": 0,
+                "steps_executed": 1,
+                "cost_usd": 0.0,
+                "raw_log_path": str(trace_path),
+                "run_id": run_payload["run_id"],
+                "runtime_mode": "runtime_failure",
+                "is_valid_analytical": False,
+            }
+        )
+
+    summary = {
+        "num_runs": 1,
+        "success_rate": 0.0,
+        "mean_latency_seconds": float(timeout_seconds or 0.0),
+        "framework": framework,
+        "benchmark": benchmark_name,
+        "runtime_failure": True,
+        "runtime_failure_reason": reason,
+    }
+    (batch_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    return {
+        "batch_dir": str(batch_dir),
+        "run_json": str(batch_dir / "run_000.json"),
+        "trace_path": str(trace_path),
+    }
 
 
 def select_coordination_tasks(source: Path, *, task_ids: list[str] | None = None, task_limit: int | None = None) -> list[Any]:
@@ -228,6 +424,38 @@ def run_coordination_mitigation(args: argparse.Namespace, tasks: list[Any]) -> P
         task_key = f"coordination_suite/{task.task_id}"
         for framework in _normalize_frameworks(args.frameworks):
             for condition_name, mitigation_names in conditions:
+                cell_start = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+                print(
+                    f"START cell framework={framework} condition={condition_name} task_id={task.task_id} time={cell_start}",
+                    flush=True,
+                )
+                batch_dir = _cell_batch_dir(
+                    experiments_root,
+                    task_key=task_key,
+                    condition_name=condition_name,
+                    framework=framework,
+                )
+                if args.repair_missing_only and _cell_completed(batch_dir, args.num_runs):
+                    run_manifest.append(
+                        {
+                            "framework": framework,
+                            "task_id": task.task_id,
+                            "condition": condition_name,
+                            "mitigation_plugins": list(mitigation_names),
+                            "coordination_pressure": task.metadata.get("coordination_pressure", []),
+                            "num_runs": args.num_runs,
+                            "batch_dir": str(batch_dir),
+                            "status": "skipped_existing",
+                            "started_at": cell_start,
+                            "ended_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                        }
+                    )
+                    print(
+                        f"SKIP cell framework={framework} condition={condition_name} task_id={task.task_id} reason=existing-artifacts",
+                        flush=True,
+                    )
+                    continue
+
                 harness = ExperimentHarness(
                     runner_factory=build_runner_factory(
                         framework=framework,
@@ -249,24 +477,105 @@ def run_coordination_mitigation(args: argparse.Namespace, tasks: list[Any]) -> P
                     seed=args.seed,
                 )
                 benchmark_name = f"{task_key}/{condition_name}"
-                output = harness.run(
-                    task_description=task.prompt,
-                    framework_name=framework,
-                    benchmark_name=benchmark_name,
-                    num_runs=args.num_runs,
-                    max_steps=args.max_steps,
-                )
-                run_manifest.append(
-                    {
-                        "framework": framework,
-                        "task_id": task.task_id,
-                        "condition": condition_name,
-                        "mitigation_plugins": list(mitigation_names),
-                        "coordination_pressure": task.metadata.get("coordination_pressure", []),
-                        "num_runs": args.num_runs,
-                        "batch_dir": output["batch_dir"],
-                    }
-                )
+                try:
+                    timeout_seconds = args.cell_timeout_seconds
+                    start_perf = time.perf_counter()
+                    with _cell_timeout(timeout_seconds):
+                        output = harness.run(
+                            task_description=task.prompt,
+                            framework_name=framework,
+                            benchmark_name=benchmark_name,
+                            num_runs=args.num_runs,
+                            max_steps=args.max_steps,
+                        )
+                    elapsed = time.perf_counter() - start_perf
+                    run_manifest.append(
+                        {
+                            "framework": framework,
+                            "task_id": task.task_id,
+                            "condition": condition_name,
+                            "mitigation_plugins": list(mitigation_names),
+                            "coordination_pressure": task.metadata.get("coordination_pressure", []),
+                            "num_runs": args.num_runs,
+                            "batch_dir": output["batch_dir"],
+                            "status": "completed",
+                            "started_at": cell_start,
+                            "ended_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                            "elapsed_seconds": elapsed,
+                            "repair_label": args.repair_label,
+                        }
+                    )
+                    print(
+                        f"END cell framework={framework} condition={condition_name} task_id={task.task_id} "
+                        f"run_json={Path(output['batch_dir']) / 'run_000.json'} elapsed_seconds={elapsed:.2f}",
+                        flush=True,
+                    )
+                except CellTimeoutError:
+                    timeout_written = _write_runtime_failure_artifacts(
+                        experiments_root=experiments_root,
+                        traces_root=traces_root,
+                        task_id=task.task_id,
+                        task_key=task_key,
+                        condition_name=condition_name,
+                        framework=framework,
+                        timeout_seconds=args.cell_timeout_seconds,
+                        reason="cell_timeout",
+                    )
+                    run_manifest.append(
+                        {
+                            "framework": framework,
+                            "task_id": task.task_id,
+                            "condition": condition_name,
+                            "mitigation_plugins": list(mitigation_names),
+                            "coordination_pressure": task.metadata.get("coordination_pressure", []),
+                            "num_runs": args.num_runs,
+                            "batch_dir": timeout_written["batch_dir"],
+                            "status": "runtime_failure",
+                            "failure_reason": "cell_timeout",
+                            "timeout_seconds": args.cell_timeout_seconds,
+                            "started_at": cell_start,
+                            "ended_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                            "repair_label": args.repair_label,
+                        }
+                    )
+                    print(
+                        f"END cell framework={framework} condition={condition_name} task_id={task.task_id} "
+                        f"status=runtime_failure reason=cell_timeout run_json={timeout_written['run_json']}",
+                        flush=True,
+                    )
+                except Exception as exc:
+                    failure_written = _write_runtime_failure_artifacts(
+                        experiments_root=experiments_root,
+                        traces_root=traces_root,
+                        task_id=task.task_id,
+                        task_key=task_key,
+                        condition_name=condition_name,
+                        framework=framework,
+                        timeout_seconds=args.cell_timeout_seconds,
+                        reason=f"cell_exception:{type(exc).__name__}",
+                    )
+                    run_manifest.append(
+                        {
+                            "framework": framework,
+                            "task_id": task.task_id,
+                            "condition": condition_name,
+                            "mitigation_plugins": list(mitigation_names),
+                            "coordination_pressure": task.metadata.get("coordination_pressure", []),
+                            "num_runs": args.num_runs,
+                            "batch_dir": failure_written["batch_dir"],
+                            "status": "runtime_failure",
+                            "failure_reason": f"cell_exception:{type(exc).__name__}",
+                            "exception": str(exc),
+                            "started_at": cell_start,
+                            "ended_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                            "repair_label": args.repair_label,
+                        }
+                    )
+                    print(
+                        f"END cell framework={framework} condition={condition_name} task_id={task.task_id} "
+                        f"status=runtime_failure reason=cell_exception:{type(exc).__name__} run_json={failure_written['run_json']}",
+                        flush=True,
+                    )
 
     (run_root / "run_manifest.json").write_text(json.dumps(run_manifest, indent=2, ensure_ascii=False), encoding="utf-8")
     _write_analysis_reports(run_root, experiments_root, reports_root, args.comparison_test)
@@ -357,6 +666,9 @@ def _write_design_metadata(run_root: Path, args: argparse.Namespace, tasks: list
             "require_native_frameworks": args.require_native_frameworks,
             "thesis_strict": args.thesis_strict,
             "allow_smoke": args.allow_smoke,
+            "cell_timeout_seconds": args.cell_timeout_seconds,
+            "repair_missing_only": args.repair_missing_only,
+            "repair_label": args.repair_label,
             "study_protocol": "docs/study_protocol.md",
             "codebook": "docs/coordination_suite_codebook.md",
         },
@@ -376,6 +688,8 @@ def _write_design_metadata(run_root: Path, args: argparse.Namespace, tasks: list
 
 def main() -> None:
     args = parse_args()
+    if args.allow_smoke and args.cell_timeout_seconds is None:
+        args.cell_timeout_seconds = 180.0
     selected_frameworks = _normalize_frameworks(args.frameworks)
     if not selected_frameworks:
         raise ValueError("At least one framework must be selected.")
