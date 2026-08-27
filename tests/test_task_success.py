@@ -9,6 +9,20 @@ def test_extract_task_id_from_benchmark_path() -> None:
     assert extract_task_id("coordination_suite/coord-info-asymmetry-constraint") == "coord-info-asymmetry-constraint"
 
 
+def test_extract_task_id_from_phase_d_benchmark_none_condition() -> None:
+    assert (
+        extract_task_id("coordination_suite/coord-role-overlap-duplicate-actions/none")
+        == "coord-role-overlap-duplicate-actions"
+    )
+
+
+def test_extract_task_id_from_phase_d_benchmark_strategy_condition() -> None:
+    assert (
+        extract_task_id("coordination_suite/coord-role-overlap-duplicate-actions/structured_output_validation")
+        == "coord-role-overlap-duplicate-actions"
+    )
+
+
 def test_score_output_against_criteria_empty_output_is_not_success() -> None:
     scored = score_output_against_criteria("coord-info-asymmetry-constraint", "")
 

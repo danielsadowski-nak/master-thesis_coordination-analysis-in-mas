@@ -68,8 +68,14 @@ def extract_task_id(benchmark: str | None) -> str:
     if not benchmark:
         return ""
     text = str(benchmark)
+    parts = [part for part in text.split("/") if part]
+    if len(parts) >= 2 and parts[0] == "coordination_suite":
+        # Supports both:
+        # - coordination_suite/<task_id>
+        # - coordination_suite/<task_id>/<condition>
+        return parts[1]
     if "/" in text:
-        return text.rsplit("/", 1)[-1]
+        return parts[-1] if parts else text.rsplit("/", 1)[-1]
     return text
 
 
