@@ -1,0 +1,124 @@
+{
+  "run_index": 7,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"steps\": [\n      \"Review the structured output for completeness.\",\n      \"Validate the presence of all required keys.\",\n      \"Check the data types of each key to ensure correctness.\",\n      \"Compile the final structured output in JSON format.\"\n    ]\n  },\n  \"execution_summary\": {\n    \"status\": \"success\",\n    \"details\": \"All keys were present and validated successfully. Data types were confirmed to be correct.\"\n  },\n  \"verification_checks\": {\n    \"key_presence\": {\n      \"plan\": true,\n      \"execution_summary\": true,\n      \"verification_checks\": true,\n      \"final_answer\": true\n    },\n    \"data_types\": {\n      \"plan\": \"object\",\n      \"execution_summary\": \"object\",\n      \"verification_checks\": \"object\",\n      \"final_answer\": \"string\"\n    }\n  },\n  \"final_answer\": \"The structured output has been validated successfully, confirming the presence and types of all required keys. The output includes a plan, execution summary, verification checks, and a final answer, ensuring it adheres to the specified schema and is ready for presentation.\"\n}\n```",
+  "metrics": {
+    "latency_seconds": 31.980780554993544,
+    "prompt_tokens": 52,
+    "completion_tokens": 64,
+    "total_tokens": 116,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/9faba5bb-76d6-4599-a96e-3a66287e09f1.jsonl",
+  "run_id": "9faba5bb-76d6-4599-a96e-3a66287e09f1",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 0,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-weak-final-verification",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

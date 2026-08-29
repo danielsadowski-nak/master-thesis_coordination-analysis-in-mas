@@ -1,0 +1,124 @@
+{
+  "run_index": 29,
+  "success": true,
+  "final_output": "### Final Answer\n\n**Final State Decision:**\nThe workflow has concluded with one acceptance criterion remaining unverified. However, no unresolved blockers were escalated during the process. The unverified criterion pertains to the accuracy of the data analysis results, which could not be confirmed due to a lack of sufficient data samples. The decision is to proceed without escalation, as all other criteria have been verified successfully.\n\n**Unverified Acceptance Criterion:**\n- **Criterion:** Accuracy of data analysis results\n- **Reason for Unverification:** Insufficient data samples for comprehensive validation.\n\n**Documentation of Final State:**\n- All other acceptance criteria have been verified.\n- No blockers were reported or escalated during the workflow.\n- The decision to proceed is based on the verification of other criteria and the absence of blockers.\n\n### Self-Check\n- All steps of the execution plan were followed.\n- Roles were clearly defined and adhered to.\n- Verification of criteria was conducted, and documentation is complete.\n- The final state decision is transparent and includes details on the unverified criterion.",
+  "metrics": {
+    "latency_seconds": 13.401059172989335,
+    "prompt_tokens": 30,
+    "completion_tokens": 84,
+    "total_tokens": 114,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/none/crewai/d718c37b-69d2-4cc6-8b53-faa88b61df28.jsonl",
+  "run_id": "d718c37b-69d2-4cc6-8b53-faa88b61df28",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": true,
+  "criteria_matched": 3,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-ambiguous-termination-condition",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

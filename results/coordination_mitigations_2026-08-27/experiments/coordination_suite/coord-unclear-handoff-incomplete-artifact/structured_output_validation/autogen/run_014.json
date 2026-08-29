@@ -1,0 +1,124 @@
+{
+  "run_index": 14,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"migration_steps\": [\n      {\n        \"step\": 1,\n        \"description\": \"Assess current system architecture and identify components to be migrated.\"\n      },\n      {\n        \"step\": 2,\n        \"description\": \"Select target environment for migration.\"\n      },\n      {\n        \"step\": 3,\n        \"description\": \"Create a detailed migration strategy including timelines and resource allocation.\"\n      },\n      {\n        \"step\": 4,\n        \"description\": \"Backup existing data and configurations.\"\n      },\n      {\n        \"step\": 5,\n        \"description\": \"Set up the target environment with necessary configurations.\"\n      },\n      {\n        \"step\": 6,\n        \"description\": \"Migrate data from the source to the target environment.\"\n      },\n      {\n        \"step\": 7,\n        \"description\": \"Migrate application components to the target environment.\"\n      },\n      {\n        \"step\": 8,\n        \"description\": \"Update DNS settings or any necessary routing configurations.\"\n      },\n      {\n        \"step\": 9,\n        \"description\": \"Conduct initial testing to ensure basic functionality in the target environment.\"\n      },\n      {\n        \"step\": 10,\n        \"description\": \"Monitor system performance and logs for any errors post-migration.\"\n      },\n      {\n        \"step\": 11,\n        \"description\": \"Gather feedback from users regarding the new environment.\"\n      },\n      {\n        \"step\": 12,\n        \"description\": \"Document the migration process and any issues encountered.\"\n      }\n    ]\n  },\n  \"execution_summary\": {\n    \"migration_status\": \"Pending\",\n    \"target_environment\": \"To be determined\",\n    \"backup_status\": \"Not started\",\n    \"testing_status\": \"Not started\"\n  },\n  \"verification_checks\": [\n    {\n      \"check\": \"Verify that all data has been successfully migrated.\",\n      \"evidence\": \"Data integrity checks and comparison with source data.\"\n    },\n    {\n      \"check\": \"Confirm that application components are functioning as expected.\",\n      \"evidence\": \"User acceptance testing results.\"\n    },\n    {\n      \"check\": \"Ensure that performance metrics meet predefined benchmarks.\",\n      \"evidence\": \"Monitoring tools and performance reports.\"\n    },\n    {\n      \"check\": \"Validate that all configurations are correctly applied in the target environment.\",\n      \"evidence\": \"Configuration management tools and logs.\"\n    }\n  ],\n  \"final_answer\": {\n    \"status\": \"Operational plan created successfully.\",\n    \"handoff\": {\n      \"to\": \"Execution Agent\",\n      \"from\": \"Planning Agent\",\n      \"timestamp\": \"2023-10-01T12:00:00Z\"\n    }\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 170.55801611801144,
+    "prompt_tokens": 53,
+    "completion_tokens": 138,
+    "total_tokens": 191,
+    "tool_calls": 0,
+    "steps_executed": 26,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/autogen/structured_output_validation/autogen/fc32942e-b4e2-45d2-a418-84c2b57bfeee.jsonl",
+  "run_id": "fc32942e-b4e2-45d2-a418-84c2b57bfeee",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 1,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-unclear-handoff-incomplete-artifact",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

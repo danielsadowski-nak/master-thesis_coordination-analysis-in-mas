@@ -1,0 +1,124 @@
+{
+  "run_index": 0,
+  "success": true,
+  "final_output": "### Final Operational Plan for Migration Implementation and Validation\n\n#### Step 1: Define Migration Scope\n- **Task**: Identify the components and data that need to be migrated.\n- **Verification Point**: Documented scope approval from the supervisor.\n\n#### Step 2: Establish Migration Environment\n- **Task**: Set up a staging environment that mirrors the production environment.\n- **Verification Point**: Confirmation that the staging environment is operational and matches production.\n\n#### Step 3: Create Migration Strategy\n- **Task**: Develop a detailed migration strategy, including methods and tools to be used.\n- **Verification Point**: Migration strategy document reviewed and approved by the supervisor.\n\n#### Step 4: Backup Current Data\n- **Task**: Perform a complete backup of the current data and configurations.\n- **Verification Point**: Backup completion confirmation and verification of data integrity.\n\n#### Step 5: Implement Migration\n- **Task**: Execute the migration process as per the defined strategy.\n- **Verification Point**: Migration logs reviewed for errors and successful completion confirmation.\n\n#### Step 6: Validate Migration\n- **Task**: Conduct validation checks to ensure data integrity and functionality post-migration.\n- **Verification Point**: Validation report generated and reviewed by the supervisor.\n\n#### Step 7: Rollback Plan Activation (if necessary)\n- **Task**: If validation fails, initiate the rollback plan to restore the previous state.\n- **Verification Point**: Confirmation of successful rollback and system stability.\n\n#### Step 8: Final Review and Approval\n- **Task**: Present the migration results and validation outcomes to the supervisor for final approval.\n- **Verification Point**: Supervisor approval documented.\n\n### Risks\n1. **Data Loss**: Potential loss of data during migration.\n   - **Mitigation**: Ensure comprehensive backups are taken before migration.\n   \n2. **Downtime**: Possible downtime during migration affecting users.\n   - **Mitigation**: Schedule migration during off-peak hours and communicate with stakeholders.\n\n3. **Validation Failures**: Post-migration validation may reveal issues.\n   - **Mitigation**: Thorough testing and validation procedures in place.\n\n4. **Rollback Issues**: Challenges in reverting to the previous state if needed.\n   - **Mitigation**: Ensure rollback procedures are well-documented and tested.\n\n### Handoff Fields\n- **Task**: Implement migration and validate.\n- **Context**: This plan outlines the steps, risks, and verification points for the migration process.\n- **Coworker**: Executor (to execute the migration and validation tasks).\n\n---\n\n### Self-Check\nThe operational plan has been structured according to the required steps, verification points, and risk mitigation strategies. All necessary components for the migration and validation process are included, and the plan is ready for supervisor review and approval before execution.",
+  "metrics": {
+    "latency_seconds": 11.181004296988249,
+    "prompt_tokens": 46,
+    "completion_tokens": 199,
+    "total_tokens": 245,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/supervisor_orchestrator/crewai/f2ee326d-8547-4973-8506-22bce7aa2177.jsonl",
+  "run_id": "f2ee326d-8547-4973-8506-22bce7aa2177",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-unclear-handoff-incomplete-artifact",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

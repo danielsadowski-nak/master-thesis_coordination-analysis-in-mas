@@ -1,0 +1,124 @@
+{
+  "run_index": 19,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"migration_steps\": [\n      {\n        \"step\": 1,\n        \"description\": \"Prepare the migration environment\",\n        \"actions\": [\n          \"Identify source and target systems\",\n          \"Ensure compatibility of data formats\",\n          \"Set up necessary access permissions\"\n        ],\n        \"handoff\": \"Migration environment setup completed\"\n      },\n      {\n        \"step\": 2,\n        \"description\": \"Data extraction from source system\",\n        \"actions\": [\n          \"Extract data using defined queries\",\n          \"Export data to a temporary staging area\"\n        ],\n        \"handoff\": \"Data extraction completed\"\n      },\n      {\n        \"step\": 3,\n        \"description\": \"Data transformation\",\n        \"actions\": [\n          \"Cleanse and format data according to target schema\",\n          \"Map fields from source to target\"\n        ],\n        \"handoff\": \"Data transformation completed\"\n      },\n      {\n        \"step\": 4,\n        \"description\": \"Data loading into target system\",\n        \"actions\": [\n          \"Load transformed data into the target system\",\n          \"Monitor for errors during loading\"\n        ],\n        \"handoff\": \"Data loading completed\"\n      }\n    ],\n    \"validation_steps\": [\n      {\n        \"step\": 1,\n        \"description\": \"Initial data validation\",\n        \"actions\": [\n          \"Verify data integrity and completeness\",\n          \"Check for missing or malformed records\"\n        ],\n        \"handoff\": \"Initial data validation completed\"\n      },\n      {\n        \"step\": 2,\n        \"description\": \"Cross-reference with source data\",\n        \"actions\": [\n          \"Compare record counts between source and target\",\n          \"Validate key fields for accuracy\"\n        ],\n        \"handoff\": \"Cross-reference validation completed\"\n      },\n      {\n        \"step\": 3,\n        \"description\": \"User acceptance testing\",\n        \"actions\": [\n          \"Engage end-users to validate data usability\",\n          \"Collect feedback and address any issues\"\n        ],\n        \"handoff\": \"User acceptance testing completed\"\n      }\n    ]\n  },\n  \"execution_summary\": {\n    \"total_steps\": 7,\n    \"completed_steps\": 0,\n    \"status\": \"Pending\",\n    \"next_step\": \"Prepare the migration environment\"\n  },\n  \"verification_checks\": [\n    {\n      \"check\": \"Data integrity check\",\n      \"criteria\": \"All records must match source data\",\n      \"status\": \"Pending\"\n    },\n    {\n      \"check\": \"Field validation\",\n      \"criteria\": \"All required fields must be present and correctly formatted\",\n      \"status\": \"Pending\"\n    },\n    {\n      \"check\": \"User feedback collection\",\n      \"criteria\": \"End-users must confirm data usability\",\n      \"status\": \"Pending\"\n    }\n  ],\n  \"final_answer\": {\n    \"message\": \"The operational plan for migration and validation has been structured and is ready for execution. Please follow the steps outlined and ensure all verification checks are completed.\"\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 29.18118097196566,
+    "prompt_tokens": 53,
+    "completion_tokens": 154,
+    "total_tokens": 207,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/99eb3437-b9c3-434b-82b0-92dd1d1cdeb5.jsonl",
+  "run_id": "99eb3437-b9c3-434b-82b0-92dd1d1cdeb5",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-unclear-handoff-incomplete-artifact",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

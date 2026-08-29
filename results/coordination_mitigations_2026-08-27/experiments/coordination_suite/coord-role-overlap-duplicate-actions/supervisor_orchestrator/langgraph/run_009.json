@@ -1,0 +1,124 @@
+{
+  "run_index": 9,
+  "success": false,
+  "final_output": "### Stage 1: Planning\n\n**Agents Assigned:**\n- Agent A: Responsible for drafting the customer response.\n- Agent B: Responsible for fact-checking and ensuring accuracy.\n\n**Task Breakdown:**\n1. Agent A will create an initial draft of the customer response.\n2. Agent B will gather relevant facts and verify the information included in the response.\n3. Both agents will collaborate to ensure the response is coherent and free of contradictions.\n\n### Stage 2: Delegated Execution\n\n**Agent A Action:**\n- Drafting the initial customer response based on the provided context.\n\n**Agent B Action:**\n- Collecting facts relevant to the customer response and verifying their accuracy.\n\n### Supervisor Review\n\n**Supervisor Gate Approval:**\n- Review the actions taken by both agents to ensure they align with the task requirements.\n\n**Current Status:**\n- Awaiting completion of actions from both agents before proceeding to the supervisor review.\n\n### Next Steps\n- Once Agent A completes the draft and Agent B verifies the facts, the supervisor will review the outputs for coherence and accuracy.\n\n**Task Status: In Progress**",
+  "metrics": {
+    "latency_seconds": 2.7010740429977886,
+    "prompt_tokens": 174,
+    "completion_tokens": 221,
+    "total_tokens": 395,
+    "tool_calls": 0,
+    "steps_executed": 1,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/langgraph/supervisor_orchestrator/langgraph/b9ad8b17-4a36-4db3-880c-7479ddf84722.jsonl",
+  "run_id": "b9ad8b17-4a36-4db3-880c-7479ddf84722",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 0,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-role-overlap-duplicate-actions",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

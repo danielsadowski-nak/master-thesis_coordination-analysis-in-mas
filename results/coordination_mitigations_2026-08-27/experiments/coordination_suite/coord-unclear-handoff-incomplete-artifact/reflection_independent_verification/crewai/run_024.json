@@ -1,0 +1,124 @@
+{
+  "run_index": 24,
+  "success": true,
+  "final_output": "### Final Operational Plan for Migration and Validation\n\n#### 1. Objective\nTo implement a data migration process and validate the integrity of the migrated data, ensuring minimal disruption and maintaining data accuracy.\n\n#### 2. Scope\nThis plan covers the migration of data from the legacy system to the new system, including validation and rollback procedures.\n\n#### 3. Handoff Fields\n- **Source System**: Legacy Database (e.g., MySQL)\n- **Target System**: New Database (e.g., PostgreSQL)\n- **Migration Tool**: Custom ETL Script\n- **Data Owner**: [Name/Department]\n- **Stakeholders**: [List of Stakeholders]\n- **Migration Date**: [Scheduled Date]\n- **Validation Date**: [Scheduled Date]\n\n#### 4. File Paths\n- **ETL Script Location**: `/usr/local/bin/migration_script.py`\n- **Source Data Backup**: `/backups/legacy_data_backup_YYYYMMDD.sql`\n- **Log Files**: `/logs/migration_log_YYYYMMDD.log`\n- **Validation Report**: `/reports/validation_report_YYYYMMDD.csv`\n\n#### 5. Migration Steps\n1. **Pre-Migration Preparation**\n   - Backup existing data from the legacy system.\n   - Notify stakeholders of the migration schedule.\n   - Ensure all necessary permissions are granted.\n\n2. **Data Migration**\n   - Execute the migration script/tool located at `/usr/local/bin/migration_script.py`.\n   - Monitor the migration process and log progress in the log file at `/logs/migration_log_YYYYMMDD.log`.\n   - Capture any errors and warnings during migration.\n\n3. **Post-Migration Validation**\n   - Generate a validation report comparing source and target data.\n   - Check for data completeness and integrity against acceptance criteria.\n\n#### 6. Acceptance Criteria\n- **Data Integrity**: All data migrated must match the source data in terms of quantity and quality, with no records lost or corrupted.\n- **Functionality Testing**: All applications and systems must function as expected post-migration.\n- **Performance Metrics**: The performance of the migrated systems should meet or exceed established benchmarks.\n- **User Acceptance Testing (UAT)**: End-users must validate that the migrated systems meet their requirements.\n- **Compliance Checks**: All migrated data and systems must comply with relevant regulations and standards.\n- **Documentation**: All migration processes, configurations, and changes must be thoroughly documented.\n\n#### 7. Rollback Procedures\n1. **Pre-Migration Backup**: A complete backup of the existing system and data must be taken before initiating the migration.\n2. **Rollback Plan Activation**: In the event of a failure during migration, restore the system from the pre-migration backup.\n3. **Validation of Rollback**: Ensure the system is functioning as it was prior to the migration.\n4. **Communication Protocol**: Notify all stakeholders of the rollback and provide updates on the status.\n5. **Post-Rollback Review**: Conduct a review of the migration attempt to identify the root cause of the failure.\n\n#### 8. Verification Checkpoints\n- **Checkpoint 1**: After data backup, confirm backup integrity.\n- **Checkpoint 2**: After migration, verify log file for errors.\n- **Checkpoint 3**: After validation, present results to stakeholders for approval.\n\n#### 9. Risks and Mitigation\n- **Risk**: Data loss during migration.\n  - **Mitigation**: Ensure comprehensive backups and test the rollback process.\n- **Risk**: Data integrity issues post-migration.\n  - **Mitigation**: Implement thorough validation checks and involve data owners in the validation process.\n\n#### 10. Conclusion\nThis operational plan outlines the necessary steps for a successful data migration and validation process. Adhering to this plan will ensure that the migration is executed smoothly, with clear checkpoints and rollback procedures in place to address any issues that may arise. Regular verification checkpoints will facilitate independent validation of the migration's success.\n\n### Self-Check\n- **Reflection Pass**: The plan includes all necessary components for migration and validation, but lacks specific names for data owners and stakeholders, as well as scheduled dates. These should be filled in before execution.\n- **Independent Judge Pass**: The plan complies with the task requirements, maintains coordination consistency, and is structured correctly for termination. However, it requires the completion of the handoff fields with specific details.\n\n### Final Answer\nThe operational plan is complete but requires specific details to be filled in for execution. Ensure to gather the necessary information before proceeding with the migration.",
+  "metrics": {
+    "latency_seconds": 76.97468366101384,
+    "prompt_tokens": 50,
+    "completion_tokens": 310,
+    "total_tokens": 360,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/reflection_independent_verification/crewai/d5f87f17-3036-429a-9421-131d555ba68f.jsonl",
+  "run_id": "d5f87f17-3036-429a-9421-131d555ba68f",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-unclear-handoff-incomplete-artifact",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

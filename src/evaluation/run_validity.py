@@ -18,7 +18,6 @@ SCAFFOLD_MARKERS = (
     "this adapter currently runs in scaffold mode",
     "no external model configured",
     "operating in fallback mode",
-    "heuristic fallback only",
 )
 
 HEURISTIC_JUDGE_MARKERS = (
@@ -37,10 +36,9 @@ def classify_run_row(row: pd.Series | dict[str, Any]) -> dict[str, Any]:
     framework = str(row.get("framework") or "").lower()
     runtime_mode = str(row.get("runtime_mode") or "").strip().lower()
     persisted_validity = row.get("is_valid_analytical")
+    has_trace = _is_nonempty_text(row.get("raw_log_path"))
 
-    is_scaffold = _contains_any(final_output, SCAFFOLD_MARKERS) or _contains_any(
-        mast_summary, SCAFFOLD_MARKERS
-    )
+    is_scaffold = _contains_any(final_output, SCAFFOLD_MARKERS)
     if runtime_mode == "scaffold":
         is_scaffold = True
     # Extremely low latency with perfect success is a strong scaffold signature,
@@ -51,8 +49,8 @@ def classify_run_row(row: pd.Series | dict[str, Any]) -> dict[str, Any]:
         is_scaffold = True
 
     is_heuristic_judge = _contains_any(mast_summary, HEURISTIC_JUDGE_MARKERS)
-    is_runtime_failure = bool(row.get("runtime_failure", False))
-    is_valid_analytical = (not is_scaffold) and (not is_runtime_failure)
+    is_runtime_failure = bool(row.get("runtime_failure") or row.get("is_runtime_failure") or runtime_mode == "runtime_failure")
+    is_valid_analytical = (not is_scaffold) and (not is_runtime_failure) and has_trace
     if isinstance(persisted_validity, bool):
         is_valid_analytical = bool(persisted_validity) and is_valid_analytical
 
@@ -144,6 +142,13 @@ def _as_float(value: Any) -> float | None:
         return float(value)
     except (TypeError, ValueError):
         return None
+
+
+def _is_nonempty_text(value: Any) -> bool:
+    if value is None:
+        return False
+    text = str(value).strip().lower()
+    return text not in {"", "nan", "none"}
 
 
 def _reason(is_scaffold: bool, is_runtime_failure: bool, is_heuristic_judge: bool) -> str:

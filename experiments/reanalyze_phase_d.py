@@ -105,6 +105,8 @@ def _criteria_summary(df: pd.DataFrame) -> pd.DataFrame:
                 "success_rate": float(n_success / n) if n else 0.0,
             }
         )
+    if not rows:
+        return pd.DataFrame(columns=["framework", "condition", "n", "n_success", "success_rate"])
     return pd.DataFrame(rows).sort_values(["framework", "condition"]).reset_index(drop=True)
 
 

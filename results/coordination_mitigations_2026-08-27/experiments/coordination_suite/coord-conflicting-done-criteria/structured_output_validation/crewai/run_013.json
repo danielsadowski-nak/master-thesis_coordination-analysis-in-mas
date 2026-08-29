@@ -1,0 +1,124 @@
+{
+  "run_index": 13,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"steps\": [\n      {\n        \"step\": 1,\n        \"action\": \"Gather and document the definitions of done from both Agent A and Agent B.\",\n        \"verification_checkpoint\": \"Confirm that both definitions are clearly understood and documented.\"\n      },\n      {\n        \"step\": 2,\n        \"action\": \"Collect all relevant bugfix details, including descriptions, severity, affected components, and resolution steps.\",\n        \"verification_checkpoint\": \"Cross-check the compiled details against the original bug reports for completeness.\"\n      },\n      {\n        \"step\": 3,\n        \"action\": \"Create a draft of the bugfix delivery note incorporating all necessary details.\",\n        \"verification_checkpoint\": \"Review the draft with both Agent A and Agent B to ensure it meets their expectations.\"\n      },\n      {\n        \"step\": 4,\n        \"action\": \"Revise the draft based on feedback received from both agents.\",\n        \"verification_checkpoint\": \"Confirm that all feedback has been addressed and documented.\"\n      },\n      {\n        \"step\": 5,\n        \"action\": \"Conduct a final review of the delivery note with both agents.\",\n        \"verification_checkpoint\": \"Obtain formal approval from both Agent A and Agent B.\"\n      },\n      {\n        \"step\": 6,\n        \"action\": \"Distribute the finalized delivery note to all relevant stakeholders.\",\n        \"verification_checkpoint\": \"Confirm receipt of the delivery note by all stakeholders.\"\n      }\n    ],\n    \"risks\": [\n      \"Misalignment on definitions of done between Agent A and Agent B.\",\n      \"Incomplete or inaccurate bugfix details.\",\n      \"Delays in feedback or approval processes.\"\n    ],\n    \"mitigation_strategies\": [\n      \"Schedule a joint meeting to clarify definitions of done.\",\n      \"Implement a checklist for bugfix details to ensure completeness.\",\n      \"Set clear deadlines for feedback and approvals.\"\n    ]\n  },\n  \"execution_summary\": \"The bugfix delivery note will be considered complete when both unit tests pass and the regression checklist is reviewed. This ensures that the bugfix is functional and does not introduce new issues, satisfying both Agent A's and Agent B's criteria.\",\n  \"verification_checks\": [\n    \"All unit tests have passed.\",\n    \"The regression checklist has been reviewed and approved.\"\n  ],\n  \"final_answer\": {\n    \"unified_completion_decision\": \"The bugfix will be considered complete when both unit tests pass and the regression checklist is reviewed.\",\n    \"rationale\": \"This decision combines the essential elements from both agents' definitions of done. Agent A emphasizes the importance of ensuring that the new code does not introduce any failures in existing unit tests, which is critical for maintaining code integrity. Agent B highlights the necessity of reviewing the regression checklist, which ensures that any potential impacts on existing functionality are identified and addressed. By requiring both unit tests to pass and the regression checklist to be reviewed, we ensure a comprehensive approach to quality assurance that satisfies the expectations of both agents.\"\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 227.80864414398093,
+    "prompt_tokens": 54,
+    "completion_tokens": 201,
+    "total_tokens": 255,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/8030455a-fec1-4e22-9815-ec9fb9fb8b8c.jsonl",
+  "run_id": "8030455a-fec1-4e22-9815-ec9fb9fb8b8c",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-conflicting-done-criteria",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

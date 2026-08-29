@@ -1,0 +1,122 @@
+{
+  "run_index": 14,
+  "success": false,
+  "final_output": "**Action 1:** Agent A and Agent B are assigned to \"produce final customer response.\" \n\n**Action 2:** Agent C is assigned to handle facts and gather necessary information for the response.\n\n**Action 3:** Agent C collects relevant data and verifies facts to ensure accuracy.\n\n**Action 4:** Agent A drafts the initial response based on the information provided by Agent C.\n\n**Action 5:** Agent B reviews Agent A's draft, making necessary adjustments for clarity and coherence.\n\n**Action 6:** Agent A and Agent B collaborate to finalize the response, ensuring there are no duplicates or contradictions.\n\n**Final Response:** \"Thank you for your inquiry. We appreciate your patience and are committed to providing you with the best service. Please let us know if you have any further questions.\"\n\n**Ownership Assignment:** \n- Agent A: Drafting the initial response.\n- Agent B: Reviewing and finalizing the response.\n- Agent C: Handling facts and ensuring accuracy.\n\n**Task Completion:** The task is complete.",
+  "metrics": {
+    "latency_seconds": 2.240704833995551,
+    "prompt_tokens": 114,
+    "completion_tokens": 204,
+    "total_tokens": 318,
+    "tool_calls": 0,
+    "steps_executed": 1,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/langgraph/none/langgraph/e1211c41-aa3b-4149-a193-f24cca4be032.jsonl",
+  "run_id": "e1211c41-aa3b-4149-a193-f24cca4be032",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": true,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-role-overlap-duplicate-actions",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

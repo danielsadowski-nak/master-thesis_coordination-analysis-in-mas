@@ -1,0 +1,124 @@
+{
+  "run_index": 23,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"description\": \"Finalize the bugfix delivery note by reconciling the definitions of 'done' from both agents.\",\n    \"steps\": [\n      \"Agent A's definition: 'unit tests pass'.\",\n      \"Agent B's definition: 'unit tests pass and regression checklist reviewed'.\",\n      \"Combine both definitions to create a unified completion decision.\",\n      \"Document the rationale for the unified decision.\"\n    ]\n  },\n  \"execution_summary\": {\n    \"total_checks\": 4,\n    \"checks_passed\": 4,\n    \"checks_failed\": 0,\n    \"details\": [\n      {\n        \"check\": \"Presence of required keys\",\n        \"result\": \"Passed\",\n        \"evidence\": \"All required keys (plan, execution_summary, verification_checks, final_answer) are present.\"\n      },\n      {\n        \"check\": \"Data types of keys\",\n        \"result\": \"Passed\",\n        \"evidence\": \"All keys have the correct data types as per the schema.\"\n      },\n      {\n        \"check\": \"Verification of data integrity\",\n        \"result\": \"Passed\",\n        \"evidence\": \"Data values are consistent and adhere to the expected formats.\"\n      },\n      {\n        \"check\": \"Overall structure validation\",\n        \"result\": \"Passed\",\n        \"evidence\": \"The JSON structure is valid and conforms to the schema.\"\n      }\n    ]\n  },\n  \"verification_checks\": {\n    \"check_1\": {\n      \"description\": \"Verify presence of required keys\",\n      \"result\": \"All required keys are present.\"\n    },\n    \"check_2\": {\n      \"description\": \"Verify data types of each key\",\n      \"result\": \"Data types are correct.\"\n    },\n    \"check_3\": {\n      \"description\": \"Verify data integrity\",\n      \"result\": \"Data values are consistent.\"\n    },\n    \"check_4\": {\n      \"description\": \"Verify overall structure\",\n      \"result\": \"Structure is valid.\"\n    }\n  },\n  \"final_answer\": {\n    \"unified_completion_decision\": \"The bugfix delivery note is finalized when unit tests pass and the regression checklist is reviewed.\",\n    \"rationale\": \"This decision incorporates both Agent A's and Agent B's definitions of 'done', ensuring comprehensive validation of the bugfix.\"\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 49.49899698101217,
+    "prompt_tokens": 54,
+    "completion_tokens": 121,
+    "total_tokens": 175,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/09920827-29a7-49e3-8d5e-0d49721a9350.jsonl",
+  "run_id": "09920827-29a7-49e3-8d5e-0d49721a9350",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-conflicting-done-criteria",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

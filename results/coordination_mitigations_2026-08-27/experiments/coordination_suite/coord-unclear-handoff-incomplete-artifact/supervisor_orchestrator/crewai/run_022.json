@@ -1,0 +1,124 @@
+{
+  "run_index": 22,
+  "success": true,
+  "final_output": "### Final Operational Plan for Migration and Validation\n\n#### Step 1: Planning\n1. **Define Migration Scope**\n   - Identify the components and data to be migrated.\n   - Document the current architecture and dependencies.\n\n2. **Establish Migration Strategy**\n   - Choose between a big bang or phased migration approach.\n   - Outline the tools and technologies to be used for migration.\n\n3. **Create Migration Timeline**\n   - Develop a timeline for each phase of the migration.\n   - Allocate resources and assign responsibilities.\n\n4. **Identify Acceptance Criteria**\n   - Define what successful migration looks like (e.g., data integrity, performance benchmarks).\n   - Document specific metrics to measure success.\n\n5. **Develop Rollback Plan**\n   - Outline steps to revert to the previous state in case of failure.\n   - Identify critical checkpoints for rollback.\n\n#### Step 2: Delegated Execution\n6. **Execute Migration**\n   - Implement the migration according to the defined strategy.\n   - Ensure all components are migrated as per the scope.\n\n7. **Initial Validation**\n   - Conduct preliminary checks to ensure data integrity post-migration.\n   - Verify that all components are functioning as expected.\n\n#### Step 3: Supervisor Review\n8. **Review Migration Results**\n   - Present the results of the migration to the supervisor.\n   - Provide evidence of successful migration against acceptance criteria.\n\n9. **Address Any Issues**\n   - Discuss any discrepancies or issues encountered during migration.\n   - Make necessary adjustments based on supervisor feedback.\n\n#### Step 4: Finalization\n10. **Final Validation**\n    - Conduct comprehensive testing to validate the entire system.\n    - Ensure all acceptance criteria are met.\n\n11. **Document Migration Process**\n    - Create a detailed report of the migration process, including successes and challenges.\n    - Document lessons learned for future migrations.\n\n12. **Obtain Final Approval**\n    - Present the final report and results to the supervisor for approval.\n    - Ensure all stakeholders are informed of the migration completion.\n\n#### Risks\n- **Data Loss**: Potential loss of data during migration.\n- **Downtime**: Possible system downtime affecting users.\n- **Compatibility Issues**: New system components may not work with existing infrastructure.\n\n#### Verification Checkpoints\n- **Post-Migration Integrity Check**: Verify data integrity immediately after migration.\n- **Functionality Tests**: Conduct tests to ensure all components are operational.\n- **Performance Metrics**: Measure system performance against predefined benchmarks.\n- **Final Approval**: Obtain supervisor approval before concluding the migration process.\n\n### Handoff Fields\n- **Task**: Implement migration and validate.\n- **Context**: Migration of components and data with a focus on integrity and performance.\n- **Coworker**: Executor (to execute the migration and validation tasks). \n\n### Self-Check\nThe operational plan is structured, clear, and follows the staged execution process as required. All steps are defined, and risks are identified. The handoff fields are explicitly stated, ensuring clarity for the execution phase. The plan is ready for execution upon supervisor approval.",
+  "metrics": {
+    "latency_seconds": 14.254148047009949,
+    "prompt_tokens": 46,
+    "completion_tokens": 222,
+    "total_tokens": 268,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/supervisor_orchestrator/crewai/e0c190c8-5a33-40bf-bf22-10eb77e919f0.jsonl",
+  "run_id": "e0c190c8-5a33-40bf-bf22-10eb77e919f0",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-unclear-handoff-incomplete-artifact",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

@@ -1,0 +1,27 @@
+{
+  "sources": [
+    "results/coordination_mitigations_2026-08-27/experiments"
+  ],
+  "per_root_counts": [
+    {
+      "root": "results/coordination_mitigations_2026-08-27/experiments",
+      "n_rows": 2880
+    }
+  ],
+  "n_raw": 2880,
+  "n_valid": 2880,
+  "excluded_frameworks": [
+    "metagpt"
+  ],
+  "require_model_judge": false,
+  "primary_outcome": "criteria_success",
+  "primary_pairwise_test": "chi2_or_fisher",
+  "latency_pairwise_test": "mannwhitney",
+  "holm_scope": "per_framework_over_three_none_vs_strategy_tests",
+  "judge_mode_tables_in_primary_holm": false,
+  "notes": [
+    "No imputation is applied.",
+    "Scaffold and runtime-failure rows are excluded by validity filters.",
+    "Rows with empty raw_log_path are excluded."
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "run_index": 14,
+  "success": true,
+  "final_output": "{\n  \"plan\": {\n    \"steps\": [\n      \"Agent 1 will draft the initial customer response based on the provided facts.\",\n      \"Agent 2 will review and refine the response to ensure clarity and completeness.\",\n      \"Agent 3 will provide factual information to support the response.\",\n      \"All agents will collaborate to ensure there are no contradictions or duplicates in the final response.\"\n    ]\n  },\n  \"execution_summary\": {\n    \"agent_1_response\": \"Drafted an initial response addressing the customer's inquiry.\",\n    \"agent_2_review\": \"Refined the response for clarity and added necessary details.\",\n    \"agent_3_facts\": \"Provided accurate data to support the claims made in the response.\"\n  },\n  \"verification_checks\": {\n    \"check_1\": \"Agent 1's response was based on the facts provided by Agent 3.\",\n    \"check_2\": \"Agent 2 confirmed that the response was clear and free of contradictions.\",\n    \"check_3\": \"All agents agreed on the final wording of the response.\"\n  },\n  \"final_answer\": {\n    \"response\": \"Thank you for reaching out! We appreciate your inquiry regarding our services. Based on the information provided, we can confirm that our services are tailored to meet your needs. If you have any further questions, please feel free to ask.\",\n    \"ownership\": {\n      \"agent_1\": \"Drafted the initial response.\",\n      \"agent_2\": \"Reviewed and refined the response.\",\n      \"agent_3\": \"Provided factual support.\"\n    }\n  }\n}",
+  "metrics": {
+    "latency_seconds": 84.23434562096372,
+    "prompt_tokens": 51,
+    "completion_tokens": 98,
+    "total_tokens": 149,
+    "tool_calls": 0,
+    "steps_executed": 26,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/autogen/structured_output_validation/autogen/b0ccff0c-982a-44ed-ba31-d7701b7c4765.jsonl",
+  "run_id": "b0ccff0c-982a-44ed-ba31-d7701b7c4765",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 1,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-role-overlap-duplicate-actions",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

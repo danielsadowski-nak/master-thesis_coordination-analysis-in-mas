@@ -1,0 +1,124 @@
+{
+  "run_index": 29,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"steps\": [\n      {\n        \"step_id\": 1,\n        \"description\": \"Initiate the multi-agent workflow.\",\n        \"responsible_agent\": \"Agent A\"\n      },\n      {\n        \"step_id\": 2,\n        \"description\": \"Agents perform their assigned tasks to meet acceptance criteria.\",\n        \"responsible_agent\": \"Agent B, Agent C, Agent D\"\n      },\n      {\n        \"step_id\": 3,\n        \"description\": \"Collect results from all agents and check against acceptance criteria.\",\n        \"responsible_agent\": \"Agent A\"\n      },\n      {\n        \"step_id\": 4,\n        \"description\": \"Identify any unresolved blockers during the verification process.\",\n        \"responsible_agent\": \"Agent A\"\n      },\n      {\n        \"step_id\": 5,\n        \"description\": \"If all acceptance criteria are verified, finalize the workflow.\",\n        \"responsible_agent\": \"Agent A\"\n      },\n      {\n        \"step_id\": 6,\n        \"description\": \"If any unresolved blockers are identified, escalate them.\",\n        \"responsible_agent\": \"Agent A\"\n      },\n      {\n        \"step_id\": 7,\n        \"description\": \"If one criterion remains unverified but no blockers are escalated, produce a final state decision.\",\n        \"responsible_agent\": \"Agent A\"\n      }\n    ]\n  },\n  \"execution_summary\": {\n    \"total_steps\": 7,\n    \"completed_steps\": 7,\n    \"status\": \"Completed with one criterion unverified but no blockers escalated.\"\n  },\n  \"verification_checks\": [\n    {\n      \"check_id\": 1,\n      \"description\": \"Verify that all agents have completed their tasks.\",\n      \"evidence\": \"All agents reported completion of their tasks.\"\n    },\n    {\n      \"check_id\": 2,\n      \"description\": \"Check if all acceptance criteria are met.\",\n      \"evidence\": \"Criteria 1 and 2 are verified; Criterion 3 remains unverified.\"\n    },\n    {\n      \"check_id\": 3,\n      \"description\": \"Identify any unresolved blockers.\",\n      \"evidence\": \"No unresolved blockers reported by any agent.\"\n    }\n  ],\n  \"final_answer\": {\n    \"decision\": \"Final state decision produced: One acceptance criterion remains unverified, but no blockers were escalated.\"\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 40.36871631001122,
+    "prompt_tokens": 55,
+    "completion_tokens": 116,
+    "total_tokens": 171,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/d06112c6-7f65-4c65-84d0-26cae88bf5f9.jsonl",
+  "run_id": "d06112c6-7f65-4c65-84d0-26cae88bf5f9",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": true,
+  "criteria_matched": 3,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-ambiguous-termination-condition",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

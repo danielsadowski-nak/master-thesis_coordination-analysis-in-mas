@@ -1,0 +1,125 @@
+{
+  "run_index": 0,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"steps\": [\n      {\n        \"step\": 1,\n        \"description\": \"Agent Alpha will make the first 5 API calls within the first minute.\"\n      },\n      {\n        \"step\": 2,\n        \"description\": \"Agent Beta will validate the responses from the first 5 API calls after they are completed.\"\n      },\n      {\n        \"step\": 3,\n        \"description\": \"Agent Alpha will wait for 1 minute before making the next set of API calls.\"\n      },\n      {\n        \"step\": 4,\n        \"description\": \"Agent Alpha will make the next 5 API calls in the second minute.\"\n      },\n      {\n        \"step\": 5,\n        \"description\": \"Agent Beta will validate the responses from the second set of API calls after they are completed.\"\n      },\n      {\n        \"step\": 6,\n        \"description\": \"Repeat steps 3 to 5 until all required API calls are made.\"\n      }\n    ],\n    \"coordination\": \"Agent Alpha and Agent Beta will communicate after each set of API calls to ensure validation is completed before proceeding.\"\n  },\n  \"execution_summary\": {\n    \"total_api_calls\": \"The total number of API calls will be determined based on the task requirements, ensuring that no more than 5 calls are made per minute.\",\n    \"execution_time\": \"The execution will take place over multiple minutes, with a maximum of 5 calls made every minute.\"\n  },\n  \"verification_checks\": [\n    {\n      \"check\": 1,\n      \"description\": \"Verify that Agent Alpha does not exceed 5 API calls in any given minute.\"\n    },\n    {\n      \"check\": 2,\n      \"description\": \"Confirm that Agent Beta has successfully validated the responses from each set of API calls before Agent Alpha proceeds.\"\n    },\n    {\n      \"check\": 3,\n      \"description\": \"Ensure that the time between sets of API calls is at least 1 minute.\"\n    }\n  ],\n  \"final_answer\": \"The coordinated execution and verification plan has been structured to ensure compliance with the API rate limit while allowing for effective validation by Agent Beta.\"\n}\n```",
+  "metrics": {
+    "latency_seconds": 17.89922496699728,
+    "prompt_tokens": 56,
+    "completion_tokens": 142,
+    "total_tokens": 198,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/397e3b44-44d0-4afd-a4d1-8e997762a8fc.jsonl",
+  "run_id": "397e3b44-44d0-4afd-a4d1-8e997762a8fc",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "1.3 Step Repetition",
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-combined-asymmetry-verification",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

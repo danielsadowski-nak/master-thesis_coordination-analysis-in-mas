@@ -1,0 +1,124 @@
+{
+  "run_index": 3,
+  "success": true,
+  "final_output": "{\n  \"plan\": {\n    \"steps\": [\n      \"Reach out to stakeholders to clarify the rollback window and downtime tolerance for the migration.\",\n      \"Prepare a concise execution plan for the migration summary including steps, risks, and verification points once the rollback window and downtime tolerance are clarified.\",\n      \"Compile the migration summary including the execution plan, risks, and verification points once the rollback window and downtime tolerance are confirmed.\",\n      \"Finalize the migration summary document and ensure all team members are informed about the migration plan once the rollback window and downtime tolerance are confirmed.\",\n      \"Monitor the responses from stakeholders regarding the rollback window and downtime tolerance, and update the team accordingly once received.\"\n    ],\n    \"risks\": [\n      \"Data loss during migration due to unforeseen errors.\",\n      \"Extended downtime exceeding the agreed tolerance.\",\n      \"Compatibility issues with existing systems post-migration.\",\n      \"Insufficient rollback procedures leading to complications if a rollback is necessary.\"\n    ],\n    \"verification_points\": [\n      \"Validate data integrity post-migration by comparing pre- and post-migration data.\",\n      \"Test all critical functionalities to ensure they are operating as expected.\",\n      \"Gather feedback from users to identify any issues that may not have been detected during testing.\",\n      \"Document any discrepancies and address them promptly.\"\n    ]\n  },\n  \"execution_summary\": \"The execution plan involves reaching out to stakeholders for clarification on the rollback window and downtime tolerance, preparing a detailed migration summary, and ensuring all team members are informed of their roles. Risks include potential data loss and extended downtime, while verification points focus on data integrity and system functionality.\",\n  \"verification_checks\": {\n    \"data_integrity\": \"Post-migration data will be compared to ensure accuracy.\",\n    \"system_functionality\": \"Critical functionalities will be tested to confirm operational status.\",\n    \"user_feedback\": \"End-user feedback will be collected to identify any issues.\",\n    \"discrepancy_documentation\": \"Any discrepancies will be documented and addressed.\"\n  },\n  \"final_answer\": \"The migration summary preparation is underway, with a focus on clarifying critical details from stakeholders. The execution plan is structured to ensure a smooth migration process, with defined risks and verification points to ensure success.\"\n}",
+  "metrics": {
+    "latency_seconds": 35.60753997502616,
+    "prompt_tokens": 50,
+    "completion_tokens": 160,
+    "total_tokens": 210,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/83a2462b-7d2b-441a-af93-c4b064ac3f4b.jsonl",
+  "run_id": "83a2462b-7d2b-441a-af93-c4b064ac3f4b",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 1,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-clarification-before-execution",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

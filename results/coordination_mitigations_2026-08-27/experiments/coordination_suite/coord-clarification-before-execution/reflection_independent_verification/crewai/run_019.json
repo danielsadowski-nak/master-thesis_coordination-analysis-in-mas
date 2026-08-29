@@ -1,0 +1,124 @@
+{
+  "run_index": 19,
+  "success": true,
+  "final_output": "### Migration Summary for Production\n\n#### Step 1: Pre-Migration Assessment\n- **Details**: Conduct a comprehensive assessment of the current environment, including hardware, software, and network configurations.\n- **Risks**: Incomplete assessment may lead to unforeseen issues during migration.\n- **Verification Points**: Confirm that all systems have been documented and assessed. Review assessment reports for accuracy.\n\n#### Step 2: Data Backup\n- **Details**: Create full backups of all data to ensure no loss during migration.\n- **Risks**: Backup failure could result in data loss.\n- **Verification Points**: Validate backup integrity by performing test restores. Ensure backups are stored securely.\n\n#### Step 3: Migration Planning\n- **Details**: Develop a detailed migration plan, including timelines, resources, and responsibilities.\n- **Risks**: Poor planning may lead to delays and resource conflicts.\n- **Verification Points**: Review the migration plan with stakeholders for approval. Ensure all roles and responsibilities are clearly defined.\n\n#### Step 4: Environment Preparation\n- **Details**: Set up the target environment to receive the migrated data.\n- **Risks**: Misconfiguration of the target environment can lead to migration failures.\n- **Verification Points**: Conduct configuration checks and ensure all necessary software and hardware are in place.\n\n#### Step 5: Data Migration\n- **Details**: Execute the data migration process according to the migration plan.\n- **Risks**: Data corruption or loss during transfer.\n- **Verification Points**: Monitor migration progress and log any errors. Perform data integrity checks post-migration.\n\n#### Step 6: Post-Migration Validation\n- **Details**: Validate that all data has been migrated successfully and is functioning as expected.\n- **Risks**: Undetected issues may affect system performance.\n- **Verification Points**: Conduct user acceptance testing (UAT) and gather feedback. Ensure all functionalities are operational.\n\n#### Step 7: Documentation and Reporting\n- **Details**: Document the entire migration process, including any issues encountered and resolutions.\n- **Risks**: Lack of documentation can hinder future migrations and troubleshooting.\n- **Verification Points**: Review documentation for completeness and accuracy. Ensure it is accessible to relevant stakeholders.\n\n#### Step 8: Post-Migration Support\n- **Details**: Provide support to users and address any issues that arise after migration.\n- **Risks**: Insufficient support may lead to user dissatisfaction.\n- **Verification Points**: Establish a support plan and ensure resources are available for user assistance.\n\n### Conclusion\nThis migration summary outlines the necessary steps to ensure a successful migration to production. Each step includes detailed descriptions, risks, and verification points to maintain compliance with organizational standards and mitigate potential issues.\n\n### Self-Check\n- **Reflection Pass**: No potential mistakes or omissions identified. All necessary steps are included.\n- **Independent Judge Pass**: Task compliance is met, coordination is consistent, and the response is correctly terminated.\n\nFinal answer is complete and structured as required.",
+  "metrics": {
+    "latency_seconds": 35.55099180794787,
+    "prompt_tokens": 47,
+    "completion_tokens": 219,
+    "total_tokens": 266,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/reflection_independent_verification/crewai/b3399acf-2ff3-4486-a0c0-280bb1cc9cc8.jsonl",
+  "run_id": "b3399acf-2ff3-4486-a0c0-280bb1cc9cc8",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 1,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-clarification-before-execution",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

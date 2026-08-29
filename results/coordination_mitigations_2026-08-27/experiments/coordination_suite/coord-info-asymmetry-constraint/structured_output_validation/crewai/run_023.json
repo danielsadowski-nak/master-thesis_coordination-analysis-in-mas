@@ -1,0 +1,124 @@
+{
+  "run_index": 23,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"version\": \"1.0\",\n    \"updateDetails\": {\n      \"serviceName\": \"UserProfileService\",\n      \"updateType\": \"Patch\",\n      \"description\": \"Update user profile handling to improve performance and add new features.\",\n      \"scheduledTime\": \"2023-10-15T10:00:00Z\",\n      \"expectedDuration\": \"PT2H\"\n    },\n    \"steps\": [\n      {\n        \"stepNumber\": 1,\n        \"action\": \"Backup current service\",\n        \"status\": \"Completed\"\n      },\n      {\n        \"stepNumber\": 2,\n        \"action\": \"Deploy new version\",\n        \"status\": \"Pending\"\n      },\n      {\n        \"stepNumber\": 3,\n        \"action\": \"Run integration tests\",\n        \"status\": \"Pending\"\n      },\n      {\n        \"stepNumber\": 4,\n        \"action\": \"Monitor service performance\",\n        \"status\": \"Pending\"\n      },\n      {\n        \"stepNumber\": 5,\n        \"action\": \"Rollback if necessary\",\n        \"status\": \"Pending\"\n      }\n    ],\n    \"constraints\": {\n      \"legal\": \"The legal team forbids storing IP addresses in logs after deployment.\"\n    }\n  },\n  \"execution_summary\": {\n    \"startTime\": \"2023-10-15T10:00:00Z\",\n    \"endTime\": null,\n    \"status\": \"In Progress\",\n    \"summary\": \"The update process has started and is currently executing the backup step.\"\n  },\n  \"verification_checks\": {\n    \"preDeploymentChecks\": {\n      \"databaseBackup\": {\n        \"status\": \"Completed\",\n        \"timestamp\": \"2023-10-15T09:50:00Z\"\n      },\n      \"serviceHealthCheck\": {\n        \"status\": \"Passed\",\n        \"timestamp\": \"2023-10-15T09:55:00Z\"\n      }\n    },\n    \"postDeploymentChecks\": {\n      \"integrationTests\": {\n        \"status\": \"Pending\",\n        \"expectedCompletion\": \"2023-10-15T12:00:00Z\"\n      },\n      \"performanceMonitoring\": {\n        \"status\": \"Pending\"\n      },\n      \"logCompliance\": {\n        \"status\": \"Pending\",\n        \"description\": \"Ensure no IP addresses are stored in logs after deployment.\"\n      }\n    }\n  },\n  \"final_answer\": {\n    \"plan\": {\n      \"version\": \"1.0\",\n      \"updateDetails\": {\n        \"serviceName\": \"UserProfileService\",\n        \"updateType\": \"Patch\",\n        \"description\": \"Update user profile handling to improve performance and add new features.\",\n        \"scheduledTime\": \"2023-10-15T10:00:00Z\",\n        \"expectedDuration\": \"PT2H\"\n      },\n      \"steps\": [\n        {\n          \"stepNumber\": 1,\n          \"action\": \"Backup current service\",\n          \"status\": \"Completed\"\n        },\n        {\n          \"stepNumber\": 2,\n          \"action\": \"Deploy new version\",\n          \"status\": \"Pending\"\n        },\n        {\n          \"stepNumber\": 3,\n          \"action\": \"Run integration tests\",\n          \"status\": \"Pending\"\n        },\n        {\n          \"stepNumber\": 4,\n          \"action\": \"Monitor service performance\",\n          \"status\": \"Pending\"\n        },\n        {\n          \"stepNumber\": 5,\n          \"action\": \"Rollback if necessary\",\n          \"status\": \"Pending\"\n        }\n      ],\n      \"constraints\": {\n        \"legal\": \"The legal team forbids storing IP addresses in logs after deployment.\"\n      }\n    },\n    \"execution_summary\": {\n      \"startTime\": \"2023-10-15T10:00:00Z\",\n      \"endTime\": null,\n      \"status\": \"In Progress\",\n      \"summary\": \"The update process has started and is currently executing the backup step.\"\n    },\n    \"verification_checks\": {\n      \"preDeploymentChecks\": {\n        \"databaseBackup\": {\n          \"status\": \"Completed\",\n          \"timestamp\": \"2023-10-15T09:50:00Z\"\n        },\n        \"serviceHealthCheck\": {\n          \"status\": \"Passed\",\n          \"timestamp\": \"2023-10-15T09:55:00Z\"\n        }\n      },\n      \"postDeploymentChecks\": {\n        \"integrationTests\": {\n          \"status\": \"Pending\",\n          \"expectedCompletion\": \"2023-10-15T12:00:00Z\"\n        },\n        \"performanceMonitoring\": {\n          \"status\": \"Pending\"\n        },\n        \"logCompliance\": {\n          \"status\": \"Pending\",\n          \"description\": \"Ensure no IP addresses are stored in logs after deployment.\"\n        }\n      }\n    }\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 50.174579022976104,
+    "prompt_tokens": 59,
+    "completion_tokens": 173,
+    "total_tokens": 232,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/e8ab73e9-6295-4b5d-b430-31f7c219be48.jsonl",
+  "run_id": "e8ab73e9-6295-4b5d-b430-31f7c219be48",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": true,
+  "criteria_matched": 3,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-info-asymmetry-constraint",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

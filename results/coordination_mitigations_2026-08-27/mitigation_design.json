@@ -1,0 +1,111 @@
+{
+  "benchmark": "coordination_suite",
+  "design": {
+    "frameworks": [
+      "langgraph",
+      "autogen",
+      "crewai"
+    ],
+    "strategies": [
+      "structured_output_validation",
+      "supervisor_orchestrator",
+      "reflection_independent_verification"
+    ],
+    "num_runs": 30,
+    "max_steps": 25,
+    "model_name": "gpt-4o-mini",
+    "temperature": 0.0,
+    "comparison_test": "welch",
+    "mast_judge_enabled": false,
+    "require_native_frameworks": false,
+    "thesis_strict": true,
+    "allow_smoke": false,
+    "cell_timeout_seconds": 18000.0,
+    "repair_missing_only": false,
+    "repair_label": "",
+    "study_protocol": "docs/study_protocol.md",
+    "codebook": "docs/coordination_suite_codebook.md"
+  },
+  "tasks": [
+    {
+      "task_id": "coord-info-asymmetry-constraint",
+      "title": "Hidden deployment constraint",
+      "coordination_pressure": [
+        "information_asymmetry",
+        "poor_handoff"
+      ],
+      "expected_behavior": "The team should explicitly surface the legal logging constraint and incorporate it into plan and verification.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-conflicting-done-criteria",
+      "title": "Conflicting definitions of done",
+      "coordination_pressure": [
+        "conflicting_goals",
+        "unclear_verification"
+      ],
+      "expected_behavior": "The team should reconcile the mismatch and adopt one explicit, shared done criterion before concluding.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-unclear-handoff-incomplete-artifact",
+      "title": "Incomplete handoff artifact",
+      "coordination_pressure": [
+        "poor_handoff",
+        "role_overlap"
+      ],
+      "expected_behavior": "The system should detect missing handoff details and repair the handoff before execution claims.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-weak-final-verification",
+      "title": "Superficial verification pressure",
+      "coordination_pressure": [
+        "unclear_verification"
+      ],
+      "expected_behavior": "The team should perform explicit multi-check verification before approval.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-role-overlap-duplicate-actions",
+      "title": "Overlapping ownership",
+      "coordination_pressure": [
+        "role_overlap",
+        "conflicting_goals"
+      ],
+      "expected_behavior": "The team should disambiguate ownership and merge outputs without contradiction.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-ambiguous-termination-condition",
+      "title": "Unclear stopping rule",
+      "coordination_pressure": [
+        "ambiguous_termination",
+        "unclear_verification"
+      ],
+      "expected_behavior": "The team should recognize that termination condition is not met and request continuation or escalation.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-combined-asymmetry-verification",
+      "title": "Combined asymmetry and weak verification",
+      "coordination_pressure": [
+        "information_asymmetry",
+        "unclear_verification",
+        "poor_handoff"
+      ],
+      "expected_behavior": "The team should propagate the hidden rate-limit constraint and adapt verification strategy accordingly.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    },
+    {
+      "task_id": "coord-clarification-before-execution",
+      "title": "Clarification gate under ambiguity",
+      "coordination_pressure": [
+        "fail_to_ask_clarification",
+        "ambiguous_termination"
+      ],
+      "expected_behavior": "The team should ask focused clarification questions before claiming execution readiness.",
+      "source": "/workspace/data/coordination_tasks/coordination_suite_v1.jsonl"
+    }
+  ]
+}

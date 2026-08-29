@@ -1,0 +1,124 @@
+{
+  "run_index": 28,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"steps\": [\n      {\n        \"step_number\": 1,\n        \"description\": \"Clarify migration details with stakeholders.\",\n        \"action\": \"Request information on target environment, rollback window, and downtime tolerance.\"\n      },\n      {\n        \"step_number\": 2,\n        \"description\": \"Assess current production environment.\",\n        \"action\": \"Document existing configurations, dependencies, and data.\"\n      },\n      {\n        \"step_number\": 3,\n        \"description\": \"Develop migration strategy.\",\n        \"action\": \"Outline the approach for data transfer, application deployment, and configuration changes.\"\n      },\n      {\n        \"step_number\": 4,\n        \"description\": \"Prepare the target environment.\",\n        \"action\": \"Set up necessary infrastructure and configurations in the target environment.\"\n      },\n      {\n        \"step_number\": 5,\n        \"description\": \"Execute migration.\",\n        \"action\": \"Perform the data transfer and application deployment as per the strategy.\"\n      },\n      {\n        \"step_number\": 6,\n        \"description\": \"Monitor migration process.\",\n        \"action\": \"Track progress and address any issues that arise during migration.\"\n      },\n      {\n        \"step_number\": 7,\n        \"description\": \"Conduct post-migration verification.\",\n        \"action\": \"Validate that all data and applications are functioning as expected in the target environment.\"\n      },\n      {\n        \"step_number\": 8,\n        \"description\": \"Finalize migration.\",\n        \"action\": \"Document the migration process and any lessons learned.\"\n      }\n    ]\n  },\n  \"execution_summary\": {\n    \"description\": \"This migration plan outlines the necessary steps to ensure a smooth transition from the current production environment to the target environment. It emphasizes the importance of clarifying key details with stakeholders before proceeding and includes a structured approach to executing the migration while minimizing risks.\"\n  },\n  \"verification_checks\": [\n    {\n      \"check_number\": 1,\n      \"description\": \"Confirm receipt of migration details from stakeholders.\"\n    },\n    {\n      \"check_number\": 2,\n      \"description\": \"Verify that the target environment is correctly configured.\"\n    },\n    {\n      \"check_number\": 3,\n      \"description\": \"Ensure that data transfer is complete and accurate.\"\n    },\n    {\n      \"check_number\": 4,\n      \"description\": \"Test application functionality in the target environment.\"\n    },\n    {\n      \"check_number\": 5,\n      \"description\": \"Collect feedback from users to confirm successful migration.\"\n    }\n  ],\n  \"final_answer\": \"The migration summary has been prepared, including a detailed execution plan, risks, and verification points. It is crucial to clarify the target environment, rollback window, and downtime tolerance with stakeholders before proceeding with the migration.\"\n}\n```",
+  "metrics": {
+    "latency_seconds": 19.117304174986202,
+    "prompt_tokens": 50,
+    "completion_tokens": 157,
+    "total_tokens": 207,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/df309ff9-42d2-40a6-9555-6f468416346b.jsonl",
+  "run_id": "df309ff9-42d2-40a6-9555-6f468416346b",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-clarification-before-execution",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

@@ -12,6 +12,7 @@ Scope: Phase D mitigation study configuration freeze (pre-run).
 - Max steps: `25`
 - Seed strategy: fixed base seed `42` with deterministic per-repeat derivation (`base_seed + run_index`)
 - Runs per cell target: `30`
+- confirmatory `cell-timeout-seconds`: `18000` (per cell, not per repeat; 30 x ~10 min buffer). Timeout rows are runtime failures and are excluded from H4.
 - Task source: `data/coordination_tasks/coordination_suite_v1.jsonl`
 - Task family: Coordination Suite (8 tasks)
 - Conditions (4):

@@ -1,0 +1,124 @@
+{
+  "run_index": 1,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"description\": \"Validate the proposed patch for schema correctness and ensure all verification checks are grounded in evidence.\",\n    \"steps\": [\n      {\n        \"step\": 1,\n        \"action\": \"Review the proposed patch against the defined JSON schema.\"\n      },\n      {\n        \"step\": 2,\n        \"action\": \"Conduct verification checks to ensure all elements are present and correctly formatted.\"\n      },\n      {\n        \"step\": 3,\n        \"action\": \"Document evidence for each verification check.\"\n      },\n      {\n        \"step\": 4,\n        \"action\": \"Compile the execution summary and finalize the output.\"\n      }\n    ]\n  },\n  \"execution_summary\": {\n    \"total_steps\": 4,\n    \"completed_steps\": 4,\n    \"status\": \"Success\",\n    \"details\": \"All steps were executed as planned, and the proposed patch was validated against the schema.\"\n  },\n  \"verification_checks\": [\n    {\n      \"check\": \"Schema compliance\",\n      \"result\": \"Pass\",\n      \"evidence\": \"The proposed patch contains all required fields as specified in the JSON schema.\"\n    },\n    {\n      \"check\": \"Data types validation\",\n      \"result\": \"Pass\",\n      \"evidence\": \"All fields in the proposed patch have the correct data types as defined in the schema.\"\n    },\n    {\n      \"check\": \"Field constraints\",\n      \"result\": \"Pass\",\n      \"evidence\": \"All fields adhere to the constraints (e.g., string length, value ranges) outlined in the schema.\"\n    },\n    {\n      \"check\": \"Uniqueness of identifiers\",\n      \"result\": \"Pass\",\n      \"evidence\": \"All identifiers in the proposed patch are unique and do not conflict with existing records.\"\n    }\n  ],\n  \"final_answer\": {\n    \"status\": \"Validated\",\n    \"message\": \"The proposed patch has been thoroughly reviewed and meets all schema requirements. All verification checks have been successfully passed with supporting evidence documented.\"\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 44.89258739602519,
+    "prompt_tokens": 52,
+    "completion_tokens": 116,
+    "total_tokens": 168,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/95fccd82-2b0e-4b63-9afe-5480cef72e1b.jsonl",
+  "run_id": "95fccd82-2b0e-4b63-9afe-5480cef72e1b",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 1,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-weak-final-verification",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

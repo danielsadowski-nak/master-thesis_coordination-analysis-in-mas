@@ -1,0 +1,124 @@
+{
+  "run_index": 25,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"execution_steps\": [\n      {\n        \"step\": 1,\n        \"description\": \"Pre-migration assessment\",\n        \"actions\": [\n          \"Review current system architecture\",\n          \"Identify data to be migrated\",\n          \"Assess compatibility of new environment\"\n        ]\n      },\n      {\n        \"step\": 2,\n        \"description\": \"Backup existing data\",\n        \"actions\": [\n          \"Create full backups of databases\",\n          \"Export configuration files\",\n          \"Store backups in a secure location\"\n        ]\n      },\n      {\n        \"step\": 3,\n        \"description\": \"Data migration\",\n        \"actions\": [\n          \"Transfer data to the new environment\",\n          \"Utilize migration tools for efficiency\",\n          \"Monitor transfer process for errors\"\n        ]\n      },\n      {\n        \"step\": 4,\n        \"description\": \"Post-migration validation\",\n        \"actions\": [\n          \"Verify data integrity\",\n          \"Check application functionality\",\n          \"Conduct user acceptance testing\"\n        ]\n      },\n      {\n        \"step\": 5,\n        \"description\": \"Go live\",\n        \"actions\": [\n          \"Switch DNS settings\",\n          \"Monitor system performance\",\n          \"Provide support for users\"\n        ]\n      }\n    ],\n    \"risks\": [\n      {\n        \"risk\": \"Data loss during migration\",\n        \"mitigation\": \"Ensure comprehensive backups are taken before migration.\"\n      },\n      {\n        \"risk\": \"Downtime during transition\",\n        \"mitigation\": \"Schedule migration during off-peak hours.\"\n      },\n      {\n        \"risk\": \"Compatibility issues with new environment\",\n        \"mitigation\": \"Conduct thorough pre-migration assessments.\"\n      }\n    ]\n  },\n  \"execution_summary\": {\n    \"status\": \"Pending\",\n    \"start_time\": null,\n    \"end_time\": null,\n    \"duration\": null,\n    \"issues_encountered\": []\n  },\n  \"verification_checks\": [\n    {\n      \"check\": \"Data integrity check\",\n      \"method\": \"Compare source and destination data counts\",\n      \"evidence\": \"Data counts should match post-migration.\"\n    },\n    {\n      \"check\": \"Application functionality test\",\n      \"method\": \"Run predefined test cases\",\n      \"evidence\": \"All test cases should pass without errors.\"\n    },\n    {\n      \"check\": \"User acceptance testing\",\n      \"method\": \"Gather feedback from end-users\",\n      \"evidence\": \"User feedback should indicate satisfaction with the new system.\"\n    }\n  ],\n  \"final_answer\": {\n    \"summary\": \"The migration plan is structured to ensure a smooth transition with minimal risks. Each step is designed to validate the process and ensure data integrity and application functionality. Verification checks are grounded in evidence to confirm successful migration.\"\n  }\n}\n``` \n\nSelf-check: All required keys are present, types are correct, and each verification check is grounded in evidence. The output adheres to the specified structure and constraints.",
+  "metrics": {
+    "latency_seconds": 39.97862122597871,
+    "prompt_tokens": 50,
+    "completion_tokens": 155,
+    "total_tokens": 205,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/dd4fcee7-5b6d-421b-b291-76533b890655.jsonl",
+  "run_id": "dd4fcee7-5b6d-421b-b291-76533b890655",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 1,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-clarification-before-execution",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

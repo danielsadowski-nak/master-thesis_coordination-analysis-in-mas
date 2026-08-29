@@ -1,0 +1,125 @@
+{
+  "run_index": 11,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": [\n    {\n      \"step\": 1,\n      \"action\": \"Agent Alpha will call the API endpoint for the first time.\",\n      \"time\": \"0 seconds\"\n    },\n    {\n      \"step\": 2,\n      \"action\": \"Agent Alpha will wait for 12 seconds before the next call to avoid rate limit.\",\n      \"time\": \"12 seconds\"\n    },\n    {\n      \"step\": 3,\n      \"action\": \"Agent Alpha will call the API endpoint for the second time.\",\n      \"time\": \"12 seconds\"\n    },\n    {\n      \"step\": 4,\n      \"action\": \"Agent Alpha will wait for 12 seconds before the next call.\",\n      \"time\": \"24 seconds\"\n    },\n    {\n      \"step\": 5,\n      \"action\": \"Agent Alpha will call the API endpoint for the third time.\",\n      \"time\": \"24 seconds\"\n    },\n    {\n      \"step\": 6,\n      \"action\": \"Agent Alpha will wait for 12 seconds before the next call.\",\n      \"time\": \"36 seconds\"\n    },\n    {\n      \"step\": 7,\n      \"action\": \"Agent Alpha will call the API endpoint for the fourth time.\",\n      \"time\": \"36 seconds\"\n    },\n    {\n      \"step\": 8,\n      \"action\": \"Agent Alpha will wait for 12 seconds before the next call.\",\n      \"time\": \"48 seconds\"\n    },\n    {\n      \"step\": 9,\n      \"action\": \"Agent Alpha will call the API endpoint for the fifth time.\",\n      \"time\": \"48 seconds\"\n    },\n    {\n      \"step\": 10,\n      \"action\": \"Agent Alpha will wait for 60 seconds before making any further calls to reset the rate limit.\",\n      \"time\": \"60 seconds\"\n    },\n    {\n      \"step\": 11,\n      \"action\": \"Agent Beta will perform validation checks after each API call.\",\n      \"time\": \"After each call\"\n    },\n    {\n      \"step\": 12,\n      \"action\": \"Agent Beta will validate the response of the first API call.\",\n      \"time\": \"After step 1\"\n    },\n    {\n      \"step\": 13,\n      \"action\": \"Agent Beta will validate the response of the second API call.\",\n      \"time\": \"After step 3\"\n    },\n    {\n      \"step\": 14,\n      \"action\": \"Agent Beta will validate the response of the third API call.\",\n      \"time\": \"After step 5\"\n    },\n    {\n      \"step\": 15,\n      \"action\": \"Agent Beta will validate the response of the fourth API call.\",\n      \"time\": \"After step 7\"\n    },\n    {\n      \"step\": 16,\n      \"action\": \"Agent Beta will validate the response of the fifth API call.\",\n      \"time\": \"After step 9\"\n    },\n    {\n      \"step\": 17,\n      \"action\": \"Agent Beta will summarize the validation results after all API calls.\",\n      \"time\": \"After step 10\"\n    }\n  ],\n  \"execution_summary\": {\n    \"total_api_calls\": 5,\n    \"total_validation_checks\": 5,\n    \"total_time\": \"60 seconds\"\n  },\n  \"verification_checks\": [\n    {\n      \"check\": \"Response of first API call is valid.\",\n      \"evidence\": \"Validation performed after step 1.\"\n    },\n    {\n      \"check\": \"Response of second API call is valid.\",\n      \"evidence\": \"Validation performed after step 3.\"\n    },\n    {\n      \"check\": \"Response of third API call is valid.\",\n      \"evidence\": \"Validation performed after step 5.\"\n    },\n    {\n      \"check\": \"Response of fourth API call is valid.\",\n      \"evidence\": \"Validation performed after step 7.\"\n    },\n    {\n      \"check\": \"Response of fifth API call is valid.\",\n      \"evidence\": \"Validation performed after step 9.\"\n    }\n  ],\n  \"final_answer\": {\n    \"status\": \"Execution and validation plan created successfully without violating rate limits.\"\n  }\n}\n```",
+  "metrics": {
+    "latency_seconds": 173.75784041098086,
+    "prompt_tokens": 56,
+    "completion_tokens": 226,
+    "total_tokens": 282,
+    "tool_calls": 0,
+    "steps_executed": 26,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/autogen/structured_output_validation/autogen/b0468da8-58a8-4b0a-83d8-601c0049d200.jsonl",
+  "run_id": "b0468da8-58a8-4b0a-83d8-601c0049d200",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "1.3 Step Repetition",
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-combined-asymmetry-verification",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

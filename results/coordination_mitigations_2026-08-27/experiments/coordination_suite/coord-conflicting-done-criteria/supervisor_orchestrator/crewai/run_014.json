@@ -1,0 +1,124 @@
+{
+  "run_index": 14,
+  "success": true,
+  "final_output": "### Final Answer\n\n**Unified Completion Decision**: The bugfix delivery note is considered \"done\" when both the unit tests pass and the regression checklist has been reviewed and confirmed as complete.\n\n**Rationale**: This unified definition incorporates the criteria from both Agent A and Agent B, ensuring that the bugfix is thoroughly validated. Agent A's requirement for passing unit tests ensures that the immediate functionality is intact, while Agent B's requirement for reviewing the regression checklist ensures that no new issues are introduced in other parts of the system. This comprehensive approach minimizes the risk of undetected bugs and enhances the reliability of the delivery.\n\n### Self-Check\n- **Agreement on Unified Criteria**: Confirmed with both agents.\n- **Unit Test Results**: Awaiting report from Agent A.\n- **Regression Checklist**: Awaiting submission from Agent B.\n- **Supervisor Review**: Pending after both reports are received.\n\nThis structured approach ensures clarity and thoroughness in the bugfix delivery process.",
+  "metrics": {
+    "latency_seconds": 7.804523712024093,
+    "prompt_tokens": 48,
+    "completion_tokens": 76,
+    "total_tokens": 124,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/supervisor_orchestrator/crewai/0b010e43-5473-4c89-a1cf-7e73022ea9a5.jsonl",
+  "run_id": "0b010e43-5473-4c89-a1cf-7e73022ea9a5",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-conflicting-done-criteria",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}

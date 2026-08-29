@@ -1,0 +1,124 @@
+{
+  "run_index": 21,
+  "success": true,
+  "final_output": "```json\n{\n  \"plan\": {\n    \"steps\": [\n      \"1. Review the bugfix code to ensure it meets the coding standards.\",\n      \"2. Execute all unit tests associated with the bugfix to confirm they pass successfully.\",\n      \"3. Conduct a thorough review of the regression checklist to ensure all relevant areas are covered.\",\n      \"4. Document the results of the unit tests and the regression checklist review.\",\n      \"5. Prepare a final delivery note summarizing the completion criteria and results.\"\n    ],\n    \"risks\": [\n      {\n        \"risk\": \"Unit tests may fail due to unforeseen issues in the code.\",\n        \"mitigation\": \"Conduct a code review before running unit tests to identify potential issues.\"\n      },\n      {\n        \"risk\": \"Regression checklist may miss critical areas leading to undetected bugs.\",\n        \"mitigation\": \"Involve additional team members in the checklist review process to ensure comprehensive coverage.\"\n      }\n    ]\n  },\n  \"execution_summary\": \"The completion of the bugfix will be considered done when all unit tests pass and the regression checklist has been thoroughly reviewed. This ensures that not only is the immediate issue resolved, but also that no new issues are introduced into the system.\",\n  \"verification_checks\": [\n    \"1. Confirm that all unit tests have been executed and passed.\",\n    \"2. Review the regression checklist to ensure all items have been addressed.\",\n    \"3. Obtain sign-off from at least one additional team member on the regression checklist review.\"\n  ],\n  \"final_answer\": \"To ensure a unified completion decision for the bugfix delivery note, we will define 'done' as both 'unit tests pass' and 'regression checklist reviewed'. This approach incorporates the criteria from both Agent A and Agent B, ensuring a comprehensive validation of the bugfix. The execution plan includes reviewing the code, running unit tests, and completing the regression checklist, with explicit verification checkpoints to confirm completion. Risks such as potential unit test failures and incomplete regression checks will be mitigated through proactive code reviews and team collaboration. This structured approach guarantees that the bugfix is reliable and does not introduce new issues.\"\n}\n```",
+  "metrics": {
+    "latency_seconds": 28.85044847097015,
+    "prompt_tokens": 54,
+    "completion_tokens": 160,
+    "total_tokens": 214,
+    "tool_calls": 0,
+    "steps_executed": 2,
+    "cost_usd": 0.0
+  },
+  "raw_log_path": "/workspace/results/coordination_mitigations_2026-08-27/traces/crewai/structured_output_validation/crewai/e2b7dac3-9ca0-4900-b4de-f7d1f813ffda.jsonl",
+  "run_id": "e2b7dac3-9ca0-4900-b4de-f7d1f813ffda",
+  "runtime_mode": null,
+  "is_valid_analytical": null,
+  "judgement": {
+    "task_successful": false,
+    "summary": "Heuristic fallback only. Configure a judge model to obtain MAST-aligned judgments.",
+    "assessments": [
+      {
+        "mode": "1.1 Disobey Task Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.2 Disobey Role Specification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.3 Step Repetition",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.4 Loss of Conversation History",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "1.5 Unaware of Termination Conditions",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.1 Conversation Reset",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.2 Fail to Ask for Clarification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.3 Task Derailment",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.4 Information Withholding",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.5 Ignored Other Agent's Input",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "2.6 Action-Reasoning Mismatch",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.1 Premature Termination",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      },
+      {
+        "mode": "3.2 Weak Verification",
+        "present": true,
+        "evidence": "Keyword match in trace text.",
+        "confidence": 0.35
+      },
+      {
+        "mode": "3.3 No or Incorrect Verification",
+        "present": false,
+        "evidence": "",
+        "confidence": 0.05
+      }
+    ],
+    "primary_failure_modes": [
+      "3.2 Weak Verification"
+    ],
+    "overall_confidence": 0.15
+  },
+  "criteria_success": false,
+  "criteria_matched": 2,
+  "criteria_total": 3,
+  "criteria_scorer": "codebook_keyword_anchors_v1",
+  "task_id": "coord-conflicting-done-criteria",
+  "is_scaffold": true,
+  "is_heuristic_judge": true,
+  "is_runtime_failure": false,
+  "validity_reason": "scaffold_or_fallback;heuristic_judge",
+  "derived_is_valid_analytical": false,
+  "mast_judge_enabled": false,
+  "mast_judge_runtime": "heuristic_fallback"
+}
